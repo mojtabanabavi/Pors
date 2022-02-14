@@ -23,7 +23,7 @@ namespace Pors.Infrastructure.Persistence.Configurations
                 .IsUnicode();
 
             builder.Property(x => x.Email)
-                .HasMaxLength(50)
+                .HasMaxLength(320)
                 .IsUnicode();
 
             builder.Property(x => x.PhoneNumber)
