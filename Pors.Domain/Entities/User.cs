@@ -16,7 +16,7 @@ namespace Pors.Domain.Entities
         public bool IsEmailConfirmed { get; set; }
         public bool IsPhoneNumberConfirmed { get; set; }
         public bool IsActive { get; set; }
-        public int AccessFailedCount { get; set; }
+        public byte AccessFailedCount { get; set; }
         public DateTimeOffset? LockoutEndAt { get; set; }
         public DateTime? LastLoginDateTime { get; set; }
         public DateTime RegisterDateTime { get; set; }

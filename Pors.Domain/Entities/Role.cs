@@ -10,5 +10,15 @@ namespace Pors.Domain.Entities
         public string Description { get; set; }
 
         public ICollection<UserRole> UserRoles { get; set; }
+
+        public Role(string name)
+        {
+            Name = name;
+        }
+
+        public Role(string name, string description) : this(name)
+        {
+            Description = description;
+        }
     }
 }
