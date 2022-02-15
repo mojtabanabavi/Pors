@@ -8,22 +8,9 @@
     <div class="row justify-content-center">
         <div class="col-lg-5 col-md-7">
             <div class="card bg-secondary shadow border-0">
-                <div class="card-header bg-transparent pb-5">
-                    <div class="text-muted text-center mt-2 mb-3"><small>ورود با استفاده از:</small></div>
-                    <div class="btn-wrapper text-center">
-                        <a href="#" class="btn btn-neutral btn-icon disabled">
-                            <span class="btn-inner--icon"><img src="~/img/icons/github.svg"></span>
-                            <span class="btn-inner--text">Github</span>
-                        </a>
-                        <a href="#" class="btn btn-neutral btn-icon disabled">
-                            <span class="btn-inner--icon"><img src="~/img/icons/google.svg"></span>
-                            <span class="btn-inner--text">Google</span>
-                        </a>
-                    </div>
-                </div>
-                <div class="card-body px-lg-5 py-lg-5">
+                <div class="card-body p-5">
+                    <div asp-validation-summary="ModelOnly" class="text-center mb-4"></div>
                     <form asp-action="login" method="post">
-                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                         <input asp-for="ReturnUrl" type="hidden" value="" />
                         <div class="form-group mb-3">
                             <div class="input-group input-group-alternative">
@@ -32,7 +19,7 @@
                                 </div>
                                 <input asp-for="Email" type="email" class="form-control" placeholder="ایمیل خود را وارد کنید">
                             </div>
-                                <span asp-validation-for="Email"></span>
+                            <span asp-validation-for="Email"></span>
                         </div>
                         <div class="form-group">
                             <div class="input-group input-group-alternative">
@@ -41,10 +28,10 @@
                                 </div>
                                 <input asp-for="Password" type="password" class="form-control" placeholder="رمز عبور">
                             </div>
-                                <span asp-validation-for="Password"></span>
+                            <span asp-validation-for="Password"></span>
                         </div>
                         <div class="text-center">
-                            <button type="submit" class="btn btn-primary my-4">ورود به حساب</button>
+                            <button type="submit" class="btn btn-primary">ورود به حساب</button>
                         </div>
                     </form>
                 </div>
