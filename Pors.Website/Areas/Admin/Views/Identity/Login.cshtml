@@ -24,6 +24,7 @@
                 <div class="card-body px-lg-5 py-lg-5">
                     <form asp-action="login" method="post">
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <input asp-for="ReturnUrl" type="hidden" value="" />
                         <div class="form-group mb-3">
                             <div class="input-group input-group-alternative">
                                 <div class="input-group-prepend">

@@ -5,10 +5,12 @@ using Pors.Website.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using Pors.Application.Users.Queries;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication;
 
 namespace Pors.Website.Areas.Admin.Controllers
 {
+    [AllowAnonymous]
     public class IdentityController : BaseController
     {
         [HttpGet]
@@ -18,11 +20,11 @@ namespace Pors.Website.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login(LoginUserQuery query)
+        public async Task<IActionResult> Login(LoginUserQuery request)
         {
             if (ModelState.IsValid)
             {
-                var result = await Mediator.Send(query);
+                var result = await Mediator.Send(request);
 
                 if (result.IsSucceeded)
                 {
@@ -31,26 +33,35 @@ namespace Pors.Website.Areas.Admin.Controllers
                     var userClaims = new List<Claim>
                     {
                         new Claim(ClaimTypes.Name,response.DisplayName),
-                        new Claim("ProfilePicture",response.User.ProfilePicture),
                         new Claim(ClaimTypes.NameIdentifier,response.User.Id.ToString()),
                     };
+
+                    if (response.User.ProfilePicture != null)
+                    {
+                        userClaims.Add(new Claim("ProfilePicture", response.User.ProfilePicture));
+                    }
 
                     var claimsIdentity = new ClaimsIdentity(userClaims, AuthenticationSchemes.Admin);
                     var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
 
-                    await HttpContext.SignInAsync(claimsPrincipal);
+                    await HttpContext.SignInAsync(AuthenticationSchemes.Admin, claimsPrincipal);
 
-                    return RedirectToAction(nameof(HomeController.Index), nameof(HomeController));
+                    if (!string.IsNullOrEmpty(request.ReturnUrl))
+                    {
+                        return Redirect(request.ReturnUrl);
+                    }
+                    else
+                    {
+                        return RedirectToAction("index", "home");
+                    }
                 }
                 else
                 {
                     ModelState.AddErrors(result.Errors);
                 }
-
-                return RedirectToAction();
             }
 
-            return View(query);
+            return View(request);
         }
 
         [HttpGet]

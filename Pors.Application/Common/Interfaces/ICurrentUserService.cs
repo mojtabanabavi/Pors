@@ -10,5 +10,6 @@ namespace Pors.Application.Common.Interfaces
     {
         string UserId { get; }
         string ProfilePicture { get; }
+        public string DisplayName { get; }
     }
 }

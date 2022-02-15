@@ -3,18 +3,19 @@ using System.Reflection;
 using Pors.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Pors.Application.Common.Interfaces;
+using Pors.Infrastructure.Persistence.Configurations;
 
 namespace Pors.Infrastructure.Persistence
 {
     public class SqlDbContext : DbContext, ISqlDbContext
     {
-        public DbSet<User> Users => Set<User>();
+        public DbSet<User> Users { get; set; }
 
-        public DbSet<Role> Roles => Set<Role>();
+        public DbSet<Role> Roles { get; set; }
 
-        public DbSet<UserRole> UserRoles => Set<UserRole>();
+        public DbSet<UserRole> UserRoles { get; set; }
 
-        public DbSet<UserToken> UserTokens => Set<UserToken>();
+        public DbSet<UserToken> UserTokens { get; set; }
 
         public SqlDbContext(DbContextOptions<SqlDbContext> options) : base(options)
         {
@@ -22,9 +23,7 @@ namespace Pors.Infrastructure.Persistence
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            var executingAssembly = Assembly.GetExecutingAssembly();
-
-            builder.ApplyConfigurationsFromAssembly(executingAssembly);
+            builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
             base.OnModelCreating(builder);
         }

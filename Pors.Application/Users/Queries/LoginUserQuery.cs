@@ -19,6 +19,7 @@ namespace Pors.Application.Users.Queries
     {
         public string Email { get; set; }
         public string Password { get; set; }
+        public string ReturnUrl { get; set; }
     }
 
     public class LoginUserQueryResponse
@@ -83,14 +84,16 @@ namespace Pors.Application.Users.Queries
 
         public async Task<Result<LoginUserQueryResponse>> Handle(LoginUserQuery request, CancellationToken cancellationToken)
         {
-            request.Password = _passwordHasher.Hash(request.Password);
-
-            var entity = await _dbContext.Users
-                .SingleOrDefaultAsync(x => x.Email == request.Email && x.PasswordHash == request.Password);
+            var entity = await _dbContext.Users.SingleOrDefaultAsync(x => x.Email == request.Email);
 
             if (entity == null)
             {
-                return Result<LoginUserQueryResponse>.Failure("کاربری یافت نشد");
+                return Result<LoginUserQueryResponse>.Failure("نام کاربری یا رمز عبور اشتباه می باشد.");
+            }
+
+            if (!_passwordHasher.Verify(request.Password, entity.PasswordHash))
+            {
+                return Result<LoginUserQueryResponse>.Failure("نام کاربری یا رمز عبور اشتباه می باشد.");
             }
 
             return Result<LoginUserQueryResponse>.Success(new LoginUserQueryResponse(entity));
