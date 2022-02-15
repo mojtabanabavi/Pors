@@ -2,8 +2,7 @@
 
 namespace Pors.Website.Areas.Admin.Controllers
 {
-    [Area("admin")]
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         public IActionResult Index()
         {

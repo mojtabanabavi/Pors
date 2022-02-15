@@ -36,7 +36,7 @@ namespace Pors.Application.Users.Commands
             RuleFor(x => x.Email)
                 .NotNull().WithMessage("وارد کردن ایمیل الزامی است")
                 .NotEmpty().WithMessage("وارد کردن ایمیل الزامی است")
-                .EmailAddress(EmailValidationMode.AspNetCoreCompatible)
+                .EmailAddress(EmailValidationMode.AspNetCoreCompatible).WithMessage("ایمیل وارد شده معتبر نمی باشد.")
                 .MaximumLength(320).WithMessage("ایمیل نباید بیش از 320 کاراکتر داشته باشد")
                 .MustAsync(BeUniqueEmail).WithMessage("ایمیل وارد شده تکراری است");
 

@@ -1,7 +1,7 @@
 ﻿using System;
 using AutoMapper;
-using System.Collections.Generic;
 using System.Reflection;
+using System.Collections.Generic;
 
 namespace Pors.Application.Common.Mappings
 {

@@ -1,3 +1,10 @@
 ﻿body {
     direction: rtl;
 }
+
+.field-validation-error {
+    display: block;
+    font-size: 0.75rem;
+    margin-top: 0.5rem;
+    color: #f5365c !important;
+}

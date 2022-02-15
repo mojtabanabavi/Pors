@@ -9,7 +9,7 @@ namespace Pors.Infrastructure.Persistence
         {
             var administratorRole = new Role("سوپر ادمین");
 
-            if (dbContext.Roles.Any(x => x.Name == administratorRole.Name))
+            if (!dbContext.Roles.Any(x => x.Name == administratorRole.Name))
             {
                 await dbContext.Roles.AddAsync(administratorRole);
             }
@@ -32,7 +32,7 @@ namespace Pors.Infrastructure.Persistence
                 RoleId = administratorRole.Id,
             };
 
-            if (dbContext.Users.Any(u => u.Username == administrator.Username))
+            if (!dbContext.Users.Any(u => u.Username == administrator.Username))
             {
                 await dbContext.Users.AddAsync(administrator);
 
