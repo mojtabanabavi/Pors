@@ -1,5 +1,6 @@
 ﻿using System;
 using MediatR;
+using Loby.Tools;
 using System.Text;
 using System.Linq;
 using FluentValidation;
@@ -74,12 +75,10 @@ namespace Pors.Application.Users.Queries
     public class LoginUserQueryHandler : IRequestHandler<LoginUserQuery, Result<LoginUserQueryResponse>>
     {
         private readonly ISqlDbContext _dbContext;
-        private readonly IPasswordHashService _passwordHasher;
 
-        public LoginUserQueryHandler(ISqlDbContext dbContext, IPasswordHashService passwordHasher)
+        public LoginUserQueryHandler(ISqlDbContext dbContext)
         {
             _dbContext = dbContext;
-            _passwordHasher = passwordHasher;
         }
 
         public async Task<Result<LoginUserQueryResponse>> Handle(LoginUserQuery request, CancellationToken cancellationToken)
@@ -91,7 +90,7 @@ namespace Pors.Application.Users.Queries
                 return Result<LoginUserQueryResponse>.Failure("نام کاربری یا رمز عبور اشتباه می باشد.");
             }
 
-            if (!_passwordHasher.Verify(request.Password, entity.PasswordHash))
+            if (!PasswordHasher.Verify(request.Password, entity.PasswordHash))
             {
                 return Result<LoginUserQueryResponse>.Failure("نام کاربری یا رمز عبور اشتباه می باشد.");
             }

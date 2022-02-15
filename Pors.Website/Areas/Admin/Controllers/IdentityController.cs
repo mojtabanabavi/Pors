@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using Pors.Application.Users.Queries;
 using Microsoft.AspNetCore.Authorization;
+using Pors.Application.Identity.Commands;
 using Microsoft.AspNetCore.Authentication;
 
 namespace Pors.Website.Areas.Admin.Controllers
@@ -70,6 +71,32 @@ namespace Pors.Website.Areas.Admin.Controllers
             await HttpContext.SignOutAsync(AuthenticationSchemes.Admin);
 
             return RedirectToAction(nameof(Login));
+        }
+
+        [HttpGet]
+        public IActionResult ForgetPassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ForgetPassword(SendForgetPasswordTokenCommand request)
+        {
+            if (ModelState.IsValid)
+            {
+                var result = await Mediator.Send(request);
+
+                if (result.IsSucceeded)
+                {
+                    ViewBag.SendTokenMessage = "توکن با موفقیت ارسال گردید";
+                }
+                else
+                {
+                    ViewBag.SendTokenMessage = "خطایی در ارسال توکن ایجاد شده است، لطفا دوباره تلاش کنید.";
+                }
+            }
+
+            return View(request);
         }
     }
 }

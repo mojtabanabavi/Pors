@@ -27,11 +27,10 @@ namespace Pors.Website
                 try
                 {
                     var context = services.GetRequiredService<SqlDbContext>();
-                    var passwordHasher = services.GetRequiredService<IPasswordHashService>();
 
                     await context.Database.MigrateAsync();
 
-                    await SqlDbContextSeed.SeedDefaultUserAsync(context, passwordHasher);
+                    await SqlDbContextSeed.SeedDefaultUserAsync(context);
                 }
                 catch (Exception ex)
                 {

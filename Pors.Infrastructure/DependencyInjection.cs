@@ -18,7 +18,10 @@ namespace Pors.Infrastructure
                 options => options.MigrationsAssembly(typeof(SqlDbContext).Assembly.FullName)));
 
             services.AddScoped<ISqlDbContext, SqlDbContext>();
-            services.AddScoped<IPasswordHashService, PasswordHashService>();
+            services.AddScoped<ITokenBuilderService, TokenBuilderService>();
+            services.AddScoped<INotificationService, EmailNotificationService>();
+
+            services.Configure<EmailNotificationService.Settings>(x=> configuration.GetSection("Notifications:Email"));
 
             return services;
         }

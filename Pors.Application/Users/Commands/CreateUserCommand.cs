@@ -1,5 +1,6 @@
 ﻿using System;
 using MediatR;
+using Loby.Tools;
 using System.Text;
 using System.Linq;
 using FluentValidation;
@@ -61,12 +62,10 @@ namespace Pors.Application.Users.Commands
     public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Result>
     {
         private readonly ISqlDbContext _dbContext;
-        private readonly IPasswordHashService _passwordHasher;
 
-        public CreateUserCommandHandler(ISqlDbContext dbContext, IPasswordHashService passwordHasher)
+        public CreateUserCommandHandler(ISqlDbContext dbContext)
         {
             _dbContext = dbContext;
-            _passwordHasher = passwordHasher;
         }
 
         public async Task<Result> Handle(CreateUserCommand request, CancellationToken cancellationToken)
@@ -74,7 +73,7 @@ namespace Pors.Application.Users.Commands
             var user = new User
             {
                 Email = request.Email,
-                PasswordHash = _passwordHasher.Hash(request.Password)
+                PasswordHash = PasswordHasher.Hash(request.Password)
             };
 
             _dbContext.Users.Add(user);

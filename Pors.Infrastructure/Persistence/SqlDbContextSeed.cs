@@ -1,11 +1,12 @@
-﻿using Pors.Domain.Entities;
+﻿using Loby.Tools;
+using Pors.Domain.Entities;
 using Pors.Application.Common.Interfaces;
 
 namespace Pors.Infrastructure.Persistence
 {
     public static class SqlDbContextSeed
     {
-        public static async Task SeedDefaultUserAsync(SqlDbContext dbContext, IPasswordHashService passwordHasher)
+        public static async Task SeedDefaultUserAsync(SqlDbContext dbContext)
         {
             var administratorRoleName = "سوپر ادمین";
 
@@ -16,7 +17,7 @@ namespace Pors.Infrastructure.Persistence
                 Username = "admin",
                 Email = "mj.nabawi@gmail.com",
                 PhoneNumber = "09104647055",
-                PasswordHash = passwordHasher.Hash("nabavi123344"),
+                PasswordHash = PasswordHasher.Hash("nabavi123344"),
                 IsEmailConfirmed = true,
                 IsPhoneNumberConfirmed = true,
                 UserRoles = new List<UserRole>

@@ -1,5 +1,6 @@
 ﻿using System;
 using MediatR;
+using Loby.Tools;
 using System.Text;
 using System.Linq;
 using FluentValidation;
@@ -62,12 +63,10 @@ namespace Pors.Application.Users.Commands
     public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, Result>
     {
         private readonly ISqlDbContext _dbContext;
-        private readonly IPasswordHashService _passwordHasher;
 
-        public UpdateUserCommandHandler(ISqlDbContext dbContext, IPasswordHashService passwordHasher)
+        public UpdateUserCommandHandler(ISqlDbContext dbContext)
         {
             _dbContext = dbContext;
-            _passwordHasher = passwordHasher;
         }
 
         public async Task<Result> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
@@ -79,7 +78,7 @@ namespace Pors.Application.Users.Commands
 
             if (!string.IsNullOrEmpty(request.Password))
             {
-                entity.PasswordHash = _passwordHasher.Hash(request.Password);
+                entity.PasswordHash = PasswordHasher.Hash(request.Password);
             }
 
             await _dbContext.SaveChangesAsync();
