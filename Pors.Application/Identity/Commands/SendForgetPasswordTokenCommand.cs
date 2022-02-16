@@ -34,18 +34,18 @@ namespace Pors.Application.Identity.Commands
             _dbContext = dbContext;
 
             RuleFor(x => x.Email)
-                .NotNull().WithMessage("وارد کردن ایمیل الزامی است")
-                .NotEmpty().WithMessage("وارد کردن ایمیل الزامی است")
+                .NotNull().WithMessage("وارد کردن ایمیل الزامی است.")
+                .NotEmpty().WithMessage("وارد کردن ایمیل الزامی است.")
                 .EmailAddress(EmailValidationMode.AspNetCoreCompatible).WithMessage("ایمیل وارد شده معتبر نمی باشد.")
-                .MaximumLength(320).WithMessage("ایمیل نباید بیش از 320 کاراکتر داشته باشد")
-                .MustAsync(BeUserExist).WithMessage("کاربری با ایمیل وارد شده یافت نشد");
+                .MaximumLength(320).WithMessage("ایمیل نباید بیش از 320 کاراکتر داشته باشد.")
+                .MustAsync(BeEmailExist).WithMessage("کاربری با ایمیل وارد شده یافت نشد.");
         }
 
-        public async Task<bool> BeUserExist(string email, CancellationToken cancellationToken)
+        public async Task<bool> BeEmailExist(string email, CancellationToken cancellationToken)
         {
             var result = await _dbContext.Users.AnyAsync(x => x.Email == email, cancellationToken);
 
-            return !result;
+            return result;
         }
     }
 
@@ -68,30 +68,37 @@ namespace Pors.Application.Identity.Commands
 
         public async Task<Result> Handle(SendForgetPasswordTokenCommand request, CancellationToken cancellationToken)
         {
-            var userId = await _dbContext.Users
+            try
+            {
+                var userId = await _dbContext.Users
                 .Where(x => x.Email == request.Email)
-                .Select(x=> x.Id)
+                .Select(x => x.Id)
                 .SingleOrDefaultAsync();
 
-            var token = await _tokenBuilder
-                .CreateTokenAsync(userId, IdentityTokenType.ResetPassword, IdentityTokenDataType.AlphaNumerical);
+                var token = await _tokenBuilder
+                    .CreateTokenAsync(userId, IdentityTokenType.ResetPassword, IdentityTokenDataType.AlphaNumerical);
 
-            var userToken = new UserToken
+                var userToken = new UserToken
+                {
+                    Value = token,
+                    UserId = userId,
+                    Type = IdentityTokenType.ResetPassword,
+                    ExpireAt = DateTime.UtcNow.AddMinutes(15),
+                };
+
+                _dbContext.UserTokens.Add(userToken);
+
+                await _dbContext.SaveChangesAsync();
+
+                // send token
+                await _notificationService.SendAsync(request.Email, "بازیابی رمز عبور", token);
+
+                return Result.Success("توکن با موفقیت ارسال گردید.");
+            }
+            catch
             {
-                Value = token,
-                UserId = userId,
-                Type = IdentityTokenType.ResetPassword,
-                ExpireAt = DateTime.UtcNow.AddMinutes(15),
-            };
-
-            _dbContext.UserTokens.Add(userToken);
-
-            await _dbContext.SaveChangesAsync();
-
-            // send token
-            await _notificationService.SendAsync(request.Email, "بازیابی رمز عبور", token);
-
-            return Result.Success();
+                return Result.Failure("خطایی در ارسال توکن ایجاد شده است، لطفا بعدا تلاش کنید.");
+            }
         }
     }
 

@@ -88,11 +88,37 @@ namespace Pors.Website.Areas.Admin.Controllers
 
                 if (result.IsSucceeded)
                 {
-                    ViewBag.SendTokenMessage = "توکن با موفقیت ارسال گردید";
+                    ViewBag.SendTokenMessage = result.Message;
                 }
                 else
                 {
-                    ViewBag.SendTokenMessage = "خطایی در ارسال توکن ایجاد شده است، لطفا دوباره تلاش کنید.";
+                    ModelState.AddErrors(result.Errors);
+                }
+            }
+
+            return View(request);
+        }
+
+        [HttpGet]
+        public IActionResult ResetPassword(string id)
+        {
+            return View(new ResetPasswordCommand(id));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ResetPassword(ResetPasswordCommand request)
+        {
+            if (ModelState.IsValid)
+            {
+                var result = await Mediator.Send(request);
+
+                if (result.IsSucceeded)
+                {
+                    ViewBag.SendTokenMessage = result.Message;
+                }
+                else
+                {
+                    ModelState.AddErrors(result.Errors);
                 }
             }
 

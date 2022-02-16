@@ -11,7 +11,7 @@ using Pors.Application.Common.Interfaces;
 
 namespace Pors.Infrastructure.Services
 {
-    internal class EmailNotificationService : INotificationService
+    public class EmailNotificationService : INotificationService
     {
         public class Settings
         {

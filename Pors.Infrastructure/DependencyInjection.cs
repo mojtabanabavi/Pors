@@ -21,8 +21,6 @@ namespace Pors.Infrastructure
             services.AddScoped<ITokenBuilderService, TokenBuilderService>();
             services.AddScoped<INotificationService, EmailNotificationService>();
 
-            services.Configure<EmailNotificationService.Settings>(x=> configuration.GetSection("Notifications:Email"));
-
             return services;
         }
     }

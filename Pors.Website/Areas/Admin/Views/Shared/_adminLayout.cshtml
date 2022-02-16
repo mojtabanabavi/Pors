@@ -1,6 +1,6 @@
 ﻿@{
     @inject Pors.Application.Common.Interfaces.ICurrentUserService CurrentUser
-
+    var currentPersianDate = Loby.Tools.Dater.ToIranSolar(DateTime.Now, "dd MMMM yyyy");
 }
 
 <!DOCTYPE html>
@@ -97,7 +97,7 @@
         <nav class="navbar navbar-top navbar-expand-md navbar-dark" id="navbar-main">
             <div class="container-fluid">
                 <!-- brand -->
-                <p class="h4 mb-0 text-white d-none d-lg-inline-block">خوش آمدید</p>
+                <p class="h4 mb-0 text-white d-none d-lg-inline-block">امروز: @currentPersianDate</p>
                 <!-- form -->
                 <div></div>
                 <!-- user -->

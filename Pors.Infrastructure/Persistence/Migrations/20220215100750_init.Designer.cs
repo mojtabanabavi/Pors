@@ -9,7 +9,7 @@ using Pors.Infrastructure.Persistence;
 
 #nullable disable
 
-namespace Pors.Infrastructure.Migrations
+namespace Pors.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(SqlDbContext))]
     [Migration("20220215100750_init")]

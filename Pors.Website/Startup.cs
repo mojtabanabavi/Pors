@@ -14,6 +14,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Configuration;
 using Pors.Application.Common.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
+using Pors.Infrastructure.Services;
 
 namespace Pors.Website
 {
@@ -53,6 +54,8 @@ namespace Pors.Website
                 });
 
             services.AddSingleton<ICurrentUserService, CurrentUserService>();
+
+            services.Configure<EmailNotificationService.Settings>(Configuration.GetSection("Notifications:Email"));
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

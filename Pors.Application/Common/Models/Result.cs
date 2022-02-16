@@ -7,10 +7,16 @@ namespace Pors.Application.Common.Models
     {
         public bool IsSucceeded { get; set; }
         public string[] Errors { get; set; }
+        public string Message { get; set; }
 
         public Result(bool isSucceeded)
         {
             IsSucceeded = isSucceeded;
+        }
+
+        public Result(bool isSucceeded, string message) : this(isSucceeded)
+        {
+            Message = message;
         }
 
         public Result(bool isSucceeded, IEnumerable<string> errors) : this(isSucceeded)
@@ -21,6 +27,11 @@ namespace Pors.Application.Common.Models
         public static Result Success()
         {
             return new Result(true, Array.Empty<string>());
+        }
+
+        public static Result Success(string message)
+        {
+            return new Result(true, message);
         }
 
         public static Result Failure(params string[] errors)
