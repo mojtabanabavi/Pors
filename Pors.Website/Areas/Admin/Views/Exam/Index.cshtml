@@ -1,8 +1,21 @@
-﻿
+﻿@model Pors.Application.Common.Models.PagingResult<Pors.Application.Exams.Queries.GetExamsQueryResponse>
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_adminLayout.cshtml";
 }
 
-<h1>Index</h1>
-
+<div class="row">
+    <div class="col">
+        <div class="card shadow">
+            <div class="card-header bg-transparent">
+                <h3 class="mb-0">لیست آزمون ها</h3>
+            </div>
+            <div class="card-body">
+                @foreach (var x in Model.Items)
+                    {
+                        <p>@x.Id @x.Title @x.CreatedBy @x.CreatedAt </p>
+                    }
+            </div>
+        </div>
+    </div>
+</div>

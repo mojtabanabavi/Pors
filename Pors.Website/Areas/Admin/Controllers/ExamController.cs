@@ -8,9 +8,11 @@ namespace Pors.Website.Areas.Admin.Controllers
 {
     public class ExamController : BaseController
     {
-        public IActionResult Index()
+        public async Task<IActionResult> Index(GetExamsQuery request)
         {
-            return View();
+            var result = await Mediator.Send(request);
+
+            return View(result);
         }
 
         [HttpGet]

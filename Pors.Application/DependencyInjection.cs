@@ -1,5 +1,6 @@
 ﻿using System;
 using MediatR;
+using Loby.Tools;
 using FluentValidation;
 using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,8 +13,13 @@ namespace Pors.Application
         {
             var executingAssembly = Assembly.GetExecutingAssembly();
 
+            services.AddAutoMapper(cfg=>
+            {
+                cfg.CreateMap<DateTime, string>().ConvertUsing(x => Dater.ToIranSolar(x,"dd MMMM yyyy"));
+
+            },executingAssembly);
+
             services.AddMediatR(executingAssembly);
-            services.AddAutoMapper(executingAssembly);
             services.AddValidatorsFromAssembly(executingAssembly);
 
             return services;

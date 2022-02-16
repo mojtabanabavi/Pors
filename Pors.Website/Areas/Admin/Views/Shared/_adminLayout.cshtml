@@ -77,14 +77,90 @@
                 <!-- navigation -->
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link" asp-controller="home" asp-action="index">
+                        <a class="nav-link active" asp-controller="home" asp-action="index">
                             <i class="ni ni-tv-2 text-primary"></i> داشبورد
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" asp-controller="exam" asp-action="index">
-                            <i class="ni ni-planet text-orange"></i> آزمون
+                        <a class="nav-link disabled" href="#navbar-users" data-toggle="collapse">
+                            <i class="ni ni-single-02 text-red"></i>
+                            <span>کاربران</span>
                         </a>
+                        <div class="collapse" id="navbar-users">
+                            <ul class="nav nav-sm flex-column">
+                                <li class="nav-item">
+                                    <a asp-controller="exam" asp-action="index" class="nav-link">لیست کاربران</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link disabled" href="#navbar-rols" data-toggle="collapse">
+                            <i class="ni ni-key-25 text-green"></i>
+                            <span>نقش ها</span>
+                        </a>
+                        <div class="collapse" id="navbar-rols">
+                            <ul class="nav nav-sm flex-column">
+                                <li class="nav-item">
+                                    <a asp-controller="exam" asp-action="index" class="nav-link">لیست نقش ها</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link disabled" href="#navbar-acess" data-toggle="collapse">
+                            <i class="ni ni-app text-info"></i>
+                            <span>سطوح دسترسی</span>
+                        </a>
+                        <div class="collapse" id="navbar-acess">
+                            <ul class="nav nav-sm flex-column">
+                                <li class="nav-item">
+                                    <a asp-controller="exam" asp-action="index" class="nav-link">لیست سطوح دسترسی</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#navbar-exams" data-toggle="collapse">
+                            <i class="ni ni-paper-diploma text-primary"></i>
+                            <span>آزمون ها</span>
+                        </a>
+                        <div class="collapse" id="navbar-exams">
+                            <ul class="nav nav-sm flex-column">
+                                <li class="nav-item">
+                                    <a asp-controller="exam" asp-action="index" class="nav-link">لیست آزمون ها</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a asp-controller="exam" asp-action="create" class="nav-link">ایجاد آزمون</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link disabled" href="#navbar-question" data-toggle="collapse">
+                            <i class="ni ni-sound-wave text-pink"></i>
+                            <span>سوالات</span>
+                        </a>
+                        <div class="collapse" id="navbar-question">
+                            <ul class="nav nav-sm flex-column">
+                                <li class="nav-item">
+                                    <a asp-controller="exam" asp-action="index" class="nav-link">لیست سوالات</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link disabled" href="#navbar-answers" data-toggle="collapse">
+                            <i class="ni ni-planet text-default"></i>
+                            <span>پاسخ ها</span>
+                        </a>
+                        <div class="collapse" id="navbar-answers">
+                            <ul class="nav nav-sm flex-column">
+                                <li class="nav-item">
+                                    <a asp-controller="exam" asp-action="index" class="nav-link">لیست پاسخ ها</a>
+                                </li>
+                            </ul>
+                        </div>
                     </li>
                 </ul>
             </div>
