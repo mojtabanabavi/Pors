@@ -16,6 +16,7 @@ namespace Pors.Infrastructure.Persistence
         public DbSet<UserRole> UserRoles { get; set; }
 
         public DbSet<UserToken> UserTokens { get; set; }
+        public DbSet<Exam> Exams { get; set; }
 
         public SqlDbContext(DbContextOptions<SqlDbContext> options) : base(options)
         {

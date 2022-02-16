@@ -12,19 +12,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0 shrink-to-fit=no">
 
     <!-- favicon -->
-    <link rel="icon" type="image/png" href="./img/brand/favicon.png">
+    <link rel="icon" type="image/png" href="~/img/brand/favicon.png">
 
     <!-- librarys -->
-    <link rel="stylesheet" href="./lib/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap/css/bootstrap.min.css" />
 
     <!-- fonts -->
-    <link rel="stylesheet" href="./fonts/yekan/css/yekan.css">
-    <link rel="stylesheet" href="./fonts/nucleo/css/nucleo.css">
-    <link rel="stylesheet" href="./fonts/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="~/fonts/yekan/css/yekan.css">
+    <link rel="stylesheet" href="~/fonts/nucleo/css/nucleo.css">
+    <link rel="stylesheet" href="~/fonts/fontawesome/css/all.min.css">
 
     <!-- styles -->
-    <link rel="stylesheet" href="./css/argon.css" />
-    <link rel="stylesheet" href="./css/main.css" />
+    <link rel="stylesheet" href="~/css/argon.css" />
+    <link rel="stylesheet" href="~/css/main.css" />
 
 </head>
 <body>
@@ -36,7 +36,7 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <!-- brand -->
-            <a class="navbar-brand pt-0" asp-area="admin" asp-controller="home" asp-action="index">پنل مدیریت</a>
+            <a class="navbar-brand pt-0" asp-controller="home" asp-action="index">پنل مدیریت</a>
             <!-- user -->
             <ul class="nav align-items-center d-md-none">
                 <li class="nav-item dropdown">
@@ -77,13 +77,13 @@
                 <!-- navigation -->
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link" asp-area="admin" asp-controller="home" asp-action="index">
+                        <a class="nav-link" asp-controller="home" asp-action="index">
                             <i class="ni ni-tv-2 text-primary"></i> داشبورد
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" asp-area="admin" asp-controller="survey" asp-action="index">
-                            <i class="ni ni-planet text-blue"></i> پرسشنامه
+                        <a class="nav-link" asp-controller="exam" asp-action="index">
+                            <i class="ni ni-planet text-orange"></i> آزمون
                         </a>
                     </li>
                 </ul>
@@ -145,12 +145,12 @@
     </div>
 
     <!-- librarys -->
-    <script src="./lib/jquery/js/jquery.min.js"></script>
-    <script src="./lib/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="./lib/survey/js/survey.jquery.min.js"></script>
+    <script src="~/lib/jquery/js/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <partial name="_ValidationScripts" />
 
     <!-- scripts -->
-    <script src="./js/argon.js"></script>
-    <script src="./js/main.js"></script>
+    <script src="~/js/argon.js"></script>
+    <script src="~/js/main.js"></script>
 </body>
 </html>

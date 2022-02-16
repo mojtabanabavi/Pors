@@ -1,17 +1,18 @@
 ﻿
-// Load surveys
-var load_surveys = function() {
-    $.get('URL', function (data) {
+// scripts for create exam page
 
-    });
-};
+function readURL(input, output) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
 
-// Create surveys
-var create_survey = function () {
+        reader.onload = function (e) {
+            $(output).attr('src', e.target.result);
+        }
 
+        reader.readAsDataURL(input.files[0]);
+    }
 }
 
-// Delete surveys
-var delete_survey = function () {
-
-}
+$('#exam-image-input').change(function () {
+    readURL(this, '#exam-image-preview');
+});

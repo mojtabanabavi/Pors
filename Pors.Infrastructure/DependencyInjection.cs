@@ -20,6 +20,7 @@ namespace Pors.Infrastructure
             services.AddScoped<ISqlDbContext, SqlDbContext>();
             services.AddScoped<ITokenBuilderService, TokenBuilderService>();
             services.AddScoped<INotificationService, EmailNotificationService>();
+            services.AddScoped<IFileManagerService, FileManagerService>();
 
             return services;
         }

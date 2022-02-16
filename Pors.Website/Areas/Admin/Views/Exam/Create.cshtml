@@ -1,0 +1,61 @@
+﻿@model Pors.Application.Exams.Commands.CreateExamCommand
+@{
+    ViewData["Title"] = "ایجاد آزمون";
+    Layout = "_adminLayout";
+}
+
+<form asp-action="create" enctype="multipart/form-data" method="post">
+    <div class="row">
+        <div class="col-xl-8 order-xl-1 mb-5 mb-xl-0">
+            <div class="card bg-secondary shadow">
+                <div class="card-header bg-bg-white border-0">
+                    <h3 class="mb-0">ایجاد آزمون جدید</h3>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <label asp-for="Title" class="form-control-label">عنوان آزمون</label>
+                                <input asp-for="Title" class="form-control form-control-alternative" placeholder="عنوان آزمون">
+                                <span asp-validation-for="Title"></span>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <label asp-for="ShortDescription" class="form-control-label">توضیحات کوتاه</label>
+                                <textarea rows="3" asp-for="ShortDescription" class="form-control form-control-alternative" placeholder="توضیحات کوتاه"></textarea>
+                                <span asp-validation-for="ShortDescription"></span>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <label asp-for="LongDescription" class="form-control-label">توضیحات کامل</label>
+                                <textarea rows="5" asp-for="LongDescription" class="form-control form-control-alternative" placeholder="توضیحات کامل"></textarea>
+                                <span asp-validation-for="LongDescription"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-4 order-xl-2 mb-5 mb-xl-0">
+            <div class="card mb-4">
+                <div class=" card-header">
+                    <img id="exam-image-preview" class="w-100 exam-image" src="~/img/themes/no-picture.jpg">
+                </div>
+                <div class="card-body d-flex justify-content-between pt-0 pt-md-4">
+                    <div class="select-exam-image">
+                        <input asp-for="Image" id="exam-image-input" class="d-none" />
+                        <label for="exam-image-input" class="btn btn-primary m-0">
+                            <span>انتخاب تصویر</span>
+                        </label>
+                        <span asp-validation-for="Image"></span>
+                    </div>
+                    <div>
+                        <button type="submit" class="btn btn-success">ایجاد آزمون</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

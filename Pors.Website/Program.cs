@@ -19,24 +19,28 @@ namespace Pors.Website
         public async static Task Main(string[] args)
         {
             var host = CreateHostBuilder(args).Build();
+            var env = host.Services.GetRequiredService<IWebHostEnvironment>();
 
-            using (var scope = host.Services.CreateScope())
+            if (!env.IsDevelopment())
             {
-                var services = scope.ServiceProvider;
-
-                try
+                using (var scope = host.Services.CreateScope())
                 {
-                    var context = services.GetRequiredService<SqlDbContext>();
+                    var services = scope.ServiceProvider;
 
-                    await context.Database.MigrateAsync();
+                    try
+                    {
+                        var context = services.GetRequiredService<SqlDbContext>();
 
-                    await SqlDbContextSeed.SeedDefaultUserAsync(context);
-                }
-                catch (Exception ex)
-                {
-                    var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
+                        await context.Database.MigrateAsync();
 
-                    logger.LogError(ex, "An error occurred while migrating or seeding the database.");
+                        await SqlDbContextSeed.SeedDefaultUserAsync(context);
+                    }
+                    catch (Exception ex)
+                    {
+                        var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
+
+                        logger.LogError(ex, "An error occurred while migrating or seeding the database.");
+                    }
                 }
             }
 
