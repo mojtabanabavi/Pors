@@ -40,5 +40,13 @@ namespace Pors.Infrastructure.Services
                 return null;
             }
         }
+
+        public async Task DeleteFileAsync(string path)
+        {
+            if (File.Exists(path))
+            {
+                await Task.Run(() => File.Delete(path));
+            }
+        }
     }
 }

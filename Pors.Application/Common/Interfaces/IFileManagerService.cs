@@ -10,5 +10,6 @@ namespace Pors.Application.Common.Interfaces
     public interface IFileManagerService
     {
         Task<string> CreateFileAsync(IFormFile file);
+        Task DeleteFileAsync(string path);
     }
 }
