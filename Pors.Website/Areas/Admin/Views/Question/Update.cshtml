@@ -1,0 +1,32 @@
+﻿@model Pors.Application.Questions.Queries.GetQuestionQueryResponse
+@{
+    Layout = "_adminLayout";
+    ViewData["Title"] = "ویرایش سوال";
+}
+
+<form asp-action="update" method="post">
+    <div class="row">
+        <div class="col">
+            <div class="card bg-secondary shadow">
+                <div class="card-header bg-bg-white border-0">
+                    <h3 class="mb-0">ویرایش سوال</h3>
+                </div>
+                <div class="card-body">
+                    <div asp-validation-summary="ModelOnly" class="text-center mb-4"></div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <label asp-for="Title" class="form-control-label">عنوان سوال</label>
+                                <input asp-for="Title" class="form-control form-control-alternative" placeholder="عنوان سوال">
+                                <span asp-validation-for="Title"></span>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <button type="submit" class="btn btn-success">ویرایش سوال</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

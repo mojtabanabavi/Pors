@@ -1,6 +1,6 @@
 ﻿@{
-    Layout = "_adminLayout";
-    ViewData["Title"] = "لیست آزمون ها";
+    ViewData["Title"] = "لیست سوالات";
+    Layout = "~/Areas/Admin/Views/Shared/_adminLayout.cshtml";
 }
 
 @section styles{
@@ -17,14 +17,15 @@
     <div class="col">
         <div class="card shadow">
             <div class="card-header bg-transparent">
-                <h3 class="mb-0">@ViewData["Title"]</h3>
+                <h3 class="mb-0">لیست سوالات</h3>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
-                    <table class="table align-items-center table-flush w-100" id="exams-datatable">
+                    <table class="table align-items-center table-flush w-100" id="questions-datatable">
                         <thead class="thead-light">
                             <tr>
                                 <th>شناسه</th>
+                                <th>شناسه آزمون</th>
                                 <th>عنوان</th>
                                 <th>ایجاد شده توسط</th>
                                 <th>تاریخ ایجاد</th>

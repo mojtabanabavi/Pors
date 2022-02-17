@@ -41,7 +41,8 @@ namespace Pors.Application.Exams.Commands
             RuleFor(x => x.Title)
                 .NotNull().WithMessage("وارد کردن عنوان الزامی است.")
                 .NotEmpty().WithMessage("وارد کردن عنوان الزامی است.")
-                .MaximumLength(50).WithMessage("عنوان میتواند حداکثر 50 کاراکتر داشته باشد.");
+                .MaximumLength(50).WithMessage("عنوان میتواند حداکثر 50 کاراکتر داشته باشد.")
+                .MustAsync(BeUniqueTitle).WithMessage("عنوان وارد شده تکراری است");
 
             RuleFor(x => x.ShortDescription)
                 .NotNull().WithMessage("وارد کردن توضیح کوتاه الزامی است.")
@@ -53,7 +54,7 @@ namespace Pors.Application.Exams.Commands
         {
             var result = await _dbContext.Exams.AnyAsync(x => x.Title == title, cancellationToken);
 
-            return result;
+            return !result;
         }
     }
 

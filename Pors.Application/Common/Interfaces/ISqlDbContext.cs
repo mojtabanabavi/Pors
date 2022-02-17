@@ -12,6 +12,8 @@ namespace Pors.Application.Common.Interfaces
         DbSet<UserRole> UserRoles { get; }
         DbSet<UserToken> UserTokens { get; }
         DbSet<Exam> Exams { get; }
+        DbSet<ExamQuestion> ExamQuestions { get; set; }
+        DbSet<QuestionOption> QuestionOptions { get; set; }
 
         Task<int> SaveChangesAsync();
     }

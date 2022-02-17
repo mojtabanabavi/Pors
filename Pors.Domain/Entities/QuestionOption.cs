@@ -6,16 +6,13 @@ using System.Collections.Generic;
 
 namespace Pors.Domain.Entities
 {
-    public class Exam
+    public class QuestionOption
     {
         public int Id { get; set; }
+        public int QuestionId { get; set; }
         public string Title { get; set; }
-        public string ShortDescription { get; set; }
-        public string LongDescription { get; set; }
         public string Image { get; set; }
-        public string CreatedBy { get; set; }
-        public DateTime CreatedAt { get; set; }
 
-        public ICollection<ExamQuestion> Questions { get; set; }
+        public ExamQuestion Question { get; set; }
     }
 }

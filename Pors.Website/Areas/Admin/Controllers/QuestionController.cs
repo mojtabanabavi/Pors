@@ -5,20 +5,20 @@ using Pors.Website.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Pors.Application.Common.Models;
 using Pors.Application.Exams.Queries;
-using Pors.Application.Exams.Commands;
+using Pors.Application.Questions.Queries;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Pors.Application.Questions.Commands;
 
 namespace Pors.Website.Areas.Admin.Controllers
 {
-    public class ExamController : BaseController
+    public class QuestionController : BaseController
     {
-        #region api
-
         [HttpPost]
-        public async Task<IActionResult> GetExams()
+        public async Task<IActionResult> GetQuestions()
         {
             var dataTableRequest = BindDataTableRequest();
 
-            var request = new GetExamsQuery
+            var request = new GetQuestionsQuery
             {
                 Page = dataTableRequest.Page,
                 Search = dataTableRequest.Search,
@@ -40,23 +40,24 @@ namespace Pors.Website.Areas.Admin.Controllers
             return Json(jsonData);
         }
 
-        #endregion;
-
-        public async Task<IActionResult> Index(GetExamsQuery request)
-        {
-            var result = await Mediator.Send(request);
-
-            return View(result);
-        }
-
         [HttpGet]
-        public IActionResult Create()
+        public IActionResult Index()
         {
             return View();
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Create(int id)
+        {
+            var result = await Mediator.Send(new GetExamsSelectListQuery());
+
+            ViewBag.ExamsSelectList = new SelectList(result.Items, "Text", "Value");
+
+            return View();
+        }
+
         [HttpPost]
-        public async Task<IActionResult> Create(CreateExamCommand request)
+        public async Task<IActionResult> Create(CreateQuestionCommand request)
         {
             if (ModelState.IsValid)
             {
@@ -76,7 +77,7 @@ namespace Pors.Website.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Update(GetExamQuery request)
+        public async Task<IActionResult> Update(GetQuestionQuery request)
         {
             var result = await Mediator.Send(request);
 
@@ -91,7 +92,7 @@ namespace Pors.Website.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Update(UpdateExamCommand request)
+        public async Task<IActionResult> Update(UpdateQuestionCommand request)
         {
             if (ModelState.IsValid)
             {
@@ -108,26 +109,6 @@ namespace Pors.Website.Areas.Admin.Controllers
             }
 
             return View();
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> Delete(DeleteExamCommand request)
-        {
-            if (ModelState.IsValid)
-            {
-                var result = await Mediator.Send(request);
-
-                if (!result.IsSucceeded)
-                {
-                    ModelState.AddErrors(result.Errors);
-
-                    //return View(request);
-                }
-
-                return RedirectToAction(nameof(Index));
-            }
-
-            return View(nameof(Index));
         }
     }
 }

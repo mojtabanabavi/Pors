@@ -138,14 +138,33 @@
                         </div>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link disabled" href="#navbar-question" data-toggle="collapse">
+                        <a class="nav-link" href="#navbar-questions" data-toggle="collapse">
                             <i class="ni ni-sound-wave text-pink"></i>
                             <span>سوالات</span>
                         </a>
-                        <div class="collapse" id="navbar-question">
+                        <div class="collapse" id="navbar-questions">
                             <ul class="nav nav-sm flex-column">
                                 <li class="nav-item">
-                                    <a asp-controller="exam" asp-action="index" class="nav-link">لیست سوالات</a>
+                                    <a asp-controller="question" asp-action="index" class="nav-link">لیست سوالات</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a asp-controller="question" asp-action="create" class="nav-link">ایجاد سوال</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link disabled" href="#navbar-options" data-toggle="collapse">
+                            <i class="ni ni-active-40 text-info"></i>
+                            <span>گزینه ها</span>
+                        </a>
+                        <div class="collapse" id="navbar-options">
+                            <ul class="nav nav-sm flex-column">
+                                <li class="nav-item">
+                                    <a asp-controller="option" asp-action="index" class="nav-link">لیست گزینه ها</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a asp-controller="option" asp-action="create" class="nav-link">ایجاد گزینه</a>
                                 </li>
                             </ul>
                         </div>
