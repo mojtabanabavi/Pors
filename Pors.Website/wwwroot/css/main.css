@@ -59,3 +59,31 @@
 .navbar-vertical .navbar-nav .nav-link.active:before{
     border-left: none;
 }
+
+/* ########## customize datatable ############ */
+
+.dataTables_wrapper{
+    font-size: inherit;
+}
+
+.dataTables_filter {
+    display: flex;
+    justify-content: end;
+}
+
+.dataTables_length .form-control {
+    margin: 0 0.375rem;
+}
+
+.dataTables_wrapper div.dataTables_filter input {
+    width: auto;
+    margin-right: 0.5em;
+    display: inline-block;
+}
+
+.form-control-sm {
+    line-height: 1.5;
+    border-radius: 0.25rem;
+    padding: 0.25rem 0.5rem;
+    height: calc(0.45em + 1.25rem + 5px);
+}

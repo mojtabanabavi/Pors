@@ -33,7 +33,7 @@ namespace Pors.Infrastructure.Services
                     await file.CopyToAsync(fileStream);
                 }
 
-                return imagePath;
+                return imagePath.Replace("wwwroot", string.Empty);
             }
             catch
             {

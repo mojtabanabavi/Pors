@@ -84,8 +84,12 @@ namespace Pors.Application.Exams.Commands
                     CreatedBy = _currentUser.DisplayName,
                     LongDescription = request.LongDescription,
                     ShortDescription = request.ShortDescription,
-                    Image = await _fileManager.CreateFileAsync(request.Image),
                 };
+
+                if(request.Image != null)
+                {
+                    exam.Image = await _fileManager.CreateFileAsync(request.Image);
+                }
 
                 _dbContext.Exams.Add(exam);
 

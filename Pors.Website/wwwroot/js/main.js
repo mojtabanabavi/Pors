@@ -1,5 +1,5 @@
 ﻿
-// scripts for create exam page
+/* ############### create exam ############### */
 
 function readURL(input, output) {
     if (input.files && input.files[0]) {
@@ -15,4 +15,61 @@ function readURL(input, output) {
 
 $('#exam-image-input').change(function () {
     readURL(this, '#exam-image-preview');
+});
+
+/* ############### exam list datatable ############### */
+
+$(document).ready(function () {
+    var options = {
+        'filter': true,  
+        'ordering': true,
+        'processing': true,    
+        'serverSide': true, 
+        'orderMulti': false,
+        'language': dataTables_persian_language,
+        'ajax': {
+            'url': '/admin/exam/GetExams',
+            'type': 'post',
+            'datatype': 'json'
+        },
+        'columns': [
+            {
+                'name': 'id',
+                'data': 'id',
+                'autoWidth': true,
+                'searchable': false
+            },
+            {
+                'name': 'title',
+                'data': 'title',
+                'autoWidth': true,
+                'searchable': true
+            },
+            {
+                'name': 'createdBy',
+                'data': 'createdBy',
+                'autoWidth': true,
+                'searchable': false
+            },
+            {
+                'name': 'createdAt',
+                'data': 'createdAt',
+                'autoWidth': true,
+                'searchable': false
+            },
+            {
+                'orderable': false,
+                'render': function (data, type, row) {
+                    let content = '';
+                    content += '<a class="btn btn-sm btn-info ml-3" href="exam/update/' + row.id + '">ویرایش</a>';
+                    content += '<a class="btn btn-sm btn-danger" href="exam/delete/' + row.id + '">حذف</a>';
+
+                    return content;
+                }
+            }
+        ]
+    };
+    var table = $('#exams-datatable').on('init.dt', function () {
+        $('div.dataTables_length select').removeClass('custom-select custom-select-sm')
+    }).DataTable(options);
 });

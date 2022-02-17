@@ -4,9 +4,11 @@ using Loby.Tools;
 using AutoMapper;
 using System.Text;
 using System.Linq;
+using Loby.Extensions;
 using FluentValidation;
 using Pors.Domain.Entities;
 using System.Threading.Tasks;
+using System.Linq.Dynamic.Core;
 using System.Collections.Generic;
 using FluentValidation.Validators;
 using Microsoft.EntityFrameworkCore;
@@ -23,6 +25,9 @@ namespace Pors.Application.Exams.Queries
     {
         public int Page { get; set; } = 1;
         public int PageSize { get; set; } = 10;
+        public string Search { get; set; }
+        public string SortColumn { get; set; }
+        public string SortColumnDirection { get; set; }
     }
 
     public class GetExamsQueryResponse : IMapFrom<Exam>
@@ -54,7 +59,19 @@ namespace Pors.Application.Exams.Queries
 
         public async Task<PagingResult<GetExamsQueryResponse>> Handle(GetExamsQuery request, CancellationToken cancellationToken)
         {
-            var result = await _dbContext.Exams
+            IQueryable<Exam> query = _dbContext.Exams;
+
+            if (request.SortColumn.HasValue() && request.SortColumnDirection.HasValue())
+            {
+                query = query.OrderBy($"{request.SortColumn} {request.SortColumnDirection}");
+            }
+
+            if (request.Search.HasValue())
+            {
+                query = query.Where(x => x.Title.Contains(request.Search));
+            }
+
+            var result = await query
                 .ProjectTo<GetExamsQueryResponse>(_mapper.ConfigurationProvider)
                 .ApplyPagingAsync(request.Page, request.PageSize);
 

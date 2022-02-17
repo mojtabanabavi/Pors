@@ -12,10 +12,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0 shrink-to-fit=no">
 
     <!-- favicon -->
-    <link rel="icon" type="image/png" href="~/img/brand/favicon.png">
+    <link rel="icon" type="image/png" href="~/img/brands/favicon.png">
 
     <!-- librarys -->
     <link rel="stylesheet" href="~/lib/bootstrap/css/bootstrap.min.css" />
+    @RenderSection("styles",false)
 
     <!-- fonts -->
     <link rel="stylesheet" href="~/fonts/yekan/css/yekan.css">
@@ -223,6 +224,7 @@
     <!-- librarys -->
     <script src="~/lib/jquery/js/jquery.min.js"></script>
     <script src="~/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+    @RenderSection("scripts",false)
     <partial name="_ValidationScripts" />
 
     <!-- scripts -->

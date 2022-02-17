@@ -1,7 +1,17 @@
 ﻿@model Pors.Application.Common.Models.PagingResult<Pors.Application.Exams.Queries.GetExamsQueryResponse>
 @{
-    ViewData["Title"] = "Index";
-    Layout = "~/Areas/Admin/Views/Shared/_adminLayout.cshtml";
+    Layout = "_adminLayout";
+    ViewData["Title"] = "لیست آزمون ها";
+}
+
+@section styles{
+    <link rel="stylesheet" href="~/lib/data-table/css/dataTables.bootstrap4.min.css" />
+}
+
+@section scripts{
+    <script src="~/lib/data-table/js/jquery.dataTables.min.js"></script>
+    <script src="~/lib/data-table/js/dataTables.bootstrap4.min.js"></script>
+    <script src="~/lib/data-table/js/dataTables.language.fa.js"></script>
 }
 
 <div class="row">
@@ -11,10 +21,19 @@
                 <h3 class="mb-0">لیست آزمون ها</h3>
             </div>
             <div class="card-body">
-                @foreach (var x in Model.Items)
-                    {
-                        <p>@x.Id @x.Title @x.CreatedBy @x.CreatedAt </p>
-                    }
+                <div class="table-responsive">
+                    <table class="table align-items-center table-flush w-100" id="exams-datatable">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>شناسه</th>
+                            <th>عنوان</th>
+                            <th>ایجاد شده توسط</th>
+                            <th>تاریخ ایجاد</th>
+                            <th>عملیات</th>
+                        </tr>
+                    </thead>
+                </table>
+                </div>
             </div>
         </div>
     </div>
