@@ -110,5 +110,25 @@ namespace Pors.Website.Areas.Admin.Controllers
 
             return View();
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Delete(DeleteQuestionCommand request)
+        {
+            if (ModelState.IsValid)
+            {
+                var result = await Mediator.Send(request);
+
+                if (!result.IsSucceeded)
+                {
+                    ModelState.AddErrors(result.Errors);
+
+                    //return View(request);
+                }
+
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View(nameof(Index));
+        }
     }
 }

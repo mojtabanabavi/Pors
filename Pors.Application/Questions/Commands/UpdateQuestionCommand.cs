@@ -20,7 +20,7 @@ namespace Pors.Application.Questions.Commands
 
     public class UpdateQuestionCommand : IRequest<Result>
     {
-        public int QuestionId { get; set; }
+        public int Id { get; set; }
         public string Title { get; set; }
     }
 
@@ -36,14 +36,14 @@ namespace Pors.Application.Questions.Commands
         {
             _dbContext = sqlDbContext;
 
-            RuleFor(x => x.QuestionId)
+            RuleFor(x => x.Id)
                 .MustAsync(BeQuestionExist).WithMessage("سوال درخواست شده یافت نشد.");
 
             RuleFor(x => x.Title)
                 .NotNull().WithMessage("وارد کردن عنوان الزامی است.")
                 .NotEmpty().WithMessage("وارد کردن عنوان الزامی است.")
                 .MaximumLength(250).WithMessage("عنوان میتواند حداکثر 250 کاراکتر داشته باشد.")
-                .Must((x, title) => BeUniqueTitle(x.QuestionId, title).Result).WithMessage("عنوان وارد شده تکراری است");
+                .Must((x, title) => BeUniqueTitle(x.Id, title).Result).WithMessage("عنوان وارد شده تکراری است");
         }
 
         public async Task<bool> BeQuestionExist(int questionId, CancellationToken cancellationToken)
@@ -55,12 +55,13 @@ namespace Pors.Application.Questions.Commands
 
         public async Task<bool> BeUniqueTitle(int questionId, string title)
         {
-            var examId = await _dbContext.ExamQuestions
-                .Where(x => x.Id == questionId)
-                .Select(x => x.ExamId)
-                .SingleOrDefaultAsync();
+            var question = await _dbContext.ExamQuestions.FindAsync(questionId);
 
-            var result = await _dbContext.ExamQuestions.AnyAsync(x => x.ExamId == examId && x.Title == title);
+            if (question.Title == title)
+                return true;
+
+            var result = await _dbContext.ExamQuestions
+                .AnyAsync(x => x.ExamId == question.ExamId && x.Title == title);
 
             return !result;
         }
@@ -85,7 +86,7 @@ namespace Pors.Application.Questions.Commands
         {
             try
             {
-                var question = await _dbContext.ExamQuestions.FindAsync(request.QuestionId);
+                var question = await _dbContext.ExamQuestions.FindAsync(request.Id);
 
                 question.Title = request.Title;
 
