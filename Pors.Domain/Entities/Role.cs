@@ -10,6 +10,11 @@ namespace Pors.Domain.Entities
         public string Description { get; set; }
 
         public ICollection<UserRole> UserRoles { get; set; }
+        public ICollection<RolePermission> Permissions { get; set; }
+
+        public Role()
+        {
+        }
 
         public Role(string name)
         {

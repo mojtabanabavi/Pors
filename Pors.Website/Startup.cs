@@ -11,10 +11,10 @@ using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
+using Pors.Infrastructure.Services;
 using Microsoft.Extensions.Configuration;
 using Pors.Application.Common.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
-using Pors.Infrastructure.Services;
 
 namespace Pors.Website
 {
@@ -54,7 +54,7 @@ namespace Pors.Website
                 });
 
             services.AddSingleton<ICurrentUserService, CurrentUserService>();
-
+            services.AddScoped<IActionDiscoveryService, ActionDiscoveryService>();
             services.Configure<EmailNotificationService.Settings>(Configuration.GetSection("Notifications:Email"));
         }
 

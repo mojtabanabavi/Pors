@@ -1,0 +1,39 @@
+﻿
+@{
+    Layout = "_adminLayout";
+    ViewData["Title"] = "لیست نقش ها";
+}
+
+@section styles{
+<link rel="stylesheet" href="~/lib/data-table/css/dataTables.bootstrap4.min.css" />
+}
+
+@section scripts{
+<script src="~/lib/data-table/js/jquery.dataTables.min.js"></script>
+<script src="~/lib/data-table/js/dataTables.bootstrap4.min.js"></script>
+<script src="~/lib/data-table/js/dataTables.language.fa.js"></script>
+}
+
+<div class="row">
+    <div class="col">
+        <div class="card shadow">
+            <div class="card-header bg-transparent">
+                <h3 class="mb-0">لیست نقش ها</h3>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table align-items-center table-flush w-100" id="roles-datatable">
+                        <thead class="thead-light">
+                            <tr>
+                                <th>شناسه</th>
+                                <th>عنوان</th>
+                                <th>توضیحات</th>
+                                <th>عملیات</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

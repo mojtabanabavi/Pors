@@ -96,14 +96,17 @@
                         </div>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link disabled" href="#navbar-rols" data-toggle="collapse">
+                        <a class="nav-link" href="#navbar-rols" data-toggle="collapse">
                             <i class="ni ni-key-25 text-green"></i>
                             <span>نقش ها</span>
                         </a>
                         <div class="collapse" id="navbar-rols">
                             <ul class="nav nav-sm flex-column">
                                 <li class="nav-item">
-                                    <a asp-controller="exam" asp-action="index" class="nav-link">لیست نقش ها</a>
+                                    <a asp-controller="role" asp-action="index" class="nav-link">لیست نقش ها</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a asp-controller="role" asp-action="create" class="nav-link">ایجاد نقش</a>
                                 </li>
                             </ul>
                         </div>

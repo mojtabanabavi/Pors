@@ -1,0 +1,39 @@
+﻿@model Pors.Application.Roles.Commands.CreateRoleCommand
+@{
+    Layout = "_adminLayout";
+    ViewData["Title"] = "ایجاد نقش";
+}
+
+<form asp-action="create" method="post">
+    <div class="row">
+        <div class="col">
+            <div class="card bg-secondary shadow">
+                <div class="card-header bg-bg-white border-0">
+                    <h3 class="mb-0">ایجاد نقش</h3>
+                </div>
+                <div class="card-body">
+                    <div asp-validation-summary="ModelOnly" class="text-center mb-4"></div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <label asp-for="Name" class="form-control-label">عنوان نقش</label>
+                                <input asp-for="Name" class="form-control form-control-alternative" placeholder="عنوان نقش">
+                                <span asp-validation-for="Name"></span>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <label asp-for="Description" class="form-control-label">توضیحات</label>
+                                <textarea rows="5" asp-for="Description" class="form-control form-control-alternative" placeholder="توضیحات"></textarea>
+                                <span asp-validation-for="Description"></span>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <button type="submit" class="btn btn-success">ایجاد نقش</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

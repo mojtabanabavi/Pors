@@ -136,3 +136,54 @@ $(document).ready(function () {
         $('div.dataTables_length select').removeClass('custom-select custom-select-sm')
     }).DataTable(options);
 });
+
+/* ############### roles list datatable ############### */
+
+$(document).ready(function () {
+    let options = {
+        'filter': true,
+        'ordering': true,
+        'processing': true,
+        'serverSide': true,
+        'orderMulti': false,
+        'language': dataTables_persian_language,
+        'ajax': {
+            'url': '/admin/role/GetRoles',
+            'type': 'post',
+            'datatype': 'json'
+        },
+        'columns': [
+            {
+                'name': 'id',
+                'data': 'id',
+                'autoWidth': true,
+                'searchable': false
+            },
+            {
+                'name': 'name',
+                'data': 'name',
+                'autoWidth': true,
+                'searchable': false
+            },
+            {
+                'name': 'description',
+                'data': 'description',
+                'autoWidth': true,
+                'searchable': true
+            },
+            {
+                'orderable': false,
+                'render': function (data, type, row) {
+                    let content = '';
+                    content += '<a class="btn btn-sm btn-info ml-3" href="role/update/' + row.id + '">ویرایش</a>';
+                    content += '<a class="btn btn-sm btn-danger" href="role/delete/' + row.id + '">حذف</a>';
+
+                    return content;
+                }
+            }
+        ]
+    };
+    var table = $('#roles-datatable').on('init.dt', function () {
+        $('div.dataTables_length select').removeClass('custom-select custom-select-sm')
+    }).DataTable(options);
+});
