@@ -1,5 +1,12 @@
 ﻿
-/* ############### create exam ############### */
+/* ############### image preview ############### */
+
+let image_preview = $("#image-preview");
+let image_preview_src = $(image_preview).attr('src');
+
+if (!image_preview_src) {
+    $(image_preview).attr('src', '/img/themes/no-picture.jpg');
+}
 
 function readURL(input, output) {
     if (input.files && input.files[0]) {
@@ -13,8 +20,8 @@ function readURL(input, output) {
     }
 }
 
-$('#exam-image-input').change(function () {
-    readURL(this, '#exam-image-preview');
+$('#image-input').change(function () {
+    readURL(this, '#image-preview');
 });
 
 /* ############### exam list datatable ############### */
@@ -184,6 +191,84 @@ $(document).ready(function () {
         ]
     };
     var table = $('#roles-datatable').on('init.dt', function () {
+        $('div.dataTables_length select').removeClass('custom-select custom-select-sm')
+    }).DataTable(options);
+});
+
+/* ############### users list datatable ############### */
+
+$(document).ready(function () {
+    let options = {
+        'filter': true,
+        'ordering': true,
+        'processing': true,
+        'serverSide': true,
+        'orderMulti': false,
+        'language': dataTables_persian_language,
+        'ajax': {
+            'url': '/admin/user/GetUsers',
+            'type': 'post',
+            'datatype': 'json'
+        },
+        'columns': [
+            {
+                'name': 'id',
+                'data': 'id',
+                'autoWidth': true,
+                'searchable': false
+            },
+            {
+                'name': 'firstName',
+                'data': 'firstName',
+                'autoWidth': true,
+                'searchable': true
+            },
+            {
+                'name': 'lastName',
+                'data': 'lastName',
+                'autoWidth': true,
+                'searchable': true
+            },
+            {
+                'name': 'email',
+                'data': 'email',
+                'autoWidth': true,
+                'searchable': true
+            },
+            {
+                'name':'isActive',
+                'autoWidth': true,
+                'searchable': false,
+                'render': function (data, type, row) {
+                    let content = '';
+
+                    if (row.isActive)
+                        content += '<span class="badge badge-primary">فعال</span>';
+                    else
+                        content += '<span class="badge badge-danger">غیرفعال</span>';
+
+                    return content;
+                }
+            },
+            {
+                'name': 'registerDateTime',
+                'data': 'registerDateTime',
+                'autoWidth': true,
+                'searchable': false
+            },
+            {
+                'orderable': false,
+                'render': function (data, type, row) {
+                    let content = '';
+                    content += '<a class="btn btn-sm btn-info ml-3" href="user/update/' + row.id + '">ویرایش</a>';
+                    content += '<a class="btn btn-sm btn-danger" href="user/delete/' + row.id + '">حذف</a>';
+
+                    return content;
+                }
+            }
+        ]
+    };
+    var table = $('#users-datatable').on('init.dt', function () {
         $('div.dataTables_length select').removeClass('custom-select custom-select-sm')
     }).DataTable(options);
 });

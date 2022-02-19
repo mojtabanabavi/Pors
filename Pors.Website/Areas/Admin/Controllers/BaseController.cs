@@ -45,8 +45,8 @@ namespace Pors.Website.Areas.Admin.Controllers
                 Draw = draw,
                 Page = page,
                 PageSize = pageSize,
-                Search = searchValue,
                 SortColumn = sortColumn,
+                Search = searchValue.ToLower(),
                 SortColumnDirection = sortColumnDirection
             };
 

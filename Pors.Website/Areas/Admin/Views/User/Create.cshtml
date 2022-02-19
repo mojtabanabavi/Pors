@@ -1,0 +1,102 @@
+﻿@model Pors.Application.Users.Commands.CreateUserCommand
+@{
+    Layout = "_adminLayout";
+    ViewData["Title"] = "ایجاد کاربر";
+}
+
+<form asp-action="create" enctype="multipart/form-data" method="post">
+    <div class="row">
+        <div class="col-xl-8 order-xl-1 mb-5 mb-xl-0">
+            <div class="card bg-secondary shadow">
+                <div class="card-header bg-bg-white border-0">
+                    <h3 class="mb-0">ایجاد حساب جدید</h3>
+                </div>
+                <div class="card-body">
+                    <div asp-validation-summary="ModelOnly" class="text-center mb-4"></div>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label asp-for="FirstName" class="form-control-label">نام</label>
+                                <input asp-for="FirstName" class="form-control form-control-alternative" placeholder="نام">
+                                <span asp-validation-for="FirstName"></span>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label asp-for="LastName" class="form-control-label">نام خانوادگی</label>
+                                <input asp-for="LastName" class="form-control form-control-alternative" placeholder="نام خانوادگی">
+                                <span asp-validation-for="LastName"></span>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label asp-for="Email" class="form-control-label">ایمیل</label>
+                                <input asp-for="Email" class="form-control form-control-alternative" placeholder="ایمیل">
+                                <span asp-validation-for="Email"></span>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label asp-for="PhoneNumber" class="form-control-label">شماره تلفن</label>
+                                <input asp-for="PhoneNumber" class="form-control form-control-alternative" placeholder="شماره تلفن">
+                                <span asp-validation-for="PhoneNumber"></span>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label asp-for="Password" class="form-control-label">رمز عبور</label>
+                                <input asp-for="Password" class="form-control form-control-alternative" placeholder="رمز عبور">
+                                <span asp-validation-for="Password"></span>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <div class="custom-control custom-control-alternative custom-checkbox">
+                                    <input asp-for="IsEmailConfirmed" class="custom-control-input">
+                                    <label asp-for="IsEmailConfirmed" class="custom-control-label">تایید ایمیل</label>
+                                    <span asp-validation-for="IsEmailConfirmed"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="custom-control custom-control-alternative custom-checkbox">
+                                    <input asp-for="IsPhoneNumberConfirmed" class="custom-control-input">
+                                    <label asp-for="IsPhoneNumberConfirmed" class="custom-control-label">تایید شماره تلفن</label>
+                                    <span asp-validation-for="IsPhoneNumberConfirmed"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="custom-control custom-control-alternative custom-checkbox">
+                                    <input asp-for="IsActive" class="custom-control-input">
+                                    <label asp-for="IsActive" class="custom-control-label">فعال سازی حساب</label>
+                                    <span asp-validation-for="IsActive"></span>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer d-flex justify-content-end">
+                    <button type="submit" class="btn btn-success">ایجاد حساب</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-4 order-xl-2 mb-5 mb-xl-0">
+            <div class="card mb-4">
+                <div class=" card-header">
+                    <img id="image-preview" class="w-100">
+                </div>
+                <div class="card-body d-flex justify-content-between pt-0 pt-md-4">
+                    <div class="select-exam-image">
+                        <input asp-for="ProfilePicture" id="image-input" class="d-none" />
+                        <label for="image-input" class="btn btn-primary m-0">
+                            <span>انتخاب تصویر</span>
+                        </label>
+                        <span asp-validation-for="ProfilePicture"></span>
+                    </div>
+                    <div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

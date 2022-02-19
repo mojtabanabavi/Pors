@@ -29,7 +29,6 @@
 
 </head>
 <body>
-
     <nav class="navbar navbar-vertical fixed-left navbar-expand-md navbar-light bg-white" id="sidenav-main">
         <div class="container-fluid">
             <!-- toggler -->
@@ -83,14 +82,17 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link disabled" href="#navbar-users" data-toggle="collapse">
+                        <a class="nav-link" href="#navbar-users" data-toggle="collapse">
                             <i class="ni ni-single-02 text-red"></i>
                             <span>کاربران</span>
                         </a>
                         <div class="collapse" id="navbar-users">
                             <ul class="nav nav-sm flex-column">
                                 <li class="nav-item">
-                                    <a asp-controller="exam" asp-action="index" class="nav-link">لیست کاربران</a>
+                                    <a asp-controller="user" asp-action="index" class="nav-link">لیست کاربران</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a asp-controller="user" asp-action="create" class="nav-link">ایجاد کاربر</a>
                                 </li>
                             </ul>
                         </div>
@@ -240,6 +242,17 @@
         <!-- content -->
         <div class="container-fluid mt--7">
             @RenderBody()
+            <!-- footer -->
+            <footer class="py-5">
+                <div class="d-flex align-items-center justify-content-between">
+                    <div class="copyright text-center text-xl-left text-muted">
+                        <a href="https://nabawi.info" class="font-weight-bold ml-1" target="_blank">مجتبی نبوی</a> 2022 &copy;
+                    </div>
+                    <div>
+                        <span>@currentPersianDate</span>
+                    </div>
+                </div>
+            </footer>
         </div>
     </div>
 

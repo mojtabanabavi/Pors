@@ -60,6 +60,15 @@
     border-left: none;
 }
 
+.custom-checkbox .custom-control-input ~ .custom-control-label {
+    top: 0rem;
+    padding-right: 2rem;
+}
+
+.custom-control-label:after, .custom-control-label:before {
+    right: 0;
+}
+
 /* ########## customize datatable ############ */
 
 .dataTables_wrapper{

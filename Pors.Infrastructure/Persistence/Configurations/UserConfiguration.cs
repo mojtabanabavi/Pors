@@ -18,10 +18,6 @@ namespace Pors.Infrastructure.Persistence.Configurations
             builder.Property(x => x.LastName)
                 .HasMaxLength(25);
 
-            builder.Property(x => x.Username)
-                .HasMaxLength(25)
-                .IsUnicode();
-
             builder.Property(x => x.Email)
                 .HasMaxLength(320)
                 .IsUnicode();

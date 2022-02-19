@@ -42,7 +42,7 @@ namespace Pors.Application.Identity.Queries
                     fullName = $"{User.FirstName} {User.LastName}";
                 }
 
-                return fullName ?? User.Username ?? User.PhoneNumber ?? User.Email;
+                return fullName ?? User.PhoneNumber ?? User.Email;
             }
         }
     }

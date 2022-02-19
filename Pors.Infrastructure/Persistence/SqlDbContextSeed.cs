@@ -14,7 +14,6 @@ namespace Pors.Infrastructure.Persistence
             {
                 FirstName = "مجتبی",
                 LastName = "نبوی",
-                Username = "admin",
                 Email = "mj.nabawi@gmail.com",
                 PhoneNumber = "09104647055",
                 PasswordHash = PasswordHasher.Hash("nabavi123344"),
@@ -29,7 +28,7 @@ namespace Pors.Infrastructure.Persistence
                 }
             };
 
-            if (!dbContext.Users.Any(u => u.Username == administrator.Username))
+            if (!dbContext.Users.Any(u => u.Email == administrator.Email))
             {
                 await dbContext.Users.AddAsync(administrator);
             }
