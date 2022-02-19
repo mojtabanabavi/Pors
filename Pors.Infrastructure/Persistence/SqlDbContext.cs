@@ -3,6 +3,7 @@ using System.Reflection;
 using Pors.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Pors.Application.Common.Interfaces;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Pors.Infrastructure.Persistence.Configurations;
 
 namespace Pors.Infrastructure.Persistence
@@ -29,6 +30,13 @@ namespace Pors.Infrastructure.Persistence
             builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
             base.OnModelCreating(builder);
+        }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder builder)
+        {
+            builder.ConfigureWarnings(x => x.Ignore(CoreEventId.RowLimitingOperationWithoutOrderByWarning));
+
+            base.OnConfiguring(builder);
         }
 
         public async Task<int> SaveChangesAsync()

@@ -33,9 +33,6 @@ namespace Pors.Infrastructure.Persistence.Configurations
             builder.Property(x => x.ProfilePicture)
                 .HasMaxLength(120);
 
-            builder.Property(x => x.IsActive)
-                .HasDefaultValueSql("1");
-
             builder.Property(x => x.RegisterDateTime)
                 .HasDefaultValueSql("getdate()");
         }
