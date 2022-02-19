@@ -68,7 +68,7 @@ namespace Pors.Application.Exams.Commands
             {
                 var exam = await _dbContext.Exams.FindAsync(request.Id);
 
-                _fileManager.DeleteFileAsync(exam.Image);
+                await _fileManager.DeleteFileAsync(exam.Image);
 
                 _dbContext.Exams.Remove(exam);
 

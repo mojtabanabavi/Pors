@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using AutoMapper.QueryableExtensions;
 using Pors.Application.Common.Models;
 
 namespace Pors.Application.Common.Mappings
@@ -9,7 +8,18 @@ namespace Pors.Application.Common.Mappings
     {
         public static async Task<PagingResult<T>> ApplyPagingAsync<T>(this IQueryable<T> queryable, int page, int pageSize)
         {
-            return await PagingResult<T>.ApplyPaging(queryable, page, pageSize);
+            int totalItems = await queryable.CountAsync();
+            var items = await queryable.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
+
+            var result = new PagingResult<T>
+            {
+                Items = items,
+                CurrentPage = page,
+                TotalItems = totalItems,
+                TotalPages = (int)Math.Ceiling(totalItems / (double)pageSize)
+            };
+
+            return result;
         }
     }
 }

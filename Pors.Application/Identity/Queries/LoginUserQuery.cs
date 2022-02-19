@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using Pors.Application.Common.Models;
 using Pors.Application.Common.Interfaces;
 
-namespace Pors.Application.Users.Queries
+namespace Pors.Application.Identity.Queries
 {
     #region query
 

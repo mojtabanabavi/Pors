@@ -1,4 +1,4 @@
-﻿@model Pors.Application.Users.Queries.LoginUserQuery
+﻿@model Pors.Application.Identity.Queries.LoginUserQuery
 @{
     Layout = "_identityLayout";
     ViewData["Title"] = "ورود به حساب کاربری";
@@ -11,7 +11,7 @@
                 <div class="card-body p-5">
                     <div asp-validation-summary="ModelOnly" class="text-center mb-4"></div>
                     <form asp-action="login" method="post">
-                        <input asp-for="ReturnUrl" type="hidden" value="" />
+                        <input asp-for="ReturnUrl" type="hidden" />
                         <div class="form-group mb-3">
                             <div class="input-group input-group-alternative">
                                 <div class="input-group-prepend">

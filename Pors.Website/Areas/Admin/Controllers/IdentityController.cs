@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Pors.Website.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-using Pors.Application.Users.Queries;
+using Pors.Application.Identity.Queries;
 using Microsoft.AspNetCore.Authorization;
 using Pors.Application.Identity.Commands;
 using Microsoft.AspNetCore.Authentication;
@@ -44,8 +44,12 @@ namespace Pors.Website.Areas.Admin.Controllers
 
                     var claimsIdentity = new ClaimsIdentity(userClaims, AuthenticationSchemes.Admin);
                     var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
+                    var authenticationProperties = new AuthenticationProperties
+                    {
+                        IsPersistent = true,
+                    };
 
-                    await HttpContext.SignInAsync(AuthenticationSchemes.Admin, claimsPrincipal);
+                    await HttpContext.SignInAsync(AuthenticationSchemes.Admin, claimsPrincipal, authenticationProperties);
 
                     if (!string.IsNullOrEmpty(request.ReturnUrl))
                     {
