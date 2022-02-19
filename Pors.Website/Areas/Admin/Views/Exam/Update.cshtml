@@ -37,24 +37,22 @@
                         </div>
                     </div>
                 </div>
+                <div class="card-footer d-flex justify-content-end">
+                    <button type="submit" class="btn btn-success">ویرایش آزمون</button>
+                </div>
             </div>
         </div>
         <div class="col-xl-4 order-xl-2 mb-5 mb-xl-0">
             <div class="card mb-4">
                 <div class=" card-header">
-                    <img id="image-preview" class="w-100" src="@Model.Image">
+                    <img id="image-preview-output" class="w-100">
                 </div>
-                <div class="card-body d-flex justify-content-between pt-0 pt-md-4">
-                    <div class="select-exam-image">
-                        <input asp-for="Image" type="file" id="image-input" class="d-none" />
-                        <label for="image-input" class="btn btn-primary m-0">
-                            <span>انتخاب تصویر</span>
-                        </label>
-                        <span asp-validation-for="Image"></span>
-                    </div>
-                    <div>
-                        <button type="submit" class="btn btn-success">ویرایش آزمون</button>
-                    </div>
+                <div class="card-body pt-0 pt-md-4">
+                    <input asp-for="Image" type="file" id="image-preview-input" class="d-none" />
+                    <label for="image-preview-input" class="btn btn-primary m-0">
+                        <span>انتخاب تصویر</span>
+                    </label>
+                    <span asp-validation-for="Image"></span>
                 </div>
             </div>
         </div>

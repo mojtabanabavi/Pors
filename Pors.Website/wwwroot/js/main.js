@@ -1,274 +1,491 @@
-﻿
-/* ############### image preview ############### */
+﻿/* ############### imagePreviews ############### */
 
-let image_preview = $("#image-preview");
-let image_preview_src = $(image_preview).attr('src');
-
-if (!image_preview_src) {
-    $(image_preview).attr('src', '/img/themes/no-picture.jpg');
-}
-
-function readURL(input, output) {
+function previewImage(input, output) {
     if (input.files && input.files[0]) {
         var reader = new FileReader();
 
         reader.onload = function (e) {
-            $(output).attr('src', e.target.result);
+            output.attr('src', e.target.result);
         }
 
         reader.readAsDataURL(input.files[0]);
     }
 }
 
-$('#image-input').change(function () {
-    readURL(this, '#image-preview');
+let imagePreviewInput = $('#image-preview-input');
+let imagePreviewOutput = $('#image-preview-output');
+
+if (!imagePreviewInput.attr('src')) {
+    imagePreviewOutput.attr('src', '/img/themes/no-picture.jpg');
+}
+
+$(imagePreviewInput).change(function () {
+    previewImage(this, imagePreviewOutput);
 });
 
-/* ############### exam list datatable ############### */
+/* ############### datatables ############### */
 
-$(document).ready(function () {
-    let options = {
-        'filter': true,  
-        'ordering': true,
-        'processing': true,    
-        'serverSide': true, 
-        'orderMulti': false,
-        'language': dataTables_persian_language,
-        'ajax': {
-            'url': '/admin/exam/GetExams',
-            'type': 'post',
-            'datatype': 'json'
+function initDataTable(target, options) {
+
+    let dataTablesPersianLanguage = {
+        "emptyTable": "هیچ داده‌ای در جدول وجود ندارد",
+        "info": "نمایش _START_ تا _END_ از _TOTAL_ ردیف",
+        "infoEmpty": "نمایش 0 تا 0 از 0 ردیف",
+        "infoFiltered": "(فیلتر شده از _MAX_ ردیف)",
+        "infoThousands": ",",
+        "lengthMenu": "نمایش _MENU_ ردیف",
+        "processing": "در حال پردازش...",
+        "search": "جستجو:",
+        "zeroRecords": "رکوردی با این مشخصات پیدا نشد",
+        "paginate": {
+            "next": "بعدی",
+            "previous": "قبلی",
+            "first": "ابتدا",
+            "last": "انتها"
         },
-        'columns': [
-            {
-                'name': 'id',
-                'data': 'id',
-                'autoWidth': true,
-                'searchable': false
+        "aria": {
+            "sortAscending": ": فعال سازی نمایش به صورت صعودی",
+            "sortDescending": ": فعال سازی نمایش به صورت نزولی"
+        },
+        "autoFill": {
+            "cancel": "انصراف",
+            "fill": "پر کردن همه سلول ها با ساختار سیستم",
+            "fillHorizontal": "پر کردن سلول به صورت افقی",
+            "fillVertical": "پرکردن سلول به صورت عمودی"
+        },
+        "buttons": {
+            "collection": "مجموعه",
+            "colvis": "قابلیت نمایش ستون",
+            "colvisRestore": "بازنشانی قابلیت نمایش",
+            "copy": "کپی",
+            "copySuccess": {
+                "1": "یک ردیف داخل حافظه کپی شد",
+                "_": "%ds ردیف داخل حافظه کپی شد"
             },
-            {
-                'name': 'title',
-                'data': 'title',
-                'autoWidth': true,
-                'searchable': true
+            "copyTitle": "کپی در حافظه",
+            "excel": "اکسل",
+            "pageLength": {
+                "-1": "نمایش همه ردیف‌ها",
+                "_": "نمایش %d ردیف"
             },
-            {
-                'name': 'createdBy',
-                'data': 'createdBy',
-                'autoWidth': true,
-                'searchable': false
+            "print": "چاپ",
+            "copyKeys": "برای کپی داده جدول در حافظه سیستم کلید های ctrl یا ⌘ + C را فشار دهید",
+            "csv": "فایل CSV",
+            "pdf": "فایل PDF",
+            "renameState": "تغییر نام",
+            "updateState": "به روز رسانی"
+        },
+        "searchBuilder": {
+            "add": "افزودن شرط",
+            "button": {
+                "0": "جستجو ساز",
+                "_": "جستجوساز (%d)"
             },
-            {
-                'name': 'createdAt',
-                'data': 'createdAt',
-                'autoWidth': true,
-                'searchable': false
-            },
-            {
-                'orderable': false,
-                'render': function (data, type, row) {
-                    let content = '';
-                    content += '<a class="btn btn-sm btn-info ml-3" href="exam/update/' + row.id + '">ویرایش</a>';
-                    content += '<a class="btn btn-sm btn-danger" href="exam/delete/' + row.id + '">حذف</a>';
-
-                    return content;
+            "clearAll": "خالی کردن همه",
+            "condition": "شرط",
+            "conditions": {
+                "date": {
+                    "after": "بعد از",
+                    "before": "بعد از",
+                    "between": "میان",
+                    "empty": "خالی",
+                    "equals": "برابر",
+                    "not": "نباشد",
+                    "notBetween": "میان نباشد",
+                    "notEmpty": "خالی نباشد"
+                },
+                "number": {
+                    "between": "میان",
+                    "empty": "خالی",
+                    "equals": "برابر",
+                    "gt": "بزرگتر از",
+                    "gte": "برابر یا بزرگتر از",
+                    "lt": "کمتر از",
+                    "lte": "برابر یا کمتر از",
+                    "not": "نباشد",
+                    "notBetween": "میان نباشد",
+                    "notEmpty": "خالی نباشد"
+                },
+                "string": {
+                    "contains": "حاوی",
+                    "empty": "خالی",
+                    "endsWith": "به پایان می رسد با",
+                    "equals": "برابر",
+                    "not": "نباشد",
+                    "notEmpty": "خالی نباشد",
+                    "startsWith": "شروع  شود با",
+                    "notContains": "نباشد حاوی",
+                    "notEnds": "پایان نیابد با",
+                    "notStarts": "شروع نشود با"
+                },
+                "array": {
+                    "equals": "برابر",
+                    "empty": "خالی",
+                    "contains": "حاوی",
+                    "not": "نباشد",
+                    "notEmpty": "خالی نباشد",
+                    "without": "بدون"
                 }
+            },
+            "data": "اطلاعات",
+            "logicAnd": "و",
+            "logicOr": "یا",
+            "title": {
+                "0": "جستجو ساز",
+                "_": "جستجوساز (%d)"
+            },
+            "value": "مقدار",
+            "deleteTitle": "حذف شرط فیلتر",
+            "leftTitle": "شرط بیرونی",
+            "rightTitle": "شرط داخلی"
+        },
+        "select": {
+            "cells": {
+                "1": "1 سلول انتخاب شد",
+                "_": "%d سلول انتخاب شد"
+            },
+            "columns": {
+                "1": "یک ستون انتخاب شد",
+                "_": "%d ستون انتخاب شد"
+            },
+            "rows": {
+                "1": "1ردیف انتخاب شد",
+                "_": "%d  انتخاب شد"
             }
-        ]
-    };
-    var table = $('#exams-datatable').on('init.dt', function () {
+        },
+        "thousands": ",",
+        "searchPanes": {
+            "clearMessage": "همه را پاک کن",
+            "collapse": {
+                "0": "صفحه جستجو",
+                "_": "صفحه جستجو (٪ d)"
+            },
+            "count": "{total}",
+            "countFiltered": "{shown} ({total})",
+            "emptyPanes": "صفحه جستجو وجود ندارد",
+            "loadMessage": "در حال بارگیری صفحات جستجو ...",
+            "title": "فیلترهای فعال - %d",
+            "showMessage": "نمایش همه"
+        },
+        "loadingRecords": "در حال بارگذاری...",
+        "datetime": {
+            "previous": "قبلی",
+            "next": "بعدی",
+            "hours": "ساعت",
+            "minutes": "دقیقه",
+            "seconds": "ثانیه",
+            "amPm": [
+                "صبح",
+                "عصر"
+            ],
+            "months": {
+                "0": "ژانویه",
+                "1": "فوریه",
+                "10": "نوامبر",
+                "2": "مارچ",
+                "4": "می",
+                "6": "جولای",
+                "8": "سپتامبر",
+                "11": "دسامبر",
+                "3": "آوریل",
+                "5": "جون",
+                "7": "آست",
+                "9": "اکتبر"
+            },
+            "unknown": "-",
+            "weekdays": [
+                "یکشنبه",
+                "دوشنبه",
+                "سه‌شنبه",
+                "چهارشنبه",
+                "پنجشنبه",
+                "جمعه",
+                "شنبه"
+            ]
+        },
+        "editor": {
+            "close": "بستن",
+            "create": {
+                "button": "جدید",
+                "title": "ثبت جدید",
+                "submit": "ایجــاد"
+            },
+            "edit": {
+                "button": "ویرایش",
+                "title": "ویرایش",
+                "submit": "به‌روزرسانی"
+            },
+            "remove": {
+                "button": "حذف",
+                "title": "حذف",
+                "submit": "حذف",
+                "confirm": {
+                    "_": "آیا از حذف %d خط اطمینان دارید؟",
+                    "1": "آیا از حذف یک خط اطمینان دارید؟"
+                }
+            },
+            "multi": {
+                "restore": "واگرد",
+                "noMulti": "این ورودی را می توان به صورت جداگانه ویرایش کرد، اما نه بخشی از یک گروه"
+            }
+        },
+        "decimal": ".",
+        "stateRestore": {
+            "creationModal": {
+                "button": "ایجاد",
+                "columns": {
+                    "search": "جستجوی ستون",
+                    "visible": "وضعیت نمایش ستون"
+                },
+                "name": "نام:",
+                "order": "مرتب سازی",
+                "paging": "صفحه بندی",
+                "search": "جستجو",
+                "select": "انتخاب",
+                "title": "ایجاد وضعیت جدید",
+                "toggleLabel": "شامل:"
+            },
+            "emptyError": "نام نمیتواند خالی باشد.",
+            "removeConfirm": "آیا از حذف %s مطمئنید؟",
+            "removeJoiner": "و",
+            "removeSubmit": "حذف",
+            "renameButton": "تغییر نام",
+            "renameLabel": "نام جدید برای $s :"
+        }
+    }
+
+    options.filter = true;
+    options.ordering = true;
+    options.processing = true;
+    options.serverSide = true;
+    options.orderMulti = false;
+    options.language = dataTablesPersianLanguage;
+
+    let table = $(target).on('init.dt', function () {
         $('div.dataTables_length select').removeClass('custom-select custom-select-sm')
     }).DataTable(options);
-});
 
-/* ############### question list datatable ############### */
+    return table;
+}
 
-$(document).ready(function () {
-    let options = {
-        'filter': true,
-        'ordering': true,
-        'processing': true,
-        'serverSide': true,
-        'orderMulti': false,
-        'language': dataTables_persian_language,
-        'ajax': {
-            'url': '/admin/question/GetQuestions',
-            'type': 'post',
-            'datatype': 'json'
+// exams dataTable
+let examsDataTableTarget = $('#exams-datatable');
+let examsDataTableOptions = {
+    'ajax': {
+        'url': '/admin/exam/GetExams',
+        'type': 'post',
+        'datatype': 'json'
+    },
+    'columns': [
+        {
+            'name': 'id',
+            'data': 'id',
+            'autoWidth': true,
+            'searchable': false
         },
-        'columns': [
-            {
-                'name': 'id',
-                'data': 'id',
-                'autoWidth': true,
-                'searchable': false
-            },
-            {
-                'name': 'examId',
-                'data': 'examId',
-                'autoWidth': true,
-                'searchable': false
-            },
-            {
-                'name': 'title',
-                'data': 'title',
-                'autoWidth': true,
-                'searchable': true
-            },
-            {
-                'name': 'createdBy',
-                'data': 'createdBy',
-                'autoWidth': true,
-                'searchable': false
-            },
-            {
-                'name': 'createdAt',
-                'data': 'createdAt',
-                'autoWidth': true,
-                'searchable': false
-            },
-            {
-                'orderable': false,
-                'render': function (data, type, row) {
-                    let content = '';
-                    content += '<a class="btn btn-sm btn-info ml-3" href="question/update/' + row.id + '">ویرایش</a>';
-                    content += '<a class="btn btn-sm btn-danger" href="question/delete/' + row.id + '">حذف</a>';
-
-                    return content;
-                }
-            }
-        ]
-    };
-    var table = $('#questions-datatable').on('init.dt', function () {
-        $('div.dataTables_length select').removeClass('custom-select custom-select-sm')
-    }).DataTable(options);
-});
-
-/* ############### roles list datatable ############### */
-
-$(document).ready(function () {
-    let options = {
-        'filter': true,
-        'ordering': true,
-        'processing': true,
-        'serverSide': true,
-        'orderMulti': false,
-        'language': dataTables_persian_language,
-        'ajax': {
-            'url': '/admin/role/GetRoles',
-            'type': 'post',
-            'datatype': 'json'
+        {
+            'name': 'title',
+            'data': 'title',
+            'autoWidth': true,
+            'searchable': true
         },
-        'columns': [
-            {
-                'name': 'id',
-                'data': 'id',
-                'autoWidth': true,
-                'searchable': false
-            },
-            {
-                'name': 'name',
-                'data': 'name',
-                'autoWidth': true,
-                'searchable': false
-            },
-            {
-                'name': 'description',
-                'data': 'description',
-                'autoWidth': true,
-                'searchable': true
-            },
-            {
-                'orderable': false,
-                'render': function (data, type, row) {
-                    let content = '';
-                    content += '<a class="btn btn-sm btn-info ml-3" href="role/update/' + row.id + '">ویرایش</a>';
-                    content += '<a class="btn btn-sm btn-danger" href="role/delete/' + row.id + '">حذف</a>';
-
-                    return content;
-                }
-            }
-        ]
-    };
-    var table = $('#roles-datatable').on('init.dt', function () {
-        $('div.dataTables_length select').removeClass('custom-select custom-select-sm')
-    }).DataTable(options);
-});
-
-/* ############### users list datatable ############### */
-
-$(document).ready(function () {
-    let options = {
-        'filter': true,
-        'ordering': true,
-        'processing': true,
-        'serverSide': true,
-        'orderMulti': false,
-        'language': dataTables_persian_language,
-        'ajax': {
-            'url': '/admin/user/GetUsers',
-            'type': 'post',
-            'datatype': 'json'
+        {
+            'name': 'createdBy',
+            'data': 'createdBy',
+            'autoWidth': true,
+            'searchable': false
         },
-        'columns': [
-            {
-                'name': 'id',
-                'data': 'id',
-                'autoWidth': true,
-                'searchable': false
-            },
-            {
-                'name': 'firstName',
-                'data': 'firstName',
-                'autoWidth': true,
-                'searchable': true
-            },
-            {
-                'name': 'lastName',
-                'data': 'lastName',
-                'autoWidth': true,
-                'searchable': true
-            },
-            {
-                'name': 'email',
-                'data': 'email',
-                'autoWidth': true,
-                'searchable': true
-            },
-            {
-                'name':'isActive',
-                'autoWidth': true,
-                'searchable': false,
-                'render': function (data, type, row) {
-                    let content = '';
+        {
+            'name': 'createdAt',
+            'data': 'createdAt',
+            'autoWidth': true,
+            'searchable': false
+        },
+        {
+            'orderable': false,
+            'render': function (data, type, row) {
+                let content = '';
+                content += '<a class="btn btn-sm btn-info ml-3" href="exam/update/' + row.id + '">ویرایش</a>';
+                content += '<a class="btn btn-sm btn-danger" href="exam/delete/' + row.id + '">حذف</a>';
 
-                    if (row.isActive)
-                        content += '<span class="badge badge-primary">فعال</span>';
-                    else
-                        content += '<span class="badge badge-danger">غیرفعال</span>';
-
-                    return content;
-                }
-            },
-            {
-                'name': 'registerDateTime',
-                'data': 'registerDateTime',
-                'autoWidth': true,
-                'searchable': false
-            },
-            {
-                'orderable': false,
-                'render': function (data, type, row) {
-                    let content = '';
-                    content += '<a class="btn btn-sm btn-info ml-3" href="user/update/' + row.id + '">ویرایش</a>';
-                    content += '<a class="btn btn-sm btn-danger" href="user/delete/' + row.id + '">حذف</a>';
-
-                    return content;
-                }
+                return content;
             }
-        ]
-    };
-    var table = $('#users-datatable').on('init.dt', function () {
-        $('div.dataTables_length select').removeClass('custom-select custom-select-sm')
-    }).DataTable(options);
-});
+        }
+    ]
+};
+
+if (examsDataTableTarget.length) {
+    initDataTable(examsDataTableTarget, examsDataTableOptions);
+}
+
+// questions dataTable
+
+let questionsDataTableTarget = $('#questions-datatable');
+let questionDataTableOptions = {
+    'ajax': {
+        'url': '/admin/question/GetQuestions',
+        'type': 'post',
+        'datatype': 'json'
+    },
+    'columns': [
+        {
+            'name': 'id',
+            'data': 'id',
+            'autoWidth': true,
+            'searchable': false
+        },
+        {
+            'name': 'examId',
+            'data': 'examId',
+            'autoWidth': true,
+            'searchable': false
+        },
+        {
+            'name': 'title',
+            'data': 'title',
+            'autoWidth': true,
+            'searchable': true
+        },
+        {
+            'name': 'createdBy',
+            'data': 'createdBy',
+            'autoWidth': true,
+            'searchable': false
+        },
+        {
+            'name': 'createdAt',
+            'data': 'createdAt',
+            'autoWidth': true,
+            'searchable': false
+        },
+        {
+            'orderable': false,
+            'render': function (data, type, row) {
+                let content = '';
+                content += '<a class="btn btn-sm btn-info ml-3" href="question/update/' + row.id + '">ویرایش</a>';
+                content += '<a class="btn btn-sm btn-danger" href="question/delete/' + row.id + '">حذف</a>';
+
+                return content;
+            }
+        }
+    ]
+};
+
+if (questionsDataTableTarget.length) {
+    initDataTable(questionsDataTableTarget, questionDataTableOptions);
+}
+
+// roles dataTable
+let rolesDataTableTarget = $('#roles-datatable');
+let rolesDataTableOptions = {
+    'ajax': {
+        'url': '/admin/role/GetRoles',
+        'type': 'post',
+        'datatype': 'json'
+    },
+    'columns': [
+        {
+            'name': 'id',
+            'data': 'id',
+            'autoWidth': true,
+            'searchable': false
+        },
+        {
+            'name': 'name',
+            'data': 'name',
+            'autoWidth': true,
+            'searchable': false
+        },
+        {
+            'name': 'description',
+            'data': 'description',
+            'autoWidth': true,
+            'searchable': true
+        },
+        {
+            'orderable': false,
+            'render': function (data, type, row) {
+                let content = '';
+                content += '<a class="btn btn-sm btn-info ml-3" href="role/update/' + row.id + '">ویرایش</a>';
+                content += '<a class="btn btn-sm btn-danger" href="role/delete/' + row.id + '">حذف</a>';
+
+                return content;
+            }
+        }
+    ]
+};
+
+if (rolesDataTableTarget.length) {
+    initDataTable(rolesDataTableTarget, rolesDataTableOptions);
+}
+
+// users dataTable
+let usersDataTableTarget = $('#users-datatable');
+let usersDataTableOptions = {
+    'ajax': {
+        'url': '/admin/user/GetUsers',
+        'type': 'post',
+        'datatype': 'json'
+    },
+    'columns': [
+        {
+            'name': 'id',
+            'data': 'id',
+            'autoWidth': true,
+            'searchable': false
+        },
+        {
+            'name': 'firstName',
+            'data': 'firstName',
+            'autoWidth': true,
+            'searchable': true
+        },
+        {
+            'name': 'lastName',
+            'data': 'lastName',
+            'autoWidth': true,
+            'searchable': true
+        },
+        {
+            'name': 'email',
+            'data': 'email',
+            'autoWidth': true,
+            'searchable': true
+        },
+        {
+            'name': 'isActive',
+            'autoWidth': true,
+            'searchable': false,
+            'render': function (data, type, row) {
+                let content = '';
+
+                if (row.isActive)
+                    content += '<span class="badge badge-primary">فعال</span>';
+                else
+                    content += '<span class="badge badge-danger">غیرفعال</span>';
+
+                return content;
+            }
+        },
+        {
+            'name': 'registerDateTime',
+            'data': 'registerDateTime',
+            'autoWidth': true,
+            'searchable': false
+        },
+        {
+            'orderable': false,
+            'render': function (data, type, row) {
+                let content = '';
+                content += '<a class="btn btn-sm btn-info ml-3" href="user/update/' + row.id + '">ویرایش</a>';
+                content += '<a class="btn btn-sm btn-danger" href="user/delete/' + row.id + '">حذف</a>';
+
+                return content;
+            }
+        }
+    ]
+};
+
+if (usersDataTableTarget.length) {
+    initDataTable(usersDataTableTarget, usersDataTableOptions);
+}
