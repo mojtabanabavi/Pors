@@ -20,6 +20,7 @@ namespace Pors.Infrastructure.Persistence
                 Email = "mj.nabawi@gmail.com",
                 PhoneNumber = "09104647055",
                 PasswordHash = PasswordHasher.Hash("nabavi123344"),
+                IsActive = true,
                 IsEmailConfirmed = true,
                 IsPhoneNumberConfirmed = true,
                 UserRoles = new List<UserRole>
