@@ -15,7 +15,7 @@ function previewImage(input, output) {
 let imagePreviewInput = $('#image-preview-input');
 let imagePreviewOutput = $('#image-preview-output');
 
-if (!imagePreviewInput.attr('src')) {
+if (!imagePreviewOutput.attr('src')) {
     imagePreviewOutput.attr('src', '/img/themes/no-picture.jpg');
 }
 
@@ -366,6 +366,8 @@ let questionDataTableOptions = {
             'orderable': false,
             'render': function (data, type, row) {
                 let content = '';
+                content += '<a class="btn btn-sm btn-primary ml-3" href="/admin/option/index/' + row.id + '">لیست گزینه ها</a>';
+                content += '<a class="btn btn-sm btn-secondary ml-3" href="/admin/option/create/' + row.id + '">افزودن گزینه</a>';
                 content += '<a class="btn btn-sm btn-info ml-3" href="/admin/question/update/' + row.id + '">ویرایش</a>';
                 content += '<a class="btn btn-sm btn-danger" href="/admin/question/delete/' + row.id + '">حذف</a>';
 
@@ -493,3 +495,82 @@ let usersDataTableOptions = {
 if (usersDataTableTarget.length) {
     initDataTable(usersDataTableTarget, usersDataTableOptions);
 }
+
+// options dataTable
+let optionsDataTableTarget = $('#options-datatable');
+let optionsDataTableOptions = {
+    'ajax': {
+        'url': '/admin/option/GetOptions',
+        'type': 'post',
+        'datatype': 'json',
+        'data': function (params) {
+            params.id = $('#question-id').val()
+        },
+    },
+    'columns': [
+        {
+            'name': 'id',
+            'data': 'id',
+            'autoWidth': true,
+            'searchable': false
+        },
+        {
+            'name': 'questionId',
+            'data': 'questionId',
+            'autoWidth': true,
+            'searchable': true
+        },
+        {
+            'name': 'title',
+            'data': 'title',
+            'autoWidth': true,
+            'searchable': true
+        },
+        {
+            'name': 'image',
+            'data': 'image',
+            'autoWidth': true,
+            'searchable': true,
+            'render': function (data, type, row) {
+                let content = '';
+
+                if (row.image)
+                    content += '<span class="badge badge-primary">دارد</span>';
+                else
+                    content += '<span class="badge badge-danger">ندارد</span>';
+
+                return content;
+            }
+        },
+        {
+            'orderable': false,
+            'render': function (data, type, row) {
+                let content = '';
+                content += '<a class="btn btn-sm btn-info ml-3" href="option/update/' + row.id + '">ویرایش</a>';
+                content += '<a class="btn btn-sm btn-danger" href="option/delete/' + row.id + '">حذف</a>';
+
+                return content;
+            }
+        }
+    ]
+};
+
+if (optionsDataTableTarget.length) {
+    initDataTable(optionsDataTableTarget, optionsDataTableOptions);
+}
+
+/* ############### question options ############### */
+$(document).ready(function () {
+    // form repeater jquery
+    $('.form-repeater').repeater({
+        show: function () {
+            $(this).slideDown();
+        },
+        hide: function (deleteElement) {
+            if (confirm('آیا از حذف این آیتم مطمئن هستید؟')) {
+                $(this).slideUp(deleteElement);
+            }
+        }
+    });
+
+});

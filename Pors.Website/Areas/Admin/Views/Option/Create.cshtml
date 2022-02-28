@@ -1,0 +1,51 @@
+﻿@model Pors.Application.Options.Commands.CreateOptionCommand
+@{
+    Layout = "_adminLayout";
+    ViewData["Title"] = "ایجاد گزینه ها";
+}
+
+@section scripts{
+    <script src="~/lib/jquery-repeater/js/jquery.repeater.min.js"></script>
+}
+
+<form class="form form-repeater" asp-action="create" enctype="multipart/form-data" method="post">
+    <div class="row">
+        <div class="col">
+            <div class="card shadow">
+                <div class="card-header bg-transparent">
+                    <h3 class="mb-0">افزودن گزینه های جدید</h3>
+                </div>
+                <div class="card-body">
+                    <div asp-validation-summary="All" class="text-center mb-4"></div>
+                    <input type="hidden" asp-for="Id" />
+                    <div data-repeater-list="items">
+                        <div data-repeater-item>
+                            <div class="row justify-content-between">
+                                <div class="col-md-5 col-sm-12 form-group">
+                                    <label class="form-control-label">عنوان گزینه</label>
+                                    <input name="Title" class="form-control form-control-alternative" placeholder="عنوان را وارد کنید">
+                                </div>
+                                <div class="col-md-5 col-sm-12 form-group">
+                                    <label class="form-control-label">تصویر گزینه</label>
+                                    <input name="Image" type="file" accept="image/*" class="form-control form-control-alternative">
+                                </div>
+                                <div class="col-md-2 col-sm-12 form-group">
+                                    <label></label>
+                                    <button type="button" class="btn btn-danger d-block mt-2" data-repeater-delete>حذف</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col p-0">
+                            <button type="button" class="btn btn-primary" data-repeater-create="">افزودن گزینه</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer d-flex justify-content-end">
+                    <button type="submit" class="btn btn-success">افزودن گزینه ها</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

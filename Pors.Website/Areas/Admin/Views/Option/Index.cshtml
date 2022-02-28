@@ -1,0 +1,40 @@
+﻿@model int
+@{
+    ViewData["Title"] = "لیست گزینه ها";
+    Layout = "~/Areas/Admin/Views/Shared/_adminLayout.cshtml";
+}
+
+@section styles{
+    <link rel="stylesheet" href="~/lib/data-table/css/dataTables.bootstrap4.min.css" />
+}
+
+@section scripts{
+    <script src="~/lib/data-table/js/jquery.dataTables.min.js"></script>
+    <script src="~/lib/data-table/js/dataTables.bootstrap4.min.js"></script>
+}
+
+<div class="row">
+    <div class="col">
+        <div class="card shadow">
+            <div class="card-header bg-transparent">
+                <h3 class="mb-0">لیست گزینه ها</h3>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <input type="hidden" id="question-id" value="@Model" />
+                    <table class="table align-items-center table-flush w-100" id="options-datatable">
+                        <thead class="thead-light">
+                            <tr>
+                                <th>شناسه</th>
+                                <th>شناسه سوال</th>
+                                <th>عنوان</th>
+                                <th>تصویر</th>
+                                <th>عملیات</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
