@@ -1,4 +1,5 @@
-﻿@{
+﻿@model int
+@{
     ViewData["Title"] = "لیست سوالات";
     Layout = "~/Areas/Admin/Views/Shared/_adminLayout.cshtml";
 }
@@ -20,6 +21,7 @@
             </div>
             <div class="card-body">
                 <div class="table-responsive">
+                    <input type="hidden" id="exam-id" value="@Model" />
                     <table class="table align-items-center table-flush w-100" id="questions-datatable">
                         <thead class="thead-light">
                             <tr>

@@ -305,6 +305,7 @@ let examsDataTableOptions = {
             'orderable': false,
             'render': function (data, type, row) {
                 let content = '';
+                content += '<a class="btn btn-sm btn-primary ml-3" href="question/index/' + row.id + '">سوالات</a>';
                 content += '<a class="btn btn-sm btn-info ml-3" href="exam/update/' + row.id + '">ویرایش</a>';
                 content += '<a class="btn btn-sm btn-danger" href="exam/delete/' + row.id + '">حذف</a>';
 
@@ -325,7 +326,10 @@ let questionDataTableOptions = {
     'ajax': {
         'url': '/admin/question/GetQuestions',
         'type': 'post',
-        'datatype': 'json'
+        'datatype': 'json',
+        'data': function (params) {
+            params.id = $('#exam-id').val()
+        },
     },
     'columns': [
         {
@@ -362,8 +366,8 @@ let questionDataTableOptions = {
             'orderable': false,
             'render': function (data, type, row) {
                 let content = '';
-                content += '<a class="btn btn-sm btn-info ml-3" href="question/update/' + row.id + '">ویرایش</a>';
-                content += '<a class="btn btn-sm btn-danger" href="question/delete/' + row.id + '">حذف</a>';
+                content += '<a class="btn btn-sm btn-info ml-3" href="/admin/question/update/' + row.id + '">ویرایش</a>';
+                content += '<a class="btn btn-sm btn-danger" href="/admin/question/delete/' + row.id + '">حذف</a>';
 
                 return content;
             }

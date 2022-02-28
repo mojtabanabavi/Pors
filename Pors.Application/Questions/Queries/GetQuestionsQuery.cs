@@ -24,6 +24,7 @@ namespace Pors.Application.Questions.Queries
 
     public class GetQuestionsQuery : IRequest<PagingResult<GetQuestionsQueryResponse>>
     {
+        public int Id { get; set; }
         public int Page { get; set; } = 1;
         public int PageSize { get; set; } = 10;
         public string Search { get; set; }
@@ -62,6 +63,11 @@ namespace Pors.Application.Questions.Queries
         public async Task<PagingResult<GetQuestionsQueryResponse>> Handle(GetQuestionsQuery request, CancellationToken cancellationToken)
         {
             IQueryable<ExamQuestion> query = _dbContext.ExamQuestions;
+
+            if(request.Id != default(int))
+            {
+                query = query.Where(x => x.ExamId == request.Id);
+            }
 
             if (request.SortColumn.HasValue() && request.SortColumnDirection.HasValue())
             {

@@ -18,8 +18,12 @@ namespace Pors.Website.Areas.Admin.Controllers
         {
             var dataTableRequest = BindDataTableRequest();
 
+            var examIdTemp = Request.Form["id"].FirstOrDefault();
+            var examId = examIdTemp != null ? Convert.ToInt32(examIdTemp) : 0;
+
             var request = new GetQuestionsQuery
             {
+                Id = examId,
                 Page = dataTableRequest.Page,
                 Search = dataTableRequest.Search,
                 PageSize = dataTableRequest.PageSize,
@@ -41,9 +45,9 @@ namespace Pors.Website.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index()
+        public IActionResult Index(int id)
         {
-            return View();
+            return View(id);
         }
 
         [HttpGet]
@@ -70,7 +74,7 @@ namespace Pors.Website.Areas.Admin.Controllers
                     return View(request);
                 }
 
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index), new { id = request.ExamId });
             }
 
             return View(request);
@@ -105,7 +109,7 @@ namespace Pors.Website.Areas.Admin.Controllers
                     return View(request);
                 }
 
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index), new { id = request.Id });
             }
 
             return View();
@@ -125,7 +129,7 @@ namespace Pors.Website.Areas.Admin.Controllers
                     //return View(request);
                 }
 
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index), new { id = request.Id });
             }
 
             return View(nameof(Index));
