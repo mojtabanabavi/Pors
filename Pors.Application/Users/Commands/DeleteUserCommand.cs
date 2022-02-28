@@ -2,6 +2,7 @@
 using MediatR;
 using System.Text;
 using System.Linq;
+using System.Threading;
 using FluentValidation;
 using Pors.Domain.Entities;
 using System.Threading.Tasks;

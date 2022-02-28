@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Reflection;
 using Pors.Domain.Entities;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Pors.Application.Common.Interfaces;
 using Microsoft.EntityFrameworkCore.Diagnostics;

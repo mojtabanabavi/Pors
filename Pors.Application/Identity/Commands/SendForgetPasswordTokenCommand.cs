@@ -3,6 +3,7 @@ using MediatR;
 using System.Text;
 using System.Linq;
 using FluentValidation;
+using System.Threading;
 using Pors.Domain.Enums;
 using Pors.Domain.Entities;
 using System.Threading.Tasks;

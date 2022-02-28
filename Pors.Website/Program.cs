@@ -21,7 +21,7 @@ namespace Pors.Website
             var host = CreateHostBuilder(args).Build();
             var env = host.Services.GetRequiredService<IWebHostEnvironment>();
 
-            if (!env.IsDevelopment())
+            if (env.IsDevelopment())
             {
                 using (var scope = host.Services.CreateScope())
                 {

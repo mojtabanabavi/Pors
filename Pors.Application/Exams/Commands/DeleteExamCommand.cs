@@ -3,6 +3,7 @@ using MediatR;
 using Loby.Tools;
 using System.Text;
 using System.Linq;
+using System.Threading;
 using FluentValidation;
 using Pors.Domain.Enums;
 using Pors.Domain.Entities;

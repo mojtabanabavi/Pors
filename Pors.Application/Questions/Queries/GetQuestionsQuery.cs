@@ -5,6 +5,7 @@ using AutoMapper;
 using System.Text;
 using System.Linq;
 using Loby.Extensions;
+using System.Threading;
 using FluentValidation;
 using Pors.Domain.Entities;
 using System.Threading.Tasks;

@@ -4,6 +4,7 @@ using Loby.Tools;
 using System.Text;
 using System.Linq;
 using FluentValidation;
+using System.Threading;
 using Pors.Domain.Entities;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;

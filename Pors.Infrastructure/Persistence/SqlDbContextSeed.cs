@@ -1,5 +1,8 @@
 ﻿using Loby.Tools;
+using System.Linq;
 using Pors.Domain.Entities;
+using System.Threading.Tasks;
+using System.Collections.Generic;
 using Pors.Application.Common.Interfaces;
 
 namespace Pors.Infrastructure.Persistence
