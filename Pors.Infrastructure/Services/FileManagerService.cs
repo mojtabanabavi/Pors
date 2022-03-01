@@ -34,7 +34,7 @@ namespace Pors.Infrastructure.Services
                     await file.CopyToAsync(fileStream);
                 }
 
-                return imagePath.Replace("wwwroot", string.Empty);
+                return imagePath.Replace("wwwroot\\", string.Empty);
             }
             catch
             {

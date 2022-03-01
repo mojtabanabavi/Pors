@@ -14,11 +14,11 @@ using Microsoft.EntityFrameworkCore;
 using Pors.Application.Common.Models;
 using Pors.Application.Common.Interfaces;
 
-namespace Pors.Application.Users.Commands
+namespace Pors.Application.Profiles.Commands
 {
     #region command
 
-    public class UpdateUserCommand : IRequest<Result>
+    public class UpdateProfileCommand : IRequest<Result>
     {
         public int Id { get; set; }
         public string Email { get; set; }
@@ -27,20 +27,17 @@ namespace Pors.Application.Users.Commands
         public string Password { get; set; }
         public IFormFile ProfilePicture { get; set; }
         public string PhoneNumber { get; set; }
-        public bool IsEmailConfirmed { get; set; }
-        public bool IsPhoneNumberConfirmed { get; set; }
-        public bool IsActive { get; set; }
     }
 
     #endregion;
 
     #region validation
 
-    public class UpdateUserCommandValidator : AbstractValidator<UpdateUserCommand>
+    public class UpdateProfileCommandValidator : AbstractValidator<UpdateProfileCommand>
     {
         private readonly ISqlDbContext _dbContext;
 
-        public UpdateUserCommandValidator(ISqlDbContext dbContext)
+        public UpdateProfileCommandValidator(ISqlDbContext dbContext)
         {
             _dbContext = dbContext;
 
@@ -116,28 +113,25 @@ namespace Pors.Application.Users.Commands
 
     #region handler
 
-    public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, Result>
+    public class UpdateProfileCommandHandler : IRequestHandler<UpdateProfileCommand, Result>
     {
         private readonly ISqlDbContext _dbContext;
         private readonly IFileManagerService _fileManager;
 
-        public UpdateUserCommandHandler(ISqlDbContext dbContext, IFileManagerService fileManager)
+        public UpdateProfileCommandHandler(ISqlDbContext dbContext, IFileManagerService fileManager)
         {
             _dbContext = dbContext;
             _fileManager = fileManager;
         }
 
-        public async Task<Result> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
+        public async Task<Result> Handle(UpdateProfileCommand request, CancellationToken cancellationToken)
         {
             var user = await _dbContext.Users.FindAsync(request.Id);
 
             user.Email = request.Email;
             user.LastName = request.LastName;
-            user.IsActive = request.IsActive;
             user.FirstName = request.FirstName;
             user.PhoneNumber = request.PhoneNumber;
-            user.IsEmailConfirmed = request.IsEmailConfirmed;
-            user.IsPhoneNumberConfirmed = request.IsPhoneNumberConfirmed;
 
             if (!string.IsNullOrEmpty(request.Password))
             {

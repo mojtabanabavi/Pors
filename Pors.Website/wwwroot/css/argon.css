@@ -63,7 +63,7 @@ body {
 	font-weight: 400;
 	line-height: 1.5;
 	color: #525f7f;
-	text-align: left;
+	text-align: right;
 	background-color: #f8f9fe
 }
 
@@ -2897,7 +2897,10 @@ a.btn-icon-only {
 }
 
 	.card-profile-image img {
+		width: 180px;
+		height: 180px;
 		max-width: 180px;
+		max-height: 180px;
 		border-radius: .375rem;
 		-webkit-transform: translate(-50%,-30%);
 		transform: translate(-50%,-30%);
@@ -3718,7 +3721,7 @@ article h5 + figure {
 	outline: none
 }
 
-*, .form-control {
+.form-control {
 	text-align: right;
 	font-family: var(--font-family)
 }

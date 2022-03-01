@@ -560,9 +560,11 @@ if (optionsDataTableTarget.length) {
 }
 
 /* ############### question options ############### */
-$(document).ready(function () {
-    // form repeater jquery
-    $('.form-repeater').repeater({
+
+let repeaterTarget = $('.form-repeater');
+
+if (repeaterTarget.length) {
+    repeaterTarget.repeater({
         show: function () {
             $(this).slideDown();
         },
@@ -572,5 +574,4 @@ $(document).ready(function () {
             }
         }
     });
-
-});
+}

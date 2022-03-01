@@ -1,0 +1,121 @@
+﻿@model Pors.Application.Profiles.Queries.GetProfileQueryResponse
+@{
+    Layout = "_adminLayout";
+    ViewData["Title"] = "پروفایل";
+}
+
+<form asp-action="index" enctype="multipart/form-data" method="post">
+    <div class="row">
+        <div class="col-xl-4 order-xl-2 mb-5 mb-xl-0">
+            <div class="card card-profile shadow">
+                <div class="row justify-content-center">
+                    <div class="col-lg-3 order-lg-2">
+                        <div class="card-profile-image">
+                            <a href="#">
+                                <label for="image-preview-input">
+                                    <img id="image-preview-output" class="rounded-circle" src="@Model.ProfilePicture">
+                                </label>
+                                <input asp-for="ProfilePicture" type="file" accept="image/*" id="image-preview-input" class="d-none" />
+                                <span asp-validation-for="ProfilePicture"></span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-header text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
+
+                </div>
+                <div class="card-body pt-0 pt-md-4">
+                    <div class="row">
+                        <div class="col">
+                            <div class="card-profile-stats d-flex justify-content-center mt-md-5">
+                                <div>
+                                    <span class="heading">22</span>
+                                    <span class="description">Friends</span>
+                                </div>
+                                <div>
+                                    <span class="heading">10</span>
+                                    <span class="description">Photos</span>
+                                </div>
+                                <div>
+                                    <span class="heading">89</span>
+                                    <span class="description">Comments</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <h3>@Model.DisplayName</h3>
+                        <div class="h5 font-weight-300">نقش (استاتیک)</div>
+                        <hr class="my-4" />
+                        <p>وضعیت حساب: @(Model.IsActive ? "فعال" : "غیرفعال")</p>
+                        <p>تاریخ ثبت نام: @Model.RegisterDateTime</p>
+                        <p>آخرین ورود: @(string.IsNullOrEmpty(Model.LastLoginDateTime) ? "-" : Model.LastLoginDateTime)</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-8 order-xl-1">
+            <div class="card bg-secondary shadow">
+                <div class="card-header bg-white border-0">
+                    <h3 class="mb-0">پروفایل</h3>
+                </div>
+                <div class="card-body">
+                    <div asp-validation-summary="ModelOnly" class="text-center mb-4"></div>
+                    <h6 class="heading-small text-muted mb-4">اطلاعات شخصی</h6>
+                    <!-- personal information -->
+                    <input asp-for="Id" type="hidden">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label asp-for="FirstName" class="form-control-label">نام</label>
+                                <input asp-for="FirstName" class="form-control form-control-alternative" placeholder="نام">
+                                <span asp-validation-for="FirstName"></span>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label asp-for="LastName" class="form-control-label">نام خانوادگی</label>
+                                <input asp-for="LastName" class="form-control form-control-alternative" placeholder="نام خانوادگی">
+                                <span asp-validation-for="LastName"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="my-4" />
+                    <!-- contact information -->
+                    <h6 class="heading-small text-muted mb-4">اطلاعات تماس</h6>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label asp-for="Email" class="form-control-label">ایمیل</label>
+                                <input asp-for="Email" class="form-control form-control-alternative" placeholder="ایمیل">
+                                <span asp-validation-for="Email"></span>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label asp-for="PhoneNumber" class="form-control-label">شماره تلفن</label>
+                                <input asp-for="PhoneNumber" class="form-control form-control-alternative" placeholder="شماره تلفن">
+                                <span asp-validation-for="PhoneNumber"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="my-4" />
+                    <!-- change password -->
+                    <h6 class="heading-small text-muted mb-4">رمز عبور</h6>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <label asp-for="Password" class="form-control-label">رمز عبور</label>
+                                <input asp-for="Password" class="form-control form-control-alternative" placeholder="رمز عبور">
+                                <span asp-validation-for="Password"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer d-flex justify-content-end">
+                    <button type="submit" class="btn btn-success">ویرایش اطلاعات</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
