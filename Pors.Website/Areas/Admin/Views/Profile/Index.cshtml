@@ -13,7 +13,7 @@
                         <div class="card-profile-image">
                             <a href="#">
                                 <label for="image-preview-input">
-                                    <img id="image-preview-output" class="rounded-circle" src="@Model.ProfilePicture">
+                                    <img id="image-preview-output" class="rounded-circle" src="~/@Model.ProfilePicture">
                                 </label>
                                 <input asp-for="ProfilePicture" type="file" accept="image/*" id="image-preview-input" class="d-none" />
                                 <span asp-validation-for="ProfilePicture"></span>

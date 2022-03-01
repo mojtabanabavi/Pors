@@ -28,7 +28,6 @@ namespace Pors.Application.Profiles.Queries
         public int Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public string DisplayName { get; set; }
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
         public string Password { get; set; }
@@ -38,6 +37,20 @@ namespace Pors.Application.Profiles.Queries
         public bool IsActive { get; set; }
         public string LastLoginDateTime { get; set; }
         public string RegisterDateTime { get; set; }
+        public string DisplayName
+        {
+            get
+            {
+                string fullName = null;
+
+                if (!string.IsNullOrEmpty(FirstName) && !string.IsNullOrEmpty(LastName))
+                {
+                    fullName = $"{FirstName} {LastName}";
+                }
+
+                return fullName ?? PhoneNumber ?? Email;
+            }
+        }
     }
 
     #endregion;
@@ -68,9 +81,6 @@ namespace Pors.Application.Profiles.Queries
             var user = await _dbContext.Users.FindAsync(userId);
 
             var result = _mapper.Map<GetProfileQueryResponse>(user);
-
-            result.DisplayName = _currentUser.DisplayName;
-            result.ProfilePicture = _currentUser.ProfilePicture;
 
             return result;
         }
