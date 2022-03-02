@@ -18,9 +18,9 @@ namespace Pors.Infrastructure
                 options => options.MigrationsAssembly(typeof(SqlDbContext).Assembly.FullName)));
 
             services.AddScoped<ISqlDbContext, SqlDbContext>();
+            services.AddScoped<IFileManagerService, FileManagerService>();
             services.AddScoped<ITokenBuilderService, TokenBuilderService>();
             services.AddScoped<INotificationService, EmailNotificationService>();
-            services.AddScoped<IFileManagerService, FileManagerService>();
 
             return services;
         }

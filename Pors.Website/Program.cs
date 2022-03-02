@@ -5,11 +5,8 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Pors.Infrastructure.Persistence;
-using Microsoft.Extensions.Configuration;
-using Pors.Application.Common.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Pors.Website
@@ -47,11 +44,16 @@ namespace Pors.Website
             await host.RunAsync();
         }
 
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
+        public static IHostBuilder CreateHostBuilder(string[] args)
+        {
+            var host = Host
+                .CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
                 });
+
+            return host;
+        }
     }
 }

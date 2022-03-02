@@ -1,11 +1,8 @@
 using System;
-using System.Linq;
 using Pors.Application;
 using Pors.Infrastructure;
 using Pors.Website.Services;
-using System.Threading.Tasks;
 using Pors.Website.Constants;
-using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
@@ -76,12 +73,12 @@ namespace Pors.Website
             {
                 endpoints.MapControllerRoute(
                   name: "areas",
-                  pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
+                  pattern: "{area:exists}/{controller=home}/{action=index}/{id?}"
                 );
 
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}"
+                    pattern: "{controller=home}/{action=index}/{id?}"
                 );
             });
         }

@@ -1,4 +1,5 @@
 ﻿using System;
+using Loby.Tools;
 using System.Linq;
 using System.Text;
 using Pors.Domain.Enums;
@@ -11,12 +12,10 @@ namespace Pors.Infrastructure.Services
 {
     public class TokenBuilderService : ITokenBuilderService
     {
-        private readonly Random _random;
         private readonly ISqlDbContext _dbContext;
 
         public TokenBuilderService(ISqlDbContext dbContext)
         {
-            _random = new Random();
             _dbContext = dbContext;
         }
 
@@ -28,11 +27,11 @@ namespace Pors.Infrastructure.Services
             {
                 if (dataType == IdentityTokenDataType.Numerical)
                 {
-                    token = _random.Next(1000, 9999).ToString();
+                    token = Randomizer.RandomInt(1000, 9999).ToString();
                 }
                 else
                 {
-                    token = Guid.NewGuid().ToString();
+                    token = Randomizer.RandomGuid();
                 }
             }
             while (await IsTokenExistAsync(userId, token));

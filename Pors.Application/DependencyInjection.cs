@@ -13,11 +13,11 @@ namespace Pors.Application
         {
             var executingAssembly = Assembly.GetExecutingAssembly();
 
-            services.AddAutoMapper(cfg=>
+            services.AddAutoMapper(configs =>
             {
-                cfg.CreateMap<DateTime, string>().ConvertUsing(x => Dater.ToIranSolar(x,"dd MMMM yyyy"));
+                configs.CreateMap<DateTime, string>().ConvertUsing(x => Dater.ToIranSolar(x, "dd MMMM yyyy"));
 
-            },executingAssembly);
+            }, executingAssembly);
 
             services.AddMediatR(executingAssembly);
             services.AddValidatorsFromAssembly(executingAssembly);

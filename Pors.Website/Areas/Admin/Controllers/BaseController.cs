@@ -9,7 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Pors.Website.Areas.Admin.Controllers
 {
-    [Area("Admin")]
+    [Area(AreaNames.Admin)]
     [Authorize(AuthenticationSchemes = AuthenticationSchemes.Admin)]
     public class BaseController : Controller
     {
