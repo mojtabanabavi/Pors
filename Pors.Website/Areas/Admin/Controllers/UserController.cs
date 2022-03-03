@@ -88,7 +88,7 @@ namespace Pors.Website.Areas.Admin.Controllers
 
             var user = await Mediator.Send(new GetUserQuery(request.Id));
 
-            return View(user);
+            return View(user.Data);
         }
 
         [HttpGet]

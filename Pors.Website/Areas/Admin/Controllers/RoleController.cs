@@ -88,7 +88,7 @@ namespace Pors.Website.Areas.Admin.Controllers
 
             var role = await Mediator.Send(new GetRoleQuery(request.Id));
 
-            return View(role);
+            return View(role.Data);
         }
 
         [HttpGet]

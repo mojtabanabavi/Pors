@@ -100,7 +100,7 @@ namespace Pors.Website.Areas.Admin.Controllers
 
             var question = await Mediator.Send(new GetQuestionQuery(request.Id));
 
-            return View(question);
+            return View(question.Data);
         }
 
         [HttpGet]
