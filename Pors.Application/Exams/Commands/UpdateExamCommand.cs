@@ -1,25 +1,19 @@
 ﻿using System;
 using MediatR;
-using Loby.Tools;
-using System.Text;
 using System.Linq;
 using FluentValidation;
 using System.Threading;
-using Pors.Domain.Enums;
 using Pors.Domain.Entities;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
-using System.Collections.Generic;
-using FluentValidation.Validators;
-using Microsoft.EntityFrameworkCore;
-using Pors.Application.Common.Models;
 using Pors.Application.Common.Interfaces;
+using Pors.Application.Common.Exceptions;
 
 namespace Pors.Application.Exams.Commands
 {
     #region command
 
-    public class UpdateExamCommand : IRequest<Result>
+    public class UpdateExamCommand : IRequest
     {
         public int Id { get; set; }
         public string Title { get; set; }
@@ -41,21 +35,27 @@ namespace Pors.Application.Exams.Commands
             _dbContext = dbContext;
 
             RuleFor(x => x.Title)
-                .NotNull().WithMessage("وارد کردن عنوان الزامی است.")
-                .NotEmpty().WithMessage("وارد کردن عنوان الزامی است.")
-                .MaximumLength(50).WithMessage("عنوان میتواند حداکثر 50 کاراکتر داشته باشد.");
+                .NotEmpty()
+                .MaximumLength(50)
+                .Must(UniqueTitle).WithMessage("'{PropertyName}' تکراری است.")
+                .WithName("عنوان");
 
             RuleFor(x => x.ShortDescription)
-                .NotNull().WithMessage("وارد کردن توضیح کوتاه الزامی است.")
-                .NotEmpty().WithMessage("وارد کردن توضیح کوتاه الزامی است.")
-                .MaximumLength(50).WithMessage("توضیح کوتاه میتواند حداکثر 150 کاراکتر داشته باشد.");
+                .NotEmpty()
+                .MaximumLength(50)
+                .WithName("توضیحات");
         }
 
-        public async Task<bool> BeUniqueTitle(string title, CancellationToken cancellationToken)
+        private bool UniqueTitle(UpdateExamCommand command, string title)
         {
-            var result = await _dbContext.Exams.AnyAsync(x => x.Title == title, cancellationToken);
+            var entity = _dbContext.Exams.Find(command.Id);
 
-            return result;
+            if (entity?.Title == title)
+            {
+                return true;
+            }
+
+            return _dbContext.Exams.All(x => x.Title != title);
         }
     }
 
@@ -63,7 +63,7 @@ namespace Pors.Application.Exams.Commands
 
     #region handler
 
-    public class UpdateExamCommandHandler : IRequestHandler<UpdateExamCommand, Result>
+    public class UpdateExamCommandHandler : IRequestHandler<UpdateExamCommand>
     {
         private readonly ISqlDbContext _dbContext;
         private readonly IFileManagerService _fileManager;
@@ -74,31 +74,29 @@ namespace Pors.Application.Exams.Commands
             _fileManager = fileManager;
         }
 
-        public async Task<Result> Handle(UpdateExamCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(UpdateExamCommand request, CancellationToken cancellationToken)
         {
-            try
+            var entity = await _dbContext.Exams.FindAsync(request.Id);
+
+            if (entity == null)
             {
-                var exam = await _dbContext.Exams.FindAsync(request.Id);
-
-                exam.Title = request.Title;
-                exam.ShortDescription = request.ShortDescription;
-                exam.LongDescription = request.LongDescription;
-
-                if (request.Image != null)
-                {
-                    await _fileManager.DeleteFileAsync(exam.Image);
-
-                    exam.Image = await _fileManager.CreateFileAsync(request.Image);
-                }
-
-                await _dbContext.SaveChangesAsync();
-
-                return Result.Success("آزمون با موفقیت ویرایش شد");
+                throw new NotFoundException(nameof(Exam), request.Id);
             }
-            catch
+
+            entity.Title = request.Title;
+            entity.ShortDescription = request.ShortDescription;
+            entity.LongDescription = request.LongDescription;
+
+            if (request.Image != null)
             {
-                return Result.Failure("خطایی در ویرایش آزمون اتفاق انفاد.");
+                await _fileManager.DeleteFileAsync(entity.Image);
+
+                entity.Image = await _fileManager.CreateFileAsync(request.Image);
             }
+
+            await _dbContext.SaveChangesAsync();
+
+            return Unit.Value;
         }
     }
 

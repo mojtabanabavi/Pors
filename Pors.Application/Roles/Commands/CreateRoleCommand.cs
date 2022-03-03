@@ -1,26 +1,18 @@
 ﻿using System;
 using MediatR;
-using Loby.Tools;
-using System.Text;
 using System.Linq;
 using Loby.Extensions;
 using FluentValidation;
 using System.Threading;
-using Pors.Domain.Enums;
 using Pors.Domain.Entities;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using System.Collections.Generic;
-using FluentValidation.Validators;
-using Microsoft.EntityFrameworkCore;
-using Pors.Application.Common.Models;
 using Pors.Application.Common.Interfaces;
 
 namespace Pors.Application.Roles.Commands
 {
     #region command
 
-    public class CreateRoleCommand : IRequest<Result>
+    public class CreateRoleCommand : IRequest<int>
     {
         public string Name { get; set; }
         public string Description { get; set; }
@@ -39,23 +31,20 @@ namespace Pors.Application.Roles.Commands
             _dbContext = sqlDbContext;
 
             RuleFor(x => x.Name)
-                .NotNull().WithMessage("وارد کردن عنوان الزامی است.")
-                .NotEmpty().WithMessage("وارد کردن عنوان الزامی است.")
-                .MaximumLength(50).WithMessage("عنوان میتواند حداکثر 50 کاراکتر داشته باشد.")
-                .MustAsync(BeUniqueTitle).WithMessage("عنوان وارد شده تکراری است");
+                .NotEmpty()
+                .MaximumLength(50)
+                .Must(UniqueTitle).WithMessage("'{PropertyName}' تکراری است.")
+                .WithName("عنوان");
 
-            When(x => x.Description.HasValue(), () =>
-            {
-                RuleFor(x => x.Description)
-                    .MaximumLength(250).WithMessage("توضیحات میتواند حداکثر 250 کاراکتر داشته باشد.");
-            });
+            RuleFor(x => x.Description)
+                .MaximumLength(250)
+                .When(x => x.Description.HasValue())
+                .WithName("توضیحات");
         }
 
-        public async Task<bool> BeUniqueTitle(string roleTitle, CancellationToken cancellationToken)
+        private bool UniqueTitle(string title)
         {
-            var result = await _dbContext.Roles.AnyAsync(x => x.Name == roleTitle);
-
-            return !result;
+            return _dbContext.Roles.All(x => x.Name != title);
         }
     }
 
@@ -63,7 +52,7 @@ namespace Pors.Application.Roles.Commands
 
     #region handler
 
-    public class CreateRoleCommandHandler : IRequestHandler<CreateRoleCommand, Result>
+    public class CreateRoleCommandHandler : IRequestHandler<CreateRoleCommand, int>
     {
         private readonly ISqlDbContext _dbContext;
 
@@ -72,22 +61,15 @@ namespace Pors.Application.Roles.Commands
             _dbContext = sqlDbContext;
         }
 
-        public async Task<Result> Handle(CreateRoleCommand request, CancellationToken cancellationToken)
+        public async Task<int> Handle(CreateRoleCommand request, CancellationToken cancellationToken)
         {
-            try
-            {
-                var role = new Role(request.Name, request.Description);
+            var entity = new Role(request.Name, request.Description);
 
-                _dbContext.Roles.Add(role);
+            _dbContext.Roles.Add(entity);
 
-                await _dbContext.SaveChangesAsync();
+            await _dbContext.SaveChangesAsync();
 
-                return Result.Success("نقش با موفقیت ایجاد شد");
-            }
-            catch
-            {
-                return Result.Failure("خطایی در ایجاد نقش اتفاق افتاد.");
-            }
+            return entity.Id;
         }
     }
 

@@ -12,6 +12,7 @@ using Pors.Infrastructure.Services;
 using Microsoft.Extensions.Configuration;
 using Pors.Application.Common.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
+using System.Globalization;
 
 namespace Pors.Website
 {
@@ -30,11 +31,15 @@ namespace Pors.Website
             services.AddInfrastructure(Configuration);
 
             services.AddSession();
-            services.AddFluentValidation();
             services.AddHttpContextAccessor();
 
             services.AddControllersWithViews()
                 .AddRazorRuntimeCompilation();
+
+            services.AddFluentValidation(options =>
+            {
+                options.ValidatorOptions.LanguageManager.Culture = new CultureInfo("fa");
+            });
 
             services.AddAuthentication(AuthenticationSchemes.Default)
                 .AddCookie(AuthenticationSchemes.Default, options =>

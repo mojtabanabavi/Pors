@@ -1,26 +1,19 @@
 ﻿using System;
 using MediatR;
-using Loby.Tools;
-using System.Text;
 using System.Linq;
 using Loby.Extensions;
 using FluentValidation;
 using System.Threading;
-using Pors.Domain.Enums;
 using Pors.Domain.Entities;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using System.Collections.Generic;
-using FluentValidation.Validators;
-using Microsoft.EntityFrameworkCore;
-using Pors.Application.Common.Models;
 using Pors.Application.Common.Interfaces;
+using Pors.Application.Common.Exceptions;
 
 namespace Pors.Application.Roles.Commands
 {
     #region command
 
-    public class UpdateRoleCommand : IRequest<Result>
+    public class UpdateRoleCommand : IRequest
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -40,28 +33,27 @@ namespace Pors.Application.Roles.Commands
             _dbContext = sqlDbContext;
 
             RuleFor(x => x.Name)
-                .NotNull().WithMessage("وارد کردن عنوان الزامی است.")
-                .NotEmpty().WithMessage("وارد کردن عنوان الزامی است.")
-                .MaximumLength(50).WithMessage("عنوان میتواند حداکثر 50 کاراکتر داشته باشد.")
-                .Must((x, title) => BeUniqueTitle(x.Id, title).Result).WithMessage("عنوان وارد شده تکراری است");
+                .NotEmpty()
+                .MaximumLength(50)
+                .Must(UniqueTitle).WithMessage("'{PropertyName}' تکراری است.")
+                .WithName("عنوان");
 
-            When(x => x.Description.HasValue(), () =>
-            {
-                RuleFor(x => x.Description)
-                    .MaximumLength(250).WithMessage("توضیحات میتواند حداکثر 250 کاراکتر داشته باشد.");
-            });
+            RuleFor(x => x.Description)
+                .MaximumLength(250)
+                .When(x => x.Description.HasValue())
+                .WithName("توضیحات");
         }
 
-        public async Task<bool> BeUniqueTitle(int roleId, string title)
+        private bool UniqueTitle(UpdateRoleCommand command, string title)
         {
-            var role = await _dbContext.Roles.FindAsync(roleId);
+            var entity = _dbContext.Roles.Find(command.Id);
 
-            if (role.Name == title)
+            if (entity?.Name == title)
+            {
                 return true;
+            }
 
-            var result = await _dbContext.Roles.AnyAsync(x => x.Name == title);
-
-            return !result;
+            return _dbContext.Roles.All(x => x.Name != title);
         }
     }
 
@@ -69,7 +61,7 @@ namespace Pors.Application.Roles.Commands
 
     #region handler
 
-    public class UpdateRoleCommandHandler : IRequestHandler<UpdateRoleCommand, Result>
+    public class UpdateRoleCommandHandler : IRequestHandler<UpdateRoleCommand>
     {
         private readonly ISqlDbContext _dbContext;
 
@@ -78,23 +70,21 @@ namespace Pors.Application.Roles.Commands
             _dbContext = sqlDbContext;
         }
 
-        public async Task<Result> Handle(UpdateRoleCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(UpdateRoleCommand request, CancellationToken cancellationToken)
         {
-            try
+            var entity = await _dbContext.Roles.FindAsync(request.Id);
+
+            if (entity == null)
             {
-                var role = await _dbContext.Roles.FindAsync(request.Id);
-
-                role.Name = request.Name;
-                role.Description = request.Description;
-
-                await _dbContext.SaveChangesAsync();
-
-                return Result.Success("نقش با موفقیت ویرایش شد");
+                throw new NotFoundException(nameof(Role), request.Id);
             }
-            catch
-            {
-                return Result.Failure("خطایی در ویرایش نقش اتفاق افتاد.");
-            }
+
+            entity.Name = request.Name;
+            entity.Description = request.Description;
+
+            await _dbContext.SaveChangesAsync();
+
+            return Unit.Value;
         }
     }
 

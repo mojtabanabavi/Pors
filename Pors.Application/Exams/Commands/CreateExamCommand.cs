@@ -1,25 +1,18 @@
 ﻿using System;
 using MediatR;
-using Loby.Tools;
-using System.Text;
 using System.Linq;
 using FluentValidation;
 using System.Threading;
-using Pors.Domain.Enums;
 using Pors.Domain.Entities;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
-using System.Collections.Generic;
-using FluentValidation.Validators;
-using Microsoft.EntityFrameworkCore;
-using Pors.Application.Common.Models;
 using Pors.Application.Common.Interfaces;
 
 namespace Pors.Application.Exams.Commands
 {
     #region command
 
-    public class CreateExamCommand : IRequest<Result>
+    public class CreateExamCommand : IRequest<int>
     {
         public string Title { get; set; }
         public string ShortDescription { get; set; }
@@ -40,22 +33,20 @@ namespace Pors.Application.Exams.Commands
             _dbContext = dbContext;
 
             RuleFor(x => x.Title)
-                .NotNull().WithMessage("وارد کردن عنوان الزامی است.")
-                .NotEmpty().WithMessage("وارد کردن عنوان الزامی است.")
-                .MaximumLength(50).WithMessage("عنوان میتواند حداکثر 50 کاراکتر داشته باشد.")
-                .MustAsync(BeUniqueTitle).WithMessage("عنوان وارد شده تکراری است");
+                .NotEmpty()
+                .MaximumLength(50)
+                .Must(UniqueTitle).WithMessage("'{PropertyName}' تکراری است.")
+                .WithName("عنوان");
 
             RuleFor(x => x.ShortDescription)
-                .NotNull().WithMessage("وارد کردن توضیح کوتاه الزامی است.")
-                .NotEmpty().WithMessage("وارد کردن توضیح کوتاه الزامی است.")
-                .MaximumLength(50).WithMessage("توضیح کوتاه میتواند حداکثر 150 کاراکتر داشته باشد.");
+                .NotEmpty()
+                .MaximumLength(50)
+                .WithName("توضیحات");
         }
 
-        public async Task<bool> BeUniqueTitle(string title, CancellationToken cancellationToken)
+        private bool UniqueTitle(string title)
         {
-            var result = await _dbContext.Exams.AnyAsync(x => x.Title == title, cancellationToken);
-
-            return !result;
+            return _dbContext.Exams.All(x => x.Title != title);
         }
     }
 
@@ -63,7 +54,7 @@ namespace Pors.Application.Exams.Commands
 
     #region handler
 
-    public class CreateExamCommandHandler : IRequestHandler<CreateExamCommand, Result>
+    public class CreateExamCommandHandler : IRequestHandler<CreateExamCommand, int>
     {
         private readonly ISqlDbContext _dbContext;
         private readonly ICurrentUserService _currentUser;
@@ -76,33 +67,26 @@ namespace Pors.Application.Exams.Commands
             _fileManager = fileManager;
         }
 
-        public async Task<Result> Handle(CreateExamCommand request, CancellationToken cancellationToken)
+        public async Task<int> Handle(CreateExamCommand request, CancellationToken cancellationToken)
         {
-            try
+            var entity = new Exam
             {
-                var exam = new Exam
-                {
-                    Title = request.Title,
-                    CreatedBy = _currentUser.DisplayName,
-                    LongDescription = request.LongDescription,
-                    ShortDescription = request.ShortDescription,
-                };
+                Title = request.Title,
+                CreatedBy = _currentUser.DisplayName,
+                LongDescription = request.LongDescription,
+                ShortDescription = request.ShortDescription,
+            };
 
-                if(request.Image != null)
-                {
-                    exam.Image = await _fileManager.CreateFileAsync(request.Image);
-                }
-
-                _dbContext.Exams.Add(exam);
-
-                await _dbContext.SaveChangesAsync();
-
-                return Result.Success("آزمون با موفقیت ایجاد شد");
-            }
-            catch
+            if (request.Image != null)
             {
-                return Result.Failure("خطایی در ساخت آزمون اتفاق انفاد.");
+                entity.Image = await _fileManager.CreateFileAsync(request.Image);
             }
+
+            _dbContext.Exams.Add(entity);
+
+            await _dbContext.SaveChangesAsync();
+
+            return entity.Id;
         }
     }
 

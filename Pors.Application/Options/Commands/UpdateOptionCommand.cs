@@ -1,25 +1,19 @@
 ﻿using System;
 using MediatR;
-using Loby.Tools;
-using System.Text;
 using System.Linq;
 using FluentValidation;
 using System.Threading;
-using Pors.Domain.Enums;
 using Pors.Domain.Entities;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
-using System.Collections.Generic;
-using FluentValidation.Validators;
-using Microsoft.EntityFrameworkCore;
-using Pors.Application.Common.Models;
 using Pors.Application.Common.Interfaces;
+using Pors.Application.Common.Exceptions;
 
 namespace Pors.Application.Options.Commands
 {
     #region command
 
-    public class UpdateOptionCommand : IRequest<Result>
+    public class UpdateOptionCommand : IRequest
     {
         public int Id { get; set; }
         public string Title { get; set; }
@@ -38,34 +32,23 @@ namespace Pors.Application.Options.Commands
         {
             _dbContext = sqlDbContext;
 
-            RuleFor(x => x.Id)
-                .MustAsync(BeOptionExist).WithMessage("گزینه درخواست شده یافت نشد.");
-
             RuleFor(x => x.Title)
-                .NotNull().WithMessage("وارد کردن عنوان الزامی است.")
-                .NotEmpty().WithMessage("وارد کردن عنوان الزامی است.")
-                .MaximumLength(100).WithMessage("عنوان میتواند حداکثر 100 کاراکتر داشته باشد.")
-                .Must((x, title) => BeUniqueTitle(x.Id, title).Result).WithMessage("عنوان وارد شده تکراری است");
+                .NotEmpty()
+                .MaximumLength(100)
+                .Must(UniqueTitle).WithMessage("'{PropertyName}' تکراری است.")
+                .WithName("عنوان");
         }
 
-        public async Task<bool> BeOptionExist(int optionId, CancellationToken cancellationToken)
+        private bool UniqueTitle(UpdateOptionCommand command, string title)
         {
-            var result = await _dbContext.QuestionOptions.AnyAsync(x => x.Id == optionId, cancellationToken);
+            var entity = _dbContext.QuestionOptions.Find(command.Id);
 
-            return result;
-        }
-
-        public async Task<bool> BeUniqueTitle(int optionId, string title)
-        {
-            var option = await _dbContext.QuestionOptions.FindAsync(optionId);
-
-            if (option.Title == title)
+            if (entity?.Title == title)
+            {
                 return true;
+            }
 
-            var result = await _dbContext.QuestionOptions
-                .AnyAsync(x => x.QuestionId == option.QuestionId && x.Title == title);
-
-            return !result;
+            return _dbContext.QuestionOptions.All(x => x.Title != title);
         }
     }
 
@@ -73,7 +56,7 @@ namespace Pors.Application.Options.Commands
 
     #region handler
 
-    public class UpdateOptionCommandHandler : IRequestHandler<UpdateOptionCommand, Result>
+    public class UpdateOptionCommandHandler : IRequestHandler<UpdateOptionCommand>
     {
         private readonly ISqlDbContext _dbContext;
         private readonly IFileManagerService _fileManager;
@@ -84,29 +67,27 @@ namespace Pors.Application.Options.Commands
             _fileManager = fileManager;
         }
 
-        public async Task<Result> Handle(UpdateOptionCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(UpdateOptionCommand request, CancellationToken cancellationToken)
         {
-            try
+            var entity = await _dbContext.QuestionOptions.FindAsync(request.Id);
+
+            if (entity == null)
             {
-                var option = await _dbContext.QuestionOptions.FindAsync(request.Id);
-
-                option.Title = request.Title;
-
-                if (request.Image != null)
-                {
-                    await _fileManager.DeleteFileAsync(option.Image);
-
-                    option.Image = await _fileManager.CreateFileAsync(request.Image);
-                }
-
-                await _dbContext.SaveChangesAsync();
-
-                return Result.Success("گزینه با موفقیت ویرایش شد");
+                throw new NotFoundException(nameof(QuestionOption), request.Id);
             }
-            catch
+
+            entity.Title = request.Title;
+
+            if (request.Image != null)
             {
-                return Result.Failure("خطایی در ویرایش گزینه اتفاق انفاد.");
+                await _fileManager.DeleteFileAsync(entity.Image);
+
+                entity.Image = await _fileManager.CreateFileAsync(request.Image);
             }
+
+            await _dbContext.SaveChangesAsync();
+
+            return Unit.Value;
         }
     }
 

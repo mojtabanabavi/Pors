@@ -1,25 +1,17 @@
 ﻿using System;
 using MediatR;
-using Loby.Tools;
-using System.Text;
-using System.Linq;
+using Loby.Extensions;
 using System.Threading;
-using FluentValidation;
-using Pors.Domain.Enums;
 using Pors.Domain.Entities;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using System.Collections.Generic;
-using FluentValidation.Validators;
-using Microsoft.EntityFrameworkCore;
-using Pors.Application.Common.Models;
 using Pors.Application.Common.Interfaces;
+using Pors.Application.Common.Exceptions;
 
 namespace Pors.Application.Options.Commands
 {
     #region command
 
-    public class DeleteOptionCommand : IRequest<Result>
+    public class DeleteOptionCommand : IRequest
     {
         public int Id { get; set; }
     }
@@ -28,31 +20,11 @@ namespace Pors.Application.Options.Commands
 
     #region validator
 
-    public class DeleteOptionCommandValidator : AbstractValidator<DeleteOptionCommand>
-    {
-        private readonly ISqlDbContext _dbContext;
-
-        public DeleteOptionCommandValidator(ISqlDbContext dbContext)
-        {
-            _dbContext = dbContext;
-
-            RuleFor(x => x.Id)
-                .MustAsync(BeOptionExist).WithMessage("گزینه ای مطابق شناسه دریافتی یافت نشد");
-        }
-
-        public async Task<bool> BeOptionExist(int optionId, CancellationToken cancellationToken)
-        {
-            var result = await _dbContext.QuestionOptions.AnyAsync(x => x.Id == optionId, cancellationToken);
-
-            return result;
-        }
-    }
-
     #endregion;
 
     #region handler
 
-    public class DeleteOptionCommandHandler : IRequestHandler<DeleteOptionCommand, Result>
+    public class DeleteOptionCommandHandler : IRequestHandler<DeleteOptionCommand>
     {
         private readonly ISqlDbContext _dbContext;
         private readonly IFileManagerService _fileManager;
@@ -63,27 +35,25 @@ namespace Pors.Application.Options.Commands
             _fileManager = fileManager;
         }
 
-        public async Task<Result> Handle(DeleteOptionCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(DeleteOptionCommand request, CancellationToken cancellationToken)
         {
-            try
+            var entity = await _dbContext.QuestionOptions.FindAsync(request.Id);
+
+            if (entity == null)
             {
-                var option = await _dbContext.QuestionOptions.FindAsync(request.Id);
-
-                if (!string.IsNullOrEmpty(option.Image))
-                {
-                    await _fileManager.DeleteFileAsync(option.Image);
-                }
-
-                _dbContext.QuestionOptions.Remove(option);
-
-                await _dbContext.SaveChangesAsync();
-
-                return Result.Success("گزینه با موفقیت حذف گردید.");
+                throw new NotFoundException(nameof(QuestionOption), request.Id);
             }
-            catch
+
+            if (entity.Image.HasValue())
             {
-                return Result.Failure("خطایی در حذف گزینه اتفاق افتاد.");
+                await _fileManager.DeleteFileAsync(entity.Image);
             }
+
+            _dbContext.QuestionOptions.Remove(entity);
+
+            await _dbContext.SaveChangesAsync();
+
+            return Unit.Value;
         }
     }
 

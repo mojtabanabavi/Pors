@@ -1,25 +1,18 @@
 ﻿using System;
 using MediatR;
-using Loby.Tools;
-using System.Text;
 using System.Linq;
 using FluentValidation;
 using System.Threading;
-using Pors.Domain.Enums;
 using Pors.Domain.Entities;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using System.Collections.Generic;
-using FluentValidation.Validators;
-using Microsoft.EntityFrameworkCore;
-using Pors.Application.Common.Models;
 using Pors.Application.Common.Interfaces;
+using Pors.Application.Common.Exceptions;
 
 namespace Pors.Application.Questions.Commands
 {
     #region command
 
-    public class UpdateQuestionCommand : IRequest<Result>
+    public class UpdateQuestionCommand : IRequest
     {
         public int Id { get; set; }
         public string Title { get; set; }
@@ -37,34 +30,23 @@ namespace Pors.Application.Questions.Commands
         {
             _dbContext = sqlDbContext;
 
-            RuleFor(x => x.Id)
-                .MustAsync(BeQuestionExist).WithMessage("سوال درخواست شده یافت نشد.");
-
             RuleFor(x => x.Title)
-                .NotNull().WithMessage("وارد کردن عنوان الزامی است.")
-                .NotEmpty().WithMessage("وارد کردن عنوان الزامی است.")
-                .MaximumLength(250).WithMessage("عنوان میتواند حداکثر 250 کاراکتر داشته باشد.")
-                .Must((x, title) => BeUniqueTitle(x.Id, title).Result).WithMessage("عنوان وارد شده تکراری است");
+                .NotEmpty()
+                .MaximumLength(250)
+                .Must(UniqueTitle).WithMessage("'{PropertyName}' تکراری است.")
+                .WithName("عنوان");
         }
 
-        public async Task<bool> BeQuestionExist(int questionId, CancellationToken cancellationToken)
+        private bool UniqueTitle(UpdateQuestionCommand command, string title)
         {
-            var result = await _dbContext.ExamQuestions.AnyAsync(x => x.Id == questionId, cancellationToken);
+            var entity = _dbContext.ExamQuestions.Find(command.Id);
 
-            return result;
-        }
-
-        public async Task<bool> BeUniqueTitle(int questionId, string title)
-        {
-            var question = await _dbContext.ExamQuestions.FindAsync(questionId);
-
-            if (question.Title == title)
+            if (entity?.Title == title)
+            {
                 return true;
+            }
 
-            var result = await _dbContext.ExamQuestions
-                .AnyAsync(x => x.ExamId == question.ExamId && x.Title == title);
-
-            return !result;
+            return _dbContext.ExamQuestions.All(x => x.Title != title);
         }
     }
 
@@ -72,33 +54,29 @@ namespace Pors.Application.Questions.Commands
 
     #region handler
 
-    public class UpdateQuestionCommandHandler : IRequestHandler<UpdateQuestionCommand, Result>
+    public class UpdateQuestionCommandHandler : IRequestHandler<UpdateQuestionCommand>
     {
         private readonly ISqlDbContext _dbContext;
-        private readonly ICurrentUserService _currentUser;
 
-        public UpdateQuestionCommandHandler(ISqlDbContext sqlDbContext, ICurrentUserService currentUser)
+        public UpdateQuestionCommandHandler(ISqlDbContext sqlDbContext)
         {
             _dbContext = sqlDbContext;
-            _currentUser = currentUser;
         }
 
-        public async Task<Result> Handle(UpdateQuestionCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(UpdateQuestionCommand request, CancellationToken cancellationToken)
         {
-            try
+            var entity = await _dbContext.ExamQuestions.FindAsync(request.Id);
+
+            if (entity == null)
             {
-                var question = await _dbContext.ExamQuestions.FindAsync(request.Id);
-
-                question.Title = request.Title;
-
-                await _dbContext.SaveChangesAsync();
-
-                return Result.Success("سوال با موفقیت ویرایش شد");
+                throw new NotFoundException(nameof(ExamQuestion), request.Id);
             }
-            catch
-            {
-                return Result.Failure("خطایی در ویرایش سوال اتفاق انفاد.");
-            }
+
+            entity.Title = request.Title;
+
+            await _dbContext.SaveChangesAsync();
+
+            return Unit.Value;
         }
     }
 

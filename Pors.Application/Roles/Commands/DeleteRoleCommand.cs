@@ -1,25 +1,16 @@
 ﻿using System;
 using MediatR;
-using Loby.Tools;
-using System.Text;
-using System.Linq;
-using FluentValidation;
 using System.Threading;
-using Pors.Domain.Enums;
 using Pors.Domain.Entities;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using System.Collections.Generic;
-using FluentValidation.Validators;
-using Microsoft.EntityFrameworkCore;
-using Pors.Application.Common.Models;
 using Pors.Application.Common.Interfaces;
+using Pors.Application.Common.Exceptions;
 
 namespace Pors.Application.Roles.Commands
 {
     #region command
 
-    public class DeleteRoleCommand : IRequest<Result>
+    public class DeleteRoleCommand : IRequest
     {
         public int Id { get; set; }
     }
@@ -28,31 +19,11 @@ namespace Pors.Application.Roles.Commands
 
     #region validator
 
-    public class DeleteRoleCommandValidator : AbstractValidator<DeleteRoleCommand>
-    {
-        private readonly ISqlDbContext _dbContext;
-
-        public DeleteRoleCommandValidator(ISqlDbContext dbContext)
-        {
-            _dbContext = dbContext;
-
-            RuleFor(x => x.Id)
-                .MustAsync(BeRoleExist).WithMessage("نقشی مطابق شناسه دریافتی یافت نشد");
-        }
-
-        public async Task<bool> BeRoleExist(int roleId, CancellationToken cancellationToken)
-        {
-            var result = await _dbContext.Roles.AnyAsync(x => x.Id == roleId, cancellationToken);
-
-            return result;
-        }
-    }
-
     #endregion;
 
     #region handler
 
-    public class DeleteRoleCommandHandler : IRequestHandler<DeleteRoleCommand, Result>
+    public class DeleteRoleCommandHandler : IRequestHandler<DeleteRoleCommand>
     {
         private readonly ISqlDbContext _dbContext;
 
@@ -61,22 +32,20 @@ namespace Pors.Application.Roles.Commands
             _dbContext = dbContext;
         }
 
-        public async Task<Result> Handle(DeleteRoleCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(DeleteRoleCommand request, CancellationToken cancellationToken)
         {
-            try
+            var entity = await _dbContext.Roles.FindAsync(request.Id);
+
+            if (entity == null)
             {
-                var role = await _dbContext.Roles.FindAsync(request.Id);
-
-                _dbContext.Roles.Remove(role);
-
-                await _dbContext.SaveChangesAsync();
-
-                return Result.Success("نقش با موفقیت حذف گردید.");
+                throw new NotFoundException(nameof(Role), request.Id);
             }
-            catch
-            {
-                return Result.Failure("خطایی در حذف نقش اتفاق افتاد.");
-            }
+
+            _dbContext.Roles.Remove(entity);
+
+            await _dbContext.SaveChangesAsync();
+
+            return Unit.Value;
         }
     }
 

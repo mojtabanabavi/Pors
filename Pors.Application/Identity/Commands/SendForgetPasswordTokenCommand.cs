@@ -1,14 +1,12 @@
 ﻿using System;
 using MediatR;
-using System.Text;
+using Loby.Tools;
 using System.Linq;
 using FluentValidation;
 using System.Threading;
 using Pors.Domain.Enums;
 using Pors.Domain.Entities;
 using System.Threading.Tasks;
-using System.Collections.Generic;
-using FluentValidation.Validators;
 using Microsoft.EntityFrameworkCore;
 using Pors.Application.Common.Models;
 using Pors.Application.Common.Interfaces;
@@ -17,7 +15,7 @@ namespace Pors.Application.Identity.Commands
 {
     #region command
 
-    public class SendForgetPasswordTokenCommand : IRequest<Result>
+    public class SendForgetPasswordTokenCommand : IRequest
     {
         public string Email { get; set; }
     }
@@ -35,18 +33,21 @@ namespace Pors.Application.Identity.Commands
             _dbContext = dbContext;
 
             RuleFor(x => x.Email)
-                .NotNull().WithMessage("وارد کردن ایمیل الزامی است.")
-                .NotEmpty().WithMessage("وارد کردن ایمیل الزامی است.")
-                .EmailAddress(EmailValidationMode.AspNetCoreCompatible).WithMessage("ایمیل وارد شده معتبر نمی باشد.")
-                .MaximumLength(320).WithMessage("ایمیل نباید بیش از 320 کاراکتر داشته باشد.")
-                .MustAsync(BeEmailExist).WithMessage("کاربری با ایمیل وارد شده یافت نشد.");
+                .NotEmpty()
+                .MaximumLength(320)
+                .Must(ValidEmail).WithMessage("'{PropertyName}' معتبر نمی‌باشد.")
+                .Must(ExistEmail).WithMessage("'{PropertyName}' یافت نشد.")
+                .WithName("ایمیل");
         }
 
-        public async Task<bool> BeEmailExist(string email, CancellationToken cancellationToken)
+        private bool ValidEmail(string email)
         {
-            var result = await _dbContext.Users.AnyAsync(x => x.Email == email, cancellationToken);
+            return Validator.IsValidEmail(email);
+        }
 
-            return result;
+        private bool ExistEmail(string email)
+        {
+            return _dbContext.Users.Any(x => x.Email == email);
         }
     }
 
@@ -54,7 +55,7 @@ namespace Pors.Application.Identity.Commands
 
     #region handler
 
-    public class SendForgetPasswordTokenCommandHandler : IRequestHandler<SendForgetPasswordTokenCommand, Result>
+    public class SendForgetPasswordTokenCommandHandler : IRequestHandler<SendForgetPasswordTokenCommand>
     {
         private readonly ISqlDbContext _dbContext;
         private readonly ITokenBuilderService _tokenBuilder;
@@ -67,39 +68,31 @@ namespace Pors.Application.Identity.Commands
             _notificationService = notificationService;
         }
 
-        public async Task<Result> Handle(SendForgetPasswordTokenCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(SendForgetPasswordTokenCommand request, CancellationToken cancellationToken)
         {
-            try
-            {
-                var userId = await _dbContext.Users
+            var userId = await _dbContext.Users
                 .Where(x => x.Email == request.Email)
                 .Select(x => x.Id)
                 .SingleOrDefaultAsync();
 
-                var token = await _tokenBuilder
-                    .CreateTokenAsync(userId, IdentityTokenType.ResetPassword, IdentityTokenDataType.AlphaNumerical);
+            var token = await _tokenBuilder
+                .CreateTokenAsync(userId, IdentityTokenType.ResetPassword, IdentityTokenDataType.AlphaNumerical);
 
-                var userToken = new UserToken
-                {
-                    Value = token,
-                    UserId = userId,
-                    Type = IdentityTokenType.ResetPassword,
-                    ExpireAt = DateTime.UtcNow.AddMinutes(15),
-                };
-
-                _dbContext.UserTokens.Add(userToken);
-
-                await _dbContext.SaveChangesAsync();
-
-                // send token
-                await _notificationService.SendAsync(request.Email, "بازیابی رمز عبور", token);
-
-                return Result.Success("توکن با موفقیت ارسال گردید.");
-            }
-            catch
+            var userToken = new UserToken
             {
-                return Result.Failure("خطایی در ارسال توکن ایجاد شده است، لطفا بعدا تلاش کنید.");
-            }
+                Value = token,
+                UserId = userId,
+                Type = IdentityTokenType.ResetPassword,
+                ExpireAt = DateTime.UtcNow.AddMinutes(15),
+            };
+
+            _dbContext.UserTokens.Add(userToken);
+
+            await _dbContext.SaveChangesAsync();
+
+            await _notificationService.SendAsync(request.Email, "بازیابی رمز عبور", token);
+
+            return Unit.Value;
         }
     }
 

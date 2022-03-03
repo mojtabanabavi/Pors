@@ -13,12 +13,13 @@ using FluentValidation.Validators;
 using Microsoft.EntityFrameworkCore;
 using Pors.Application.Common.Models;
 using Pors.Application.Common.Interfaces;
+using Loby.Extensions;
 
 namespace Pors.Application.Users.Commands
 {
     #region command
 
-    public class CreateUserCommand : IRequest<Result>
+    public class CreateUserCommand : IRequest<int>
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -43,43 +44,52 @@ namespace Pors.Application.Users.Commands
         {
             _dbContext = dbContext;
 
-            When(x => !string.IsNullOrEmpty(x.FirstName), () =>
-            {
-                RuleFor(x => x.FirstName)
-                    .MaximumLength(25).WithMessage("نام نباید بیش از 25 کاراکتر داشته باشد");
-            });
+            RuleFor(x => x.FirstName)
+                .NotEmpty()
+                .MaximumLength(25)
+                .When(x => x.FirstName.HasValue())
+                .WithName("نام");
 
-            When(x => !string.IsNullOrEmpty(x.LastName), () =>
-            {
-                RuleFor(x => x.LastName)
-                    .MaximumLength(25).WithMessage("نام خانوادگی نباید بیش از 25 کاراکتر داشته باشد");
-            });
+            RuleFor(x => x.LastName)
+                .NotEmpty()
+                .MaximumLength(25)
+                .When(x => x.LastName.HasValue())
+                .WithName("نام خانوادگی");
 
-            When(x => !string.IsNullOrEmpty(x.PhoneNumber), () =>
-            {
-                RuleFor(x => x.PhoneNumber)
-                    .Matches(@"^0?9\d{9}$").WithMessage("شماره تلفن معتبر نمی‌باشد")
-                    .MaximumLength(15).WithMessage("شماره تلفن نباید بیش از 15 کاراکتر داشته باشد");
-            });
+            RuleFor(x => x.PhoneNumber)
+                .NotEmpty()
+                .MaximumLength(11)
+                .Matches(@"^0?9\d{9}$").WithMessage("'{PropertyName}' معتبر نمی‌باشد.")
+                .Must(UniquePhoneNumber).WithMessage("'{PropertyName}' تکراری است.")
+                .When(x => x.PhoneNumber.HasValue())
+                .WithName("موبایل");
 
             RuleFor(x => x.Email)
-                .NotNull().WithMessage("وارد کردن ایمیل الزامی است")
-                .NotEmpty().WithMessage("وارد کردن ایمیل الزامی است")
-                .EmailAddress(EmailValidationMode.AspNetCoreCompatible).WithMessage("ایمیل وارد شده معتبر نمی باشد.")
-                .MaximumLength(320).WithMessage("ایمیل نباید بیش از 320 کاراکتر داشته باشد")
-                .MustAsync(BeUniqueEmail).WithMessage("ایمیل وارد شده تکراری است");
+                .NotEmpty()
+                .MaximumLength(320)
+                .Must(ValidEmail).WithMessage("'{PropertyName}' معتبر نمی‌باشد.")
+                .Must(UniqueEmail).WithMessage("'{PropertyName}' تکراری است.")
+                .WithName("ایمیل");
 
             RuleFor(x => x.Password)
-                .NotNull().WithMessage("وارد کردن رمزعبور الزامی است")
-                .NotEmpty().WithMessage("وارد کردن رمزعبور الزامی است")
-                .Length(8, 50).WithMessage("رمز عبور میتواند حداقل 8 و حداکثر 50 کاراکتر داشته باشد");
+                .NotEmpty()
+                .Length(8, 50)
+                .WithName("رمزعبور");
         }
 
-        public async Task<bool> BeUniqueEmail(string email, CancellationToken cancellationToken)
+        private bool ValidEmail(string email)
         {
-            var result = await _dbContext.Users.AnyAsync(x => x.Email == email, cancellationToken);
+            return Validator.IsValidEmail(email);
+        }
 
-            return !result;
+        private bool UniqueEmail(string email)
+        {
+            return _dbContext.Users.All(x => x.Email != email);
+        }
+
+        private bool UniquePhoneNumber(string phoneNumber)
+        {
+            return _dbContext.Users.All(x => x.PhoneNumber != phoneNumber);
         }
     }
 
@@ -87,7 +97,7 @@ namespace Pors.Application.Users.Commands
 
     #region handler
 
-    public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Result>
+    public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, int>
     {
         private readonly ISqlDbContext _dbContext;
         private readonly IFileManagerService _fileManager;
@@ -98,37 +108,30 @@ namespace Pors.Application.Users.Commands
             _fileManager = fileManager;
         }
 
-        public async Task<Result> Handle(CreateUserCommand request, CancellationToken cancellationToken)
+        public async Task<int> Handle(CreateUserCommand request, CancellationToken cancellationToken)
         {
-            try
+            var entity = new User
             {
-                var user = new User
-                {
-                    Email = request.Email,
-                    LastName = request.LastName,
-                    IsActive = request.IsActive,
-                    FirstName = request.FirstName,
-                    PhoneNumber = request.PhoneNumber,
-                    IsEmailConfirmed = request.IsEmailConfirmed,
-                    PasswordHash = PasswordHasher.Hash(request.Password),
-                    IsPhoneNumberConfirmed = request.IsPhoneNumberConfirmed,
-                };
+                Email = request.Email,
+                LastName = request.LastName,
+                IsActive = request.IsActive,
+                FirstName = request.FirstName,
+                PhoneNumber = request.PhoneNumber,
+                IsEmailConfirmed = request.IsEmailConfirmed,
+                PasswordHash = PasswordHasher.Hash(request.Password),
+                IsPhoneNumberConfirmed = request.IsPhoneNumberConfirmed,
+            };
 
-                if (request.ProfilePicture != null)
-                {
-                    user.ProfilePicture = await _fileManager.CreateFileAsync(request.ProfilePicture);
-                }
-
-                _dbContext.Users.Add(user);
-
-                await _dbContext.SaveChangesAsync();
-
-                return Result.Success("کاربر با موفقیت ایجاد شد");
-            }
-            catch
+            if (request.ProfilePicture != null)
             {
-                return Result.Failure("خطایی در ساخت کاربر اتفاق انفاد.");
+                entity.ProfilePicture = await _fileManager.CreateFileAsync(request.ProfilePicture);
             }
+
+            _dbContext.Users.Add(entity);
+
+            await _dbContext.SaveChangesAsync();
+
+            return entity.Id;
         }
     }
 

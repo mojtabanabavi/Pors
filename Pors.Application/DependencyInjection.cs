@@ -15,7 +15,7 @@ namespace Pors.Application
 
             services.AddAutoMapper(configs =>
             {
-                configs.CreateMap<DateTime, string>().ConvertUsing(x => Dater.ToIranSolar(x, "dd MMMM yyyy"));
+                configs.CreateMap<DateTime, string>().ConvertUsing(x => Dater.ToIranSolar(x, "dd/MM/yyyy"));
 
             }, executingAssembly);
 

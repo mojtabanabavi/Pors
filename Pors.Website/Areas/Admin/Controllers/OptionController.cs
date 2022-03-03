@@ -51,7 +51,7 @@ namespace Pors.Website.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult Create(int id)
         {
-            var model = new CreateOptionCommand
+            var model = new CreateOptionsCommand
             {
                 Id = id
             };
@@ -60,7 +60,7 @@ namespace Pors.Website.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(CreateOptionCommand request)
+        public async Task<IActionResult> Create(CreateOptionsCommand request)
         {
             if (ModelState.IsValid)
             {
