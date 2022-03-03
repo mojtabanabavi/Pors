@@ -1,9 +1,9 @@
 using System;
 using Pors.Application;
 using Pors.Infrastructure;
+using System.Globalization;
 using Pors.Website.Services;
 using Pors.Website.Constants;
-using System.Collections.Generic;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -12,7 +12,6 @@ using Pors.Infrastructure.Services;
 using Microsoft.Extensions.Configuration;
 using Pors.Application.Common.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
-using System.Globalization;
 
 namespace Pors.Website
 {

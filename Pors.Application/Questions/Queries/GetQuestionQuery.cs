@@ -22,6 +22,15 @@ namespace Pors.Application.Questions.Queries
     public class GetQuestionQuery : IRequest<Result<GetQuestionQueryResponse>>
     {
         public int Id { get; set; }
+
+        public GetQuestionQuery()
+        {
+        }
+
+        public GetQuestionQuery(int id)
+        {
+            Id = id;
+        }
     }
 
     public class GetQuestionQueryResponse : IMapFrom<ExamQuestion>

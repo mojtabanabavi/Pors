@@ -51,7 +51,7 @@ namespace Pors.Website.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Create(int id)
+        public async Task<IActionResult> Create()
         {
             var result = await Mediator.Send(new GetExamsSelectListQuery());
 
@@ -65,14 +65,7 @@ namespace Pors.Website.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                var result = await Mediator.Send(request);
-
-                if (!result.IsSucceeded)
-                {
-                    ModelState.AddErrors(result.Errors);
-
-                    return View(request);
-                }
+                var questionId = await Mediator.Send(request);
 
                 return RedirectToAction(nameof(Index), new { id = request.ExamId });
             }
@@ -100,19 +93,14 @@ namespace Pors.Website.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                var result = await Mediator.Send(request);
-
-                if (!result.IsSucceeded)
-                {
-                    ModelState.AddErrors(result.Errors);
-
-                    return View(request);
-                }
+                await Mediator.Send(request);
 
                 return RedirectToAction(nameof(Index), new { id = request.Id });
             }
 
-            return View();
+            var question = await Mediator.Send(new GetQuestionQuery(request.Id));
+
+            return View(question);
         }
 
         [HttpGet]
@@ -120,19 +108,10 @@ namespace Pors.Website.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                var result = await Mediator.Send(request);
-
-                if (!result.IsSucceeded)
-                {
-                    ModelState.AddErrors(result.Errors);
-
-                    //return View(request);
-                }
-
-                return RedirectToAction(nameof(Index), new { id = request.Id });
+                await Mediator.Send(request);
             }
 
-            return View(nameof(Index));
+            return RedirectToAction(nameof(Index), new { id = request.Id });
         }
     }
 }

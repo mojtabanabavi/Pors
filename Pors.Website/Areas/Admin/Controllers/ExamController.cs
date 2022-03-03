@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Linq;
 using System.Threading.Tasks;
-using Pors.Website.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Pors.Application.Common.Models;
 using Pors.Application.Exams.Queries;
@@ -60,14 +58,7 @@ namespace Pors.Website.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                var result = await Mediator.Send(request);
-
-                if (!result.IsSucceeded)
-                {
-                    ModelState.AddErrors(result.Errors);
-
-                    return View(request);
-                }
+                var examId = await Mediator.Send(request);
 
                 return RedirectToAction(nameof(Index));
             }
@@ -95,19 +86,14 @@ namespace Pors.Website.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                var result = await Mediator.Send(request);
-
-                if (!result.IsSucceeded)
-                {
-                    ModelState.AddErrors(result.Errors);
-
-                    return View(request);
-                }
+                await Mediator.Send(request);
 
                 return RedirectToAction(nameof(Index));
             }
 
-            return View();
+            var exam = await Mediator.Send(new GetExamQuery(request.Id));
+
+            return View(exam.Data);
         }
 
         [HttpGet]
@@ -115,19 +101,10 @@ namespace Pors.Website.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                var result = await Mediator.Send(request);
-
-                if (!result.IsSucceeded)
-                {
-                    ModelState.AddErrors(result.Errors);
-
-                    //return View(request);
-                }
-
-                return RedirectToAction(nameof(Index));
+                await Mediator.Send(request);
             }
 
-            return View(nameof(Index));
+            return RedirectToAction(nameof(Index));
         }
     }
 }

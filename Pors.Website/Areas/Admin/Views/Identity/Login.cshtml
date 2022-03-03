@@ -2,6 +2,8 @@
 @{
     Layout = "_identityLayout";
     ViewData["Title"] = "ورود به حساب کاربری";
+
+    var returnUrl = Context.Request.Query["returnurl"];
 }
 
 <div class="container mt--8 pb-5">
@@ -10,8 +12,7 @@
             <div class="card bg-secondary shadow border-0">
                 <div class="card-body p-5">
                     <div asp-validation-summary="ModelOnly" class="text-center mb-4"></div>
-                    <form asp-action="login" method="post">
-                        <input asp-for="ReturnUrl" type="hidden" />
+                    <form asp-action="login" asp-route-returnurl="@returnUrl" method="post">
                         <div class="form-group mb-3">
                             <div class="input-group input-group-alternative">
                                 <div class="input-group-prepend">

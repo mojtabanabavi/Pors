@@ -1,4 +1,6 @@
-﻿using Pors.Website.Constants;
+﻿using System;
+using Loby.Extensions;
+using Pors.Website.Constants;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Pors.Website.Extensions;
@@ -21,7 +23,7 @@ namespace Pors.Website.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login(LoginUserQuery request)
+        public async Task<IActionResult> Login(LoginUserQuery request, string returnUrl = "")
         {
             if (ModelState.IsValid)
             {
@@ -51,9 +53,9 @@ namespace Pors.Website.Areas.Admin.Controllers
 
                     await HttpContext.SignInAsync(AuthenticationSchemes.Admin, claimsPrincipal, authenticationProperties);
 
-                    if (!string.IsNullOrEmpty(request.ReturnUrl))
+                    if (returnUrl.HasValue() && Url.IsLocalUrl(returnUrl))
                     {
-                        return Redirect(request.ReturnUrl);
+                        return Redirect(returnUrl);
                     }
                     else
                     {
@@ -88,16 +90,9 @@ namespace Pors.Website.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                var result = await Mediator.Send(request);
+                await Mediator.Send(request);
 
-                if (result.IsSucceeded)
-                {
-                    ViewBag.SendTokenMessage = result.Message;
-                }
-                else
-                {
-                    ModelState.AddErrors(result.Errors);
-                }
+                return RedirectToAction(nameof(ResetPassword));
             }
 
             return View(request);
@@ -114,16 +109,9 @@ namespace Pors.Website.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                var result = await Mediator.Send(request);
+                await Mediator.Send(request);
 
-                if (result.IsSucceeded)
-                {
-                    ViewBag.SendTokenMessage = result.Message;
-                }
-                else
-                {
-                    ModelState.AddErrors(result.Errors);
-                }
+                return RedirectToAction(nameof(Login));
             }
 
             return View(request);

@@ -22,6 +22,15 @@ namespace Pors.Application.Roles.Queries
     public class GetRoleQuery : IRequest<Result<GetRoleQueryResponse>>
     {
         public int Id { get; set; }
+
+        public GetRoleQuery()
+        {
+        }
+
+        public GetRoleQuery(int id)
+        {
+            Id = id;
+        }
     }
 
     public class GetRoleQueryResponse : IMapFrom<Role>

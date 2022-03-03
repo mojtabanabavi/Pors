@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Linq;
-using Loby.Extensions;
 using System.Threading.Tasks;
 using Pors.Website.Extensions;
 using Microsoft.AspNetCore.Mvc;
@@ -23,23 +21,14 @@ namespace Pors.Website.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Index(UpdateProfileCommand request)
         {
-            var profile = new GetProfileQueryResponse();
-
             if (ModelState.IsValid)
             {
-                var result = await Mediator.Send(request);
-
-                if (!result.IsSucceeded)
-                {
-                    ModelState.AddErrors(result.Errors);
-
-                    profile = await Mediator.Send(new GetProfileQuery());
-                }
+                await Mediator.Send(request);
 
                 return RedirectToAction(nameof(Index));
             }
 
-            profile = await Mediator.Send(new GetProfileQuery());
+            var profile = await Mediator.Send(new GetProfileQuery());
 
             return View(profile);
         }

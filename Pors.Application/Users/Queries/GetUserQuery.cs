@@ -22,6 +22,15 @@ namespace Pors.Application.Users.Queries
     public class GetUserQuery : IRequest<Result<GetUserQueryResponse>>
     {
         public int Id { get; set; }
+
+        public GetUserQuery()
+        {
+        }
+
+        public GetUserQuery(int id)
+        {
+            Id = id;
+        }
     }
 
     public class GetUserQueryResponse : IMapFrom<User>

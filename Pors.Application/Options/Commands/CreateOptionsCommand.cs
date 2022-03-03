@@ -19,6 +19,15 @@ namespace Pors.Application.Options.Commands
         public int Id { get; set; }
         public List<CreateOptionItems> Items { get; set; }
 
+        public CreateOptionsCommand()
+        {
+        }
+
+        public CreateOptionsCommand(int id)
+        {
+            Id = id;
+        }
+
         public class CreateOptionItems
         {
             public string Title { get; set; }

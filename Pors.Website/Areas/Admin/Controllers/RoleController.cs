@@ -1,9 +1,9 @@
-﻿using System.Threading.Tasks;
-using Pors.Website.Extensions;
+﻿using System;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Pors.Application.Roles.Queries;
 using Pors.Application.Common.Models;
 using Pors.Application.Roles.Commands;
-using Pors.Application.Roles.Queries;
 
 namespace Pors.Website.Areas.Admin.Controllers
 {
@@ -36,6 +36,7 @@ namespace Pors.Website.Areas.Admin.Controllers
             return Json(jsonData);
         }
 
+        [HttpGet]
         public IActionResult Index()
         {
             return View();
@@ -52,14 +53,7 @@ namespace Pors.Website.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                var result = await Mediator.Send(request);
-
-                if (!result.IsSucceeded)
-                {
-                    ModelState.AddErrors(result.Errors);
-
-                    return View(request);
-                }
+                var roleId = await Mediator.Send(request);
 
                 return RedirectToAction(nameof(Index));
             }
@@ -87,19 +81,14 @@ namespace Pors.Website.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                var result = await Mediator.Send(request);
-
-                if (!result.IsSucceeded)
-                {
-                    ModelState.AddErrors(result.Errors);
-
-                    return View(request);
-                }
+                await Mediator.Send(request);
 
                 return RedirectToAction(nameof(Index));
             }
 
-            return View();
+            var role = await Mediator.Send(new GetRoleQuery(request.Id));
+
+            return View(role);
         }
 
         [HttpGet]
@@ -107,19 +96,10 @@ namespace Pors.Website.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                var result = await Mediator.Send(request);
-
-                if (!result.IsSucceeded)
-                {
-                    ModelState.AddErrors(result.Errors);
-
-                    //return View(request);
-                }
-
-                return RedirectToAction(nameof(Index));
+                await Mediator.Send(request);
             }
 
-            return View(nameof(Index));
+            return RedirectToAction(nameof(Index));
         }
     }
 }

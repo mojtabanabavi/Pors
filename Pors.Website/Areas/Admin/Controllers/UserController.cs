@@ -1,5 +1,5 @@
-﻿using System.Threading.Tasks;
-using Pors.Website.Extensions;
+﻿using System;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Pors.Application.Common.Models;
 using Pors.Application.Users.Queries;
@@ -53,14 +53,7 @@ namespace Pors.Website.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                var result = await Mediator.Send(request);
-
-                if (!result.IsSucceeded)
-                {
-                    ModelState.AddErrors(result.Errors);
-
-                    return View(request);
-                }
+                var userId = await Mediator.Send(request);
 
                 return RedirectToAction(nameof(Index));
             }
@@ -88,19 +81,14 @@ namespace Pors.Website.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                var result = await Mediator.Send(request);
-
-                if (!result.IsSucceeded)
-                {
-                    ModelState.AddErrors(result.Errors);
-
-                    return View(request);
-                }
+                await Mediator.Send(request);
 
                 return RedirectToAction(nameof(Index));
             }
 
-            return View();
+            var user = await Mediator.Send(new GetUserQuery(request.Id));
+
+            return View(user);
         }
 
         [HttpGet]
@@ -108,19 +96,10 @@ namespace Pors.Website.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                var result = await Mediator.Send(request);
-
-                if (!result.IsSucceeded)
-                {
-                    ModelState.AddErrors(result.Errors);
-
-                    //return View(request);
-                }
-
-                return RedirectToAction(nameof(Index));
+                await Mediator.Send(request);
             }
 
-            return View(nameof(Index));
+            return RedirectToAction(nameof(Index));
         }
     }
 }

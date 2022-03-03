@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Pors.Website.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using Pors.Application.Common.Models;
@@ -43,6 +42,7 @@ namespace Pors.Website.Areas.Admin.Controllers
             return Json(jsonData);
         }
 
+        [HttpGet]
         public IActionResult Index(int id)
         {
             return View(id);
@@ -51,12 +51,7 @@ namespace Pors.Website.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult Create(int id)
         {
-            var model = new CreateOptionsCommand
-            {
-                Id = id
-            };
-
-            return View(model);
+            return View(new CreateOptionsCommand(id));
         }
 
         [HttpPost]
@@ -64,14 +59,7 @@ namespace Pors.Website.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                var result = await Mediator.Send(request);
-
-                if (!result.IsSucceeded)
-                {
-                    ModelState.AddErrors(result.Errors);
-
-                    return View(request);
-                }
+                var optionIds = await Mediator.Send(request);
 
                 return RedirectToAction(nameof(Index), new { id = request.Id });
             }
@@ -97,35 +85,16 @@ namespace Pors.Website.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Update(UpdateOptionCommand request)
         {
-            var model = new GetOptionQueryResponse();
-
             if (ModelState.IsValid)
             {
-                var result = await Mediator.Send(request);
-
-                if (!result.IsSucceeded)
-                {
-                    ModelState.AddErrors(result.Errors);
-
-                    model = new GetOptionQueryResponse
-                    {
-                        Id = request.Id,
-                        Title = request.Title,
-                    };
-
-                    return View(model);
-                }
+                await Mediator.Send(request);
 
                 return RedirectToAction(nameof(Index));
             }
 
-            model = new GetOptionQueryResponse
-            {
-                Id = request.Id,
-                Title = request.Title,
-            };
+            var option = await Mediator.Send(new GetOptionQuery(request.Id));
 
-            return View(model);
+            return View(option.Data);
         }
 
         [HttpGet]
@@ -133,19 +102,10 @@ namespace Pors.Website.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                var result = await Mediator.Send(request);
-
-                if (!result.IsSucceeded)
-                {
-                    ModelState.AddErrors(result.Errors);
-
-                    //return View(request);
-                }
-
-                return RedirectToAction(nameof(Index));
+                await Mediator.Send(request);
             }
 
-            return View(nameof(Index));
+            return RedirectToAction(nameof(Index));
         }
     }
 }
