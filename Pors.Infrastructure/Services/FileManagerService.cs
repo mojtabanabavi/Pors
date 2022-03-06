@@ -44,6 +44,8 @@ namespace Pors.Infrastructure.Services
 
         public async Task DeleteFileAsync(string path)
         {
+            path = Path.Combine("wwwroot", path);
+
             if (File.Exists(path))
             {
                 await Task.Run(() => File.Delete(path));
