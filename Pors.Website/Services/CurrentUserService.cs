@@ -9,14 +9,14 @@ namespace Pors.Website.Services
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public string DisplayName => GetClaimValue(ClaimTypes.Name);
-        public string ProfilePicture => GetClaimValue("ProfilePicture") ?? "img/avatars/default.jpg";
-        public string UserId => GetClaimValue(ClaimTypes.NameIdentifier);
-
         public CurrentUserService(IHttpContextAccessor httpContextAccessor)
         {
             _httpContextAccessor = httpContextAccessor;
         }
+
+        public string DisplayName => GetClaimValue(ClaimTypes.Name);
+        public string UserId => GetClaimValue(ClaimTypes.NameIdentifier);
+        public string ProfilePicture => GetClaimValue("ProfilePicture");
 
         private string GetClaimValue(string claimType)
         {
