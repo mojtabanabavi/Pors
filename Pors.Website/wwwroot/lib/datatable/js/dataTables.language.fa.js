@@ -1,4 +1,4 @@
-var dataTables_persian_language = {
+var dataTablesPersianLanguage = {
     "emptyTable": "هیچ داده‌ای در جدول وجود ندارد",
     "info": "نمایش _START_ تا _END_ از _TOTAL_ ردیف",
     "infoEmpty": "نمایش 0 تا 0 از 0 ردیف",

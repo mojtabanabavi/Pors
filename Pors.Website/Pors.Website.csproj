@@ -16,4 +16,8 @@
     <ProjectReference Include="..\Pors.Infrastructure\Pors.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\lib\bootstrap\js\" />
+  </ItemGroup>
+
 </Project>
