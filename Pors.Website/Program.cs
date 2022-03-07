@@ -14,12 +14,12 @@ namespace Pors.Website
             var host = CreateHostBuilder(args).Build();
             var env = host.Services.GetRequiredService<IWebHostEnvironment>();
 
-            using(var scope = host.Services.CreateScope())
+            if (env.IsProduction())
             {
-                var databaseSeed = scope.ServiceProvider.GetRequiredService<ISqlDbContextSeed>();
-
-                if (env.IsProduction())
+                using (var scope = host.Services.CreateScope())
                 {
+                    var databaseSeed = scope.ServiceProvider.GetRequiredService<ISqlDbContextSeed>();
+
                     await databaseSeed.SeedDataAsync();
                 }
             }
