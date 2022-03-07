@@ -316,10 +316,18 @@ let examsDataTableOptions = {
         {
             'orderable': false,
             'render': function (data, type, row) {
-                let content = '';
-                content += '<a class="btn btn-sm btn-primary ml-3" href="question/index/' + row.id + '">سوالات</a>';
-                content += '<a class="btn btn-sm btn-info ml-3" href="exam/update/' + row.id + '">ویرایش</a>';
-                content += '<a class="btn btn-sm btn-danger" href="exam/delete/' + row.id + '">حذف</a>';
+                let content =
+                    `<div class="btn-group ">
+                          <button type="button" class="btn btn-sm btn-icon-only text-light dropdown-toggle" data-toggle="dropdown">
+                            <i class="fas fa-ellipsis-v"></i>
+                          </button>
+                          <div class="dropdown-menu">
+                            <a class="dropdown-item" href="/admin/question/index/${row.id}">لیست ‌سوالات</a>
+                            <a class="dropdown-item" href="/admin/exam/update/${row.id}">ویرایش</a>
+                            <a class="dropdown-item" href="/admin/exam/delete/${row.id}">حذف</a>
+                          </div>
+                      </div>
+                    </div>`;
 
                 return content;
             }
@@ -377,11 +385,19 @@ let questionDataTableOptions = {
         {
             'orderable': false,
             'render': function (data, type, row) {
-                let content = '';
-                content += '<a class="btn btn-sm btn-primary ml-3" href="/admin/option/index/' + row.id + '">لیست گزینه ها</a>';
-                content += '<a class="btn btn-sm btn-secondary ml-3" href="/admin/option/create/' + row.id + '">افزودن گزینه</a>';
-                content += '<a class="btn btn-sm btn-info ml-3" href="/admin/question/update/' + row.id + '">ویرایش</a>';
-                content += '<a class="btn btn-sm btn-danger" href="/admin/question/delete/' + row.id + '">حذف</a>';
+                let content =
+                    `<div class="btn-group ">
+                          <button type="button" class="btn btn-sm btn-icon-only text-light dropdown-toggle" data-toggle="dropdown">
+                            <i class="fas fa-ellipsis-v"></i>
+                          </button>
+                          <div class="dropdown-menu">
+                            <a class="dropdown-item" href="/admin/option/index/${row.id}">لیست گزینه‌ها</a>
+                            <a class="dropdown-item" href="/admin/option/create/${row.id}">افزودن گزینه</a>
+                            <a class="dropdown-item" href="/admin/option/update/${row.id}">ویرایش</a>
+                            <a class="dropdown-item" href="/admin/option/delete/${row.id}">حذف</a>
+                          </div>
+                      </div>
+                    </div>`;
 
                 return content;
             }
@@ -423,9 +439,17 @@ let rolesDataTableOptions = {
         {
             'orderable': false,
             'render': function (data, type, row) {
-                let content = '';
-                content += '<a class="btn btn-sm btn-info ml-3" href="role/update/' + row.id + '">ویرایش</a>';
-                content += '<a class="btn btn-sm btn-danger" href="role/delete/' + row.id + '">حذف</a>';
+                let content =
+                    `<div class="btn-group ">
+                          <button type="button" class="btn btn-sm btn-icon-only text-light dropdown-toggle" data-toggle="dropdown">
+                            <i class="fas fa-ellipsis-v"></i>
+                          </button>
+                          <div class="dropdown-menu">
+                            <a class="dropdown-item" href="/admin/role/update/${row.id}">ویرایش</a>
+                            <a class="dropdown-item" href="/admin/role/delete/${row.id}">حذف</a>
+                          </div>
+                      </div>
+                    </div>`;
 
                 return content;
             }
@@ -494,9 +518,17 @@ let usersDataTableOptions = {
         {
             'orderable': false,
             'render': function (data, type, row) {
-                let content = '';
-                content += '<a class="btn btn-sm btn-info ml-3" href="user/update/' + row.id + '">ویرایش</a>';
-                content += '<a class="btn btn-sm btn-danger" href="user/delete/' + row.id + '">حذف</a>';
+                let content =
+                    `<div class="btn-group ">
+                          <button type="button" class="btn btn-sm btn-icon-only text-light dropdown-toggle" data-toggle="dropdown">
+                            <i class="fas fa-ellipsis-v"></i>
+                          </button>
+                          <div class="dropdown-menu">
+                            <a class="dropdown-item" href="/admin/user/update/${row.id}">ویرایش</a>
+                            <a class="dropdown-item" href="/admin/user/delete/${row.id}">حذف</a>
+                          </div>
+                      </div>
+                    </div>`;
 
                 return content;
             }
@@ -557,9 +589,17 @@ let optionsDataTableOptions = {
         {
             'orderable': false,
             'render': function (data, type, row) {
-                let content = '';
-                content += '<a class="btn btn-sm btn-info ml-3" href="option/update/' + row.id + '">ویرایش</a>';
-                content += '<a class="btn btn-sm btn-danger" href="option/delete/' + row.id + '">حذف</a>';
+                let content =
+                    `<div class="btn-group ">
+                          <button type="button" class="btn btn-sm btn-icon-only text-light dropdown-toggle" data-toggle="dropdown">
+                            <i class="fas fa-ellipsis-v"></i>
+                          </button>
+                          <div class="dropdown-menu">
+                            <a class="dropdown-item" href="/admin/option/update/${row.id}">ویرایش</a>
+                            <a class="dropdown-item" href="/admin/option/delete/${row.id}">حذف</a>
+                          </div>
+                      </div>
+                    </div>`;
 
                 return content;
             }

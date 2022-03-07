@@ -2,6 +2,10 @@
     direction: rtl;
 }
 
+.disabled {
+    pointer-events: none !important;
+}
+
 .cursor-pointer {
     cursor: pointer !important;
 }
@@ -33,10 +37,16 @@
 }
 
 .navbar-vertical .navbar-nav .nav-link[data-toggle=collapse]:after {
-    content: "\F104";
+    content: '\f104';
     margin-left: 0;
     margin-right: auto;
 }
+
+.navbar-vertical .navbar-nav .nav-link[data-toggle=collapse][aria-expanded=true]:after {
+    transform: rotate(270deg);
+    -webkit-transform: rotate(270deg);
+}
+
 
 #sidenav-main .navbar-nav{
     padding: 0;
@@ -75,6 +85,10 @@
 
 /* ########## customize datatable ############ */
 
+table.datatable{
+    text-align: center;
+}
+
 .dataTables_wrapper{
     font-size: inherit;
 }
@@ -109,4 +123,12 @@
 
 .custom-control{
     padding-right: 0 !important;
+}
+
+.btn-icon-only::after {
+    content: none !important;
+}
+
+.dropdown-menu {
+	min-width: 8rem
 }
