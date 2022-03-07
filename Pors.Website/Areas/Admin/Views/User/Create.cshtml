@@ -1,4 +1,4 @@
-﻿@model Pors.Application.Users.Commands.CreateUserCommand
+﻿@model CreateUserCommand
 @{
     Layout = "_adminLayout";
     ViewData["Title"] = "ایجاد کاربر";
@@ -76,17 +76,17 @@
                     </div>
                 </div>
                 <div class="card-footer d-flex justify-content-end">
-                    <button type="submit" class="btn btn-success">ایجاد حساب</button>
+                    <button type="submit" class="btn btn-success">@ViewData["Title"]</button>
                 </div>
             </div>
         </div>
         <div class="col-xl-4 order-xl-2 mb-5 mb-xl-0">
             <div class="card mb-4">
                 <div class=" card-header">
-                    <img id="image-preview-output" class="w-100">
+                    <img id="image-preview-output" class="w-100 upload-image">
                 </div>
                 <div class="card-body pt-0 pt-md-4">
-                    <input asp-for="ProfilePicture" id="image-preview-input" class="d-none" />
+                    <input asp-for="ProfilePicture" accept="image/*" id="image-preview-input" class="d-none" />
                     <label for="image-preview-input" class="btn btn-primary m-0">
                         <span>انتخاب تصویر</span>
                     </label>

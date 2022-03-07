@@ -16,6 +16,10 @@ namespace Pors.Application.Users.Queries
     {
         public int Id { get; set; }
 
+        public GetUserQuery()
+        {
+        }
+
         public GetUserQuery(int id)
         {
             Id = id;

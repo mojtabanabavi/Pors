@@ -1,7 +1,7 @@
-﻿@model Pors.Application.Options.Commands.CreateOptionsCommand
+﻿@model CreateOptionsCommand
 @{
     Layout = "_adminLayout";
-    ViewData["Title"] = "ایجاد گزینه ها";
+    ViewData["Title"] = "ایجاد گزینه";
 }
 
 @section scripts{
@@ -13,11 +13,11 @@
         <div class="col">
             <div class="card shadow">
                 <div class="card-header bg-transparent">
-                    <h3 class="mb-0">افزودن گزینه های جدید</h3>
+                    <h3 class="mb-0">@ViewData["Title"]</h3>
                 </div>
                 <div class="card-body">
-                    <div asp-validation-summary="All" class="text-center mb-4"></div>
                     <input type="hidden" asp-for="Id" />
+                    <div asp-validation-summary="All" class="text-center mb-4"></div>
                     <div data-repeater-list="items">
                         <div data-repeater-item>
                             <div class="row justify-content-between">
@@ -43,7 +43,7 @@
                     </div>
                 </div>
                 <div class="card-footer d-flex justify-content-end">
-                    <button type="submit" class="btn btn-success">افزودن گزینه ها</button>
+                    <button type="submit" class="btn btn-success">@ViewData["Title"]</button>
                 </div>
             </div>
         </div>

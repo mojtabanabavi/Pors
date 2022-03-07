@@ -1,23 +1,23 @@
 ﻿
 @{
     Layout = "_adminLayout";
-    ViewData["Title"] = "لیست نقش ها";
+    ViewData["Title"] = "لیست نقش‌ها";
 }
 
 @section styles{
-<link rel="stylesheet" href="~/lib/data-table/css/dataTables.bootstrap4.min.css" />
+    <link rel="stylesheet" href="~/lib/datatable/css/dataTables.bootstrap4.min.css" />
 }
 
 @section scripts{
-<script src="~/lib/data-table/js/jquery.dataTables.min.js"></script>
-<script src="~/lib/data-table/js/dataTables.bootstrap4.min.js"></script>
+    <script src="~/lib/datatable/js/jquery.dataTables.min.js"></script>
+    <script src="~/lib/datatable/js/dataTables.bootstrap4.min.js"></script>
 }
 
 <div class="row">
     <div class="col">
         <div class="card shadow">
             <div class="card-header bg-transparent">
-                <h3 class="mb-0">لیست نقش ها</h3>
+                <h3 class="mb-0">@ViewData["Title"]</h3>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
@@ -35,4 +35,5 @@
             </div>
         </div>
     </div>
+</div>
 </div>

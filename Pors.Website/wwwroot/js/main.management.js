@@ -1,26 +1,38 @@
-﻿/* ############### imagePreviews ############### */
+﻿/* ############### default image ############### */
 
-function previewImage(input, output) {
+function SetDefaultImages() {
+    $('img').each(function (item) {
+        let $this = $(this);
+        if (!$this.attr('src')) {
+            $this.attr('src', '/img/defaults/nopicture.jpg');
+        }
+    });
+}
+
+SetDefaultImages();
+
+/* ############### image previews ############### */
+
+function PreviewImage(input, output) {
     if (input.files && input.files[0]) {
-        var reader = new FileReader();
-
+        let reader = new FileReader();
         reader.onload = function (e) {
             output.attr('src', e.target.result);
         }
-
         reader.readAsDataURL(input.files[0]);
     }
 }
 
+let imagePreviewClear = $('#image-preview-clear');
 let imagePreviewInput = $('#image-preview-input');
 let imagePreviewOutput = $('#image-preview-output');
 
-if (!imagePreviewOutput.attr('src')) {
-    imagePreviewOutput.attr('src', '/img/themes/no-picture.jpg');
-}
-
 $(imagePreviewInput).change(function () {
-    previewImage(this, imagePreviewOutput);
+    PreviewImage(this, imagePreviewOutput);
+    //let parent = $(this).parent();
+    //if (parent.has('#image-preview-clear').length === 0) {
+    //    parent.append('<button type="button" id="image-preview-clear" class="btn btn-danger mr-2 disabled">حذف تصویر</button>');
+    //}
 });
 
 /* ############### datatables ############### */

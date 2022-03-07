@@ -16,6 +16,10 @@ namespace Pors.Application.Roles.Queries
     {
         public int Id { get; set; }
 
+        public GetRoleQuery()
+        {
+        }
+
         public GetRoleQuery(int id)
         {
             Id = id;

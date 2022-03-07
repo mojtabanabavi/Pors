@@ -1,31 +1,32 @@
 ﻿@{
     @inject Pors.Application.Common.Interfaces.ICurrentUserService CurrentUser
-    var currentPersianDate = Loby.Tools.Dater.ToIranSolar(DateTime.Now, "dd MMMM yyyy");
+    var currentPersianDate = Loby.Tools.Dater.ToIranSolar(DateTime.Now, "dddd، dd MMMM yyyy");
 }
 
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <title>پرس - @ViewData["Title"]</title>
+    <title>پُرس - @ViewData["Title"]</title>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0 shrink-to-fit=no">
 
     <!-- favicon -->
-    <link rel="icon" type="image/png" href="~/img/defaults/favicon.png">
+    <link async rel="icon" type="image/png" href="~/img/defaults/favicon.png">
 
     <!-- librarys -->
-    <link rel="stylesheet" href="~/lib/bootstrap/css/bootstrap.rtl.css" />
-    @RenderSection("styles",false)
+    <link async rel="stylesheet" href="~/lib/bootstrap/css/bootstrap.rtl.css">
+
+    @RenderSection("styles", false)
 
     <!-- fonts -->
-    <link rel="stylesheet" href="~/fonts/yekan/css/yekan.css">
-    <link rel="stylesheet" href="~/fonts/nucleo/css/nucleo.min.css">
-    <link rel="stylesheet" href="~/fonts/fontawesome/css/fontawesome.min.css">
+    <link async rel="stylesheet" href="~/fonts/yekan/css/yekan.css">
+    <link async rel="stylesheet" href="~/fonts/nucleo/css/nucleo.min.css">
+    <link async rel="stylesheet" href="~/fonts/fontawesome/css/fontawesome.min.css">
 
     <!-- styles -->
-    @*<link rel="stylesheet" href="~/css/argon.css" />*@
-    <link rel="stylesheet" href="~/css/main.management.css" />
+    <link async rel="stylesheet" href="~/css/argon.css" />
+    <link async rel="stylesheet" href="~/css/main.management.css" />
 
 </head>
 <body>
@@ -197,10 +198,9 @@
         <!-- navbar -->
         <nav class="navbar navbar-top navbar-expand-md navbar-dark" id="navbar-main">
             <div class="container-fluid">
-                <!-- brand -->
-                <p class="h4 mb-0 text-white d-none d-lg-inline-block">امروز: @currentPersianDate</p>
-                <!-- form -->
-                <div></div>
+                <div class="col pr-md-0">
+                    <p class="h4 mb-0 text-white">امروز: @currentPersianDate</p>
+                </div>
                 <!-- user -->
                 <ul class="navbar-nav align-items-center d-none d-md-flex">
                     <li class="nav-item dropdown">
@@ -234,7 +234,7 @@
         <div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
             <div class="container-fluid">
                 <div class="header-body">
-                    @RenderSection(name: "header",required: false)
+                    @RenderSection("header", false)
                 </div>
             </div>
         </div>
@@ -246,7 +246,7 @@
             <footer class="py-5">
                 <div class="d-flex align-items-center justify-content-between">
                     <div class="copyright text-center text-xl-left text-muted">
-                        <a href="https://nabawi.info" class="font-weight-bold ml-1" target="_blank">مجتبی نبوی</a> 2022 &copy;
+                        <span>طراحی و توسعه:</span> <a href="https://nabawi.info" class="font-weight-bold ml-1" target="_blank">مجتبی نبوی</a>
                     </div>
                     <div>
                         <span>@currentPersianDate</span>
@@ -259,11 +259,12 @@
     <!-- librarys -->
     <script src="~/lib/jquery/js/jquery.min.js"></script>
     <script src="~/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
-    @RenderSection("scripts",false)
-    <partial name="_ValidationScripts" />
+    <script src="~/lib/jquery-validation/js/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/js/jquery.validate.unobtrusive.min.js"></script>
+    @RenderSection("scripts", false)
 
     <!-- scripts -->
     <script src="~/js/argon.js"></script>
-    <script src="~/js/main.js"></script>
+    <script src="~/js/main.management.js"></script>
 </body>
 </html>

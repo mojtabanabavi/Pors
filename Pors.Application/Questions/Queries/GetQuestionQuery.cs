@@ -16,6 +16,10 @@ namespace Pors.Application.Questions.Queries
     {
         public int Id { get; set; }
 
+        public GetQuestionQuery()
+        {
+        }
+
         public GetQuestionQuery(int id)
         {
             Id = id;

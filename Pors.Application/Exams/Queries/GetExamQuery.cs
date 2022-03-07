@@ -16,6 +16,10 @@ namespace Pors.Application.Exams.Queries
     {
         public int Id { get; set; }
 
+        public GetExamQuery()
+        {
+        }
+
         public GetExamQuery(int id)
         {
             Id = id;

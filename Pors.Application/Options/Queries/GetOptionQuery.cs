@@ -16,6 +16,10 @@ namespace Pors.Application.Options.Queries
     {
         public int Id { get; set; }
 
+        public GetOptionQuery()
+        {
+        }
+
         public GetOptionQuery(int id)
         {
             Id = id;

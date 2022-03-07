@@ -2,6 +2,10 @@
     direction: rtl;
 }
 
+.cursor-pointer {
+    cursor: pointer !important;
+}
+
 .text-green {
     color: #2dce89 !important;
 }
@@ -95,4 +99,14 @@
     border-radius: 0.25rem;
     padding: 0.25rem 0.5rem;
     height: calc(0.45em + 1.25rem + 5px);
+}
+
+/* ########## customize ############ */
+.upload-image {
+    height: 292.5px;
+    max-height: 292.5px;
+}
+
+.custom-control{
+    padding-right: 0 !important;
 }

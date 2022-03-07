@@ -1,4 +1,4 @@
-﻿@model Pors.Application.Users.Queries.GetUserQueryResponse
+﻿@model GetUserQueryResponse
 @{
     Layout = "_adminLayout";
     ViewData["Title"] = "ویرایش کاربر";
@@ -9,7 +9,7 @@
         <div class="col-xl-8 order-xl-1 mb-5 mb-xl-0">
             <div class="card bg-secondary shadow">
                 <div class="card-header bg-bg-white border-0">
-                    <h3 class="mb-0">ویرایش کاربر</h3>
+                    <h3 class="mb-0">@ViewData["Title"]</h3>
                 </div>
                 <div class="card-body">
                     <div asp-validation-summary="ModelOnly" class="text-center mb-4"></div>
@@ -44,8 +44,8 @@
                         </div>
                         <div class="col-lg-12">
                             <div class="form-group">
-                                <label asp-for="Password" class="form-control-label">رمز عبور</label>
-                                <input asp-for="Password" class="form-control form-control-alternative" placeholder="رمز عبور">
+                                <label asp-for="Password" class="form-control-label">رمز عبور جدید</label>
+                                <input asp-for="Password" class="form-control form-control-alternative" placeholder="رمز عبور جدید">
                                 <span asp-validation-for="Password"></span>
                             </div>
                         </div>
@@ -76,17 +76,17 @@
                     </div>
                 </div>
                 <div class="card-footer d-flex justify-content-end">
-                    <button type="submit" class="btn btn-success">ایجاد حساب</button>
+                    <button type="submit" class="btn btn-success">@ViewData["Title"]</button>
                 </div>
             </div>
         </div>
         <div class="col-xl-4 order-xl-2 mb-5 mb-xl-0">
             <div class="card mb-4">
                 <div class=" card-header">
-                    <img id="image-preview-output" class="w-100" src="@Model.ProfilePicture">
+                    <img id="image-preview-output" class="w-100 upload-image" src="@Model.ProfilePicture">
                 </div>
                 <div class="card-body pt-0 pt-md-4">
-                    <input asp-for="ProfilePicture" type="file" id="image-preview-input" class="d-none" />
+                    <input asp-for="ProfilePicture" type="file" accept="image/*" id="image-preview-input" class="d-none" />
                     <label for="image-preview-input" class="btn btn-primary m-0">
                         <span>انتخاب تصویر</span>
                     </label>
