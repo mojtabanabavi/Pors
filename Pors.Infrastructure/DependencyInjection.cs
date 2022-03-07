@@ -17,7 +17,7 @@ namespace Pors.Infrastructure
                 options => options.MigrationsAssembly(typeof(SqlDbContext).Assembly.FullName)));
 
             services.AddScoped<ISqlDbContext, SqlDbContext>();
-            services.AddSingleton<ISqlDbContextSeed, SqlDbContextSeed>();
+            services.AddScoped<ISqlDbContextSeed, SqlDbContextSeed>();
             services.AddScoped<IFileManagerService, FileManagerService>();
             services.AddScoped<ITokenBuilderService, TokenBuilderService>();
             services.AddScoped<INotificationService, EmailNotificationService>();
