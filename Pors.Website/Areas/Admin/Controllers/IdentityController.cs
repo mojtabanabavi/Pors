@@ -44,14 +44,14 @@ namespace Pors.Website.Areas.Admin.Controllers
                         userClaims.Add(new Claim("ProfilePicture", response.User.ProfilePicture));
                     }
 
-                    var claimsIdentity = new ClaimsIdentity(userClaims, AuthenticationSchemes.Admin);
+                    var claimsIdentity = new ClaimsIdentity(userClaims, AuthenticationSchemes.Management);
                     var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
                     var authenticationProperties = new AuthenticationProperties
                     {
                         IsPersistent = true,
                     };
 
-                    await HttpContext.SignInAsync(AuthenticationSchemes.Admin, claimsPrincipal, authenticationProperties);
+                    await HttpContext.SignInAsync(AuthenticationSchemes.Management, claimsPrincipal, authenticationProperties);
 
                     if (returnUrl.HasValue() && Url.IsLocalUrl(returnUrl))
                     {
@@ -74,7 +74,7 @@ namespace Pors.Website.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> Logout()
         {
-            await HttpContext.SignOutAsync(AuthenticationSchemes.Admin);
+            await HttpContext.SignOutAsync(AuthenticationSchemes.Management);
 
             return RedirectToAction(nameof(Login));
         }

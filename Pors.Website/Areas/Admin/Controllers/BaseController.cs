@@ -10,7 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 namespace Pors.Website.Areas.Admin.Controllers
 {
     [Area(AreaNames.Admin)]
-    [Authorize(AuthenticationSchemes = AuthenticationSchemes.Admin)]
+    [Authorize(AuthenticationSchemes = AuthenticationSchemes.Management)]
     public class BaseController : Controller
     {
         private ISender _mediator = null!;

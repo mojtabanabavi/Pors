@@ -2,7 +2,7 @@
 {
     public class AuthenticationSchemes
     {
-        public const string Admin = "Admin";
-        public const string Default = "Cookies";
+        public const string Public = "public";
+        public const string Management = "management";
     }
 }

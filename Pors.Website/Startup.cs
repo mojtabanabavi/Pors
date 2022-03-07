@@ -40,18 +40,18 @@ namespace Pors.Website
                 options.ValidatorOptions.LanguageManager.Culture = new CultureInfo("fa");
             });
 
-            services.AddAuthentication(AuthenticationSchemes.Default)
-                .AddCookie(AuthenticationSchemes.Default, options =>
+            services.AddAuthentication()
+                .AddCookie(AuthenticationSchemes.Public, options =>
                 {
                     options.LoginPath = "/identity/login";
-                    options.ExpireTimeSpan = TimeSpan.FromHours(1);
                     options.LogoutPath = "/identity/logout";
+                    options.ExpireTimeSpan = TimeSpan.FromHours(1);
                 })
-                .AddCookie(AuthenticationSchemes.Admin, options =>
+                .AddCookie(AuthenticationSchemes.Management, options =>
                 {
                     options.LoginPath = "/admin/identity/login";
-                    options.ExpireTimeSpan = TimeSpan.FromHours(1);
                     options.LogoutPath = "/admin/identity/logout";
+                    options.ExpireTimeSpan = TimeSpan.FromHours(1);
                 });
 
             services.AddSingleton<ICurrentUserService, CurrentUserService>();
