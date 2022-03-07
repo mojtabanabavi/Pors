@@ -31,7 +31,8 @@ namespace Pors.Infrastructure.Persistence
 
         protected override void OnConfiguring(DbContextOptionsBuilder builder)
         {
-            builder.ConfigureWarnings(x => x.Ignore(CoreEventId.RowLimitingOperationWithoutOrderByWarning));
+            builder.ConfigureWarnings(x => 
+                x.Ignore(CoreEventId.RowLimitingOperationWithoutOrderByWarning));
 
             base.OnConfiguring(builder);
         }

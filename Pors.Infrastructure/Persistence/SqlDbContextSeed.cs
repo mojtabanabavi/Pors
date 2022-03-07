@@ -3,41 +3,56 @@ using System.Linq;
 using Pors.Domain.Entities;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using Microsoft.Extensions.Logging;
 using Pors.Application.Common.Interfaces;
 
 namespace Pors.Infrastructure.Persistence
 {
-    public static class SqlDbContextSeed
+    public class SqlDbContextSeed : ISqlDbContextSeed
     {
-        public static async Task SeedDefaultUserAsync(SqlDbContext dbContext)
+        private readonly ISqlDbContext _dbContext;
+        private readonly ILogger<SqlDbContextSeed> _logger;
+
+        public SqlDbContextSeed(ISqlDbContext dbContext, ILogger<SqlDbContextSeed> logger)
         {
-            var administratorRoleName = "سوپر ادمین";
+            _logger = logger;
+            _dbContext = dbContext;
+        }
+
+        public async Task SeedDataAsync()
+        {
+            await SeedDefaultUserAsync();
+        }
+
+        public async Task SeedDefaultUserAsync()
+        {
+            const string DefaultRoleName = "سوپر ادمین";
 
             var administrator = new User
             {
-                FirstName = "مجتبی",
-                LastName = "نبوی",
-                Email = "mj.nabawi@gmail.com",
-                PhoneNumber = "09104647055",
-                PasswordHash = PasswordHasher.Hash("nabavi123344"),
                 IsActive = true,
+                LastName = "نبوی",
+                FirstName = "مجتبی",
                 IsEmailConfirmed = true,
+                PhoneNumber = "09104647055",
                 IsPhoneNumberConfirmed = true,
+                Email = "mj.nabawi@gmail.com",
+                PasswordHash = PasswordHasher.Hash("nabavi123344"),
                 UserRoles = new List<UserRole>
                 {
                     new UserRole()
                     {
-                        Role = new Role(administratorRoleName)
+                        Role = new Role(DefaultRoleName)
                     }
                 }
             };
 
-            if (!dbContext.Users.Any(u => u.Email == administrator.Email))
+            if (!_dbContext.Users.Any(u => u.Email == administrator.Email))
             {
-                await dbContext.Users.AddAsync(administrator);
+                _dbContext.Users.Add(administrator);
             }
 
-            await dbContext.SaveChangesAsync();
+            await _dbContext.SaveChangesAsync();
         }
     }
 }

@@ -1,10 +1,7 @@
 ﻿using System;
 using Loby.Tools;
-using System.Linq;
-using System.Text;
 using Pors.Domain.Enums;
 using System.Threading.Tasks;
-using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Pors.Application.Common.Interfaces;
 
@@ -21,7 +18,7 @@ namespace Pors.Infrastructure.Services
 
         public async Task<string> CreateTokenAsync(int userId, IdentityTokenType tokenType, IdentityTokenDataType dataType)
         {
-            var token = string.Empty;
+            string token;
 
             do
             {

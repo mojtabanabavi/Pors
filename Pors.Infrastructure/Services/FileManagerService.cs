@@ -1,17 +1,15 @@
 ﻿using System;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
-using System.Collections.Generic;
 using Pors.Application.Common.Interfaces;
 
 namespace Pors.Infrastructure.Services
 {
     public class FileManagerService : IFileManagerService
     {
-        private const string UPLOAD_PATH = @"wwwroot\uploads\";
+        private const string ROOT_PATH = "wwwroot";
+        private const string UPLOAD_PATH = ROOT_PATH + "/uploads/";
 
         public FileManagerService()
         {
@@ -34,7 +32,7 @@ namespace Pors.Infrastructure.Services
                     await file.CopyToAsync(fileStream);
                 }
 
-                return imagePath.Replace("wwwroot\\", string.Empty);
+                return BuildRelativePath(imagePath);
             }
             catch
             {
@@ -44,12 +42,17 @@ namespace Pors.Infrastructure.Services
 
         public async Task DeleteFileAsync(string path)
         {
-            path = Path.Combine("wwwroot", path);
+            path = Path.Combine(ROOT_PATH, path);
 
             if (File.Exists(path))
             {
                 await Task.Run(() => File.Delete(path));
             }
+        }
+
+        private string BuildRelativePath(string absolutePath)
+        {
+            return absolutePath.Replace($"{ROOT_PATH}\\", string.Empty);
         }
     }
 }
