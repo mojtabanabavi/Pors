@@ -1,21 +1,12 @@
 ﻿using System;
 using MediatR;
-using Loby.Tools;
-using AutoMapper;
-using System.Text;
 using System.Linq;
-using Loby.Extensions;
-using FluentValidation;
 using System.Threading;
-using Pors.Domain.Entities;
 using System.Threading.Tasks;
 using System.Linq.Dynamic.Core;
 using System.Collections.Generic;
-using FluentValidation.Validators;
 using Microsoft.EntityFrameworkCore;
 using Pors.Application.Common.Models;
-using AutoMapper.QueryableExtensions;
-using Pors.Application.Common.Mappings;
 using Pors.Application.Common.Interfaces;
 
 namespace Pors.Application.Exams.Queries
@@ -25,6 +16,10 @@ namespace Pors.Application.Exams.Queries
     public class GetExamsSelectListQuery : IRequest<GetExamsSelectListQueryResponse>
     {
     }
+
+    #endregion;
+
+    #region response
 
     public class GetExamsSelectListQueryResponse
     {

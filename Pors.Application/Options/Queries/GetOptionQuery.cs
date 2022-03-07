@@ -1,38 +1,30 @@
 ﻿using System;
 using MediatR;
-using Loby.Tools;
 using AutoMapper;
-using System.Text;
-using System.Linq;
-using FluentValidation;
 using System.Threading;
 using Pors.Domain.Entities;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using System.Collections.Generic;
-using FluentValidation.Validators;
-using Microsoft.EntityFrameworkCore;
-using Pors.Application.Common.Models;
 using Pors.Application.Common.Mappings;
 using Pors.Application.Common.Interfaces;
+using Pors.Application.Common.Exceptions;
 
 namespace Pors.Application.Options.Queries
 {
     #region query
 
-    public class GetOptionQuery : IRequest<Result<GetOptionQueryResponse>>
+    public class GetOptionQuery : IRequest<GetOptionQueryResponse>
     {
         public int Id { get; set; }
-
-        public GetOptionQuery()
-        {
-        }
 
         public GetOptionQuery(int id)
         {
             Id = id;
         }
     }
+
+    #endregion;
+
+    #region response
 
     public class GetOptionQueryResponse : IMapFrom<QuestionOption>
     {
@@ -49,7 +41,7 @@ namespace Pors.Application.Options.Queries
 
     #region handler
 
-    public class GetOptionQueryHandler : IRequestHandler<GetOptionQuery, Result<GetOptionQueryResponse>>
+    public class GetOptionQueryHandler : IRequestHandler<GetOptionQuery, GetOptionQueryResponse>
     {
         private readonly IMapper _mapper;
         private readonly ISqlDbContext _dbContext;
@@ -60,18 +52,18 @@ namespace Pors.Application.Options.Queries
             _dbContext = dbContext;
         }
 
-        public async Task<Result<GetOptionQueryResponse>> Handle(GetOptionQuery request, CancellationToken cancellationToken)
+        public async Task<GetOptionQueryResponse> Handle(GetOptionQuery request, CancellationToken cancellationToken)
         {
-            var option = await _dbContext.QuestionOptions.FindAsync(request.Id);
+            var entity = await _dbContext.QuestionOptions.FindAsync(request.Id);
 
-            if (option == null)
+            if (entity == null)
             {
-                return Result<GetOptionQueryResponse>.Failure("گزینه یافت نشد");
+                throw new NotFoundException(nameof(QuestionOption), request.Id);
             }
 
-            var result = _mapper.Map<GetOptionQueryResponse>(option);
+            var result = _mapper.Map<GetOptionQueryResponse>(entity);
 
-            return Result<GetOptionQueryResponse>.Success(result);
+            return result;
         }
     }
 

@@ -1,8 +1,6 @@
 ﻿using System;
 using MediatR;
-using Loby.Tools;
 using AutoMapper;
-using System.Text;
 using System.Linq;
 using Loby.Extensions;
 using FluentValidation;
@@ -10,9 +8,6 @@ using System.Threading;
 using Pors.Domain.Entities;
 using System.Threading.Tasks;
 using System.Linq.Dynamic.Core;
-using System.Collections.Generic;
-using FluentValidation.Validators;
-using Microsoft.EntityFrameworkCore;
 using Pors.Application.Common.Models;
 using AutoMapper.QueryableExtensions;
 using Pors.Application.Common.Mappings;
@@ -22,14 +17,13 @@ namespace Pors.Application.Exams.Queries
 {
     #region query
 
-    public class GetExamsQuery : IRequest<PagingResult<GetExamsQueryResponse>>
+    public class GetExamsQuery : DataTableQuery, IRequest<PagingResult<GetExamsQueryResponse>>
     {
-        public int Page { get; set; } = 1;
-        public int PageSize { get; set; } = 10;
-        public string Search { get; set; }
-        public string SortColumn { get; set; }
-        public string SortColumnDirection { get; set; }
     }
+
+    #endregion;
+
+    #region response
 
     public class GetExamsQueryResponse : IMapFrom<Exam>
     {

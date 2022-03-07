@@ -71,14 +71,7 @@ namespace Pors.Website.Areas.Admin.Controllers
         {
             var result = await Mediator.Send(request);
 
-            if (result.IsSucceeded)
-            {
-                return View(result.Data);
-            }
-            else
-            {
-                return NotFound();
-            }
+            return View(result);
         }
 
         [HttpPost]
@@ -93,7 +86,7 @@ namespace Pors.Website.Areas.Admin.Controllers
 
             var exam = await Mediator.Send(new GetExamQuery(request.Id));
 
-            return View(exam.Data);
+            return View(exam);
         }
 
         [HttpGet]

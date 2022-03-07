@@ -1,37 +1,30 @@
 ﻿using System;
 using MediatR;
-using Loby.Tools;
 using AutoMapper;
-using System.Text;
-using System.Linq;
-using FluentValidation;
 using System.Threading;
 using Pors.Domain.Entities;
 using System.Threading.Tasks;
-using System.Collections.Generic;
-using FluentValidation.Validators;
-using Microsoft.EntityFrameworkCore;
-using Pors.Application.Common.Models;
 using Pors.Application.Common.Mappings;
 using Pors.Application.Common.Interfaces;
+using Pors.Application.Common.Exceptions;
 
 namespace Pors.Application.Users.Queries
 {
     #region query
 
-    public class GetUserQuery : IRequest<Result<GetUserQueryResponse>>
+    public class GetUserQuery : IRequest<GetUserQueryResponse>
     {
         public int Id { get; set; }
-
-        public GetUserQuery()
-        {
-        }
 
         public GetUserQuery(int id)
         {
             Id = id;
         }
     }
+
+    #endregion;
+
+    #region response
 
     public class GetUserQueryResponse : IMapFrom<User>
     {
@@ -57,7 +50,7 @@ namespace Pors.Application.Users.Queries
 
     #region handler
 
-    public class GetUserQueryHandler : IRequestHandler<GetUserQuery, Result<GetUserQueryResponse>>
+    public class GetUserQueryHandler : IRequestHandler<GetUserQuery, GetUserQueryResponse>
     {
         private readonly IMapper _mapper;
         private readonly ISqlDbContext _dbContext;
@@ -68,18 +61,18 @@ namespace Pors.Application.Users.Queries
             _dbContext = dbContext;
         }
 
-        public async Task<Result<GetUserQueryResponse>> Handle(GetUserQuery request, CancellationToken cancellationToken)
+        public async Task<GetUserQueryResponse> Handle(GetUserQuery request, CancellationToken cancellationToken)
         {
-            var user = await _dbContext.Users.FindAsync(request.Id);
+            var entity = await _dbContext.Users.FindAsync(request.Id);
 
-            if (user == null)
+            if (entity == null)
             {
-                return Result<GetUserQueryResponse>.Failure("کاربر یافت نشد.");
+                throw new NotFoundException(nameof(User), request.Id);
             }
 
-            var result = _mapper.Map<GetUserQueryResponse>(user);
+            var result = _mapper.Map<GetUserQueryResponse>(entity);
 
-            return Result<GetUserQueryResponse>.Success(result);
+            return result;
         }
     }
 

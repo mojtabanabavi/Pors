@@ -1,8 +1,6 @@
 ﻿using System;
 using MediatR;
-using Loby.Tools;
 using AutoMapper;
-using System.Text;
 using System.Linq;
 using Loby.Extensions;
 using System.Threading;
@@ -10,9 +8,6 @@ using FluentValidation;
 using Pors.Domain.Entities;
 using System.Threading.Tasks;
 using System.Linq.Dynamic.Core;
-using System.Collections.Generic;
-using FluentValidation.Validators;
-using Microsoft.EntityFrameworkCore;
 using Pors.Application.Common.Models;
 using AutoMapper.QueryableExtensions;
 using Pors.Application.Common.Mappings;
@@ -22,15 +17,14 @@ namespace Pors.Application.Questions.Queries
 {
     #region query
 
-    public class GetQuestionsQuery : IRequest<PagingResult<GetQuestionsQueryResponse>>
+    public class GetQuestionsQuery : DataTableQuery, IRequest<PagingResult<GetQuestionsQueryResponse>>
     {
         public int Id { get; set; }
-        public int Page { get; set; } = 1;
-        public int PageSize { get; set; } = 10;
-        public string Search { get; set; }
-        public string SortColumn { get; set; }
-        public string SortColumnDirection { get; set; }
     }
+
+    #endregion;
+
+    #region response
 
     public class GetQuestionsQueryResponse : IMapFrom<ExamQuestion>
     {
@@ -64,7 +58,7 @@ namespace Pors.Application.Questions.Queries
         {
             IQueryable<ExamQuestion> query = _dbContext.ExamQuestions;
 
-            if(request.Id != default(int))
+            if (request.Id != default(int))
             {
                 query = query.Where(x => x.ExamId == request.Id);
             }

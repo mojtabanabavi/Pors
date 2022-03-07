@@ -1,37 +1,30 @@
 ﻿using System;
 using MediatR;
-using Loby.Tools;
 using AutoMapper;
-using System.Text;
-using System.Linq;
-using FluentValidation;
 using System.Threading;
 using Pors.Domain.Entities;
 using System.Threading.Tasks;
-using System.Collections.Generic;
-using FluentValidation.Validators;
-using Microsoft.EntityFrameworkCore;
-using Pors.Application.Common.Models;
 using Pors.Application.Common.Mappings;
 using Pors.Application.Common.Interfaces;
+using Pors.Application.Common.Exceptions;
 
 namespace Pors.Application.Roles.Queries
 {
     #region query
 
-    public class GetRoleQuery : IRequest<Result<GetRoleQueryResponse>>
+    public class GetRoleQuery : IRequest<GetRoleQueryResponse>
     {
         public int Id { get; set; }
-
-        public GetRoleQuery()
-        {
-        }
 
         public GetRoleQuery(int id)
         {
             Id = id;
         }
     }
+
+    #endregion;
+
+    #region response
 
     public class GetRoleQueryResponse : IMapFrom<Role>
     {
@@ -48,7 +41,7 @@ namespace Pors.Application.Roles.Queries
 
     #region handler
 
-    public class GetRoleQueryHandler : IRequestHandler<GetRoleQuery, Result<GetRoleQueryResponse>>
+    public class GetRoleQueryHandler : IRequestHandler<GetRoleQuery, GetRoleQueryResponse>
     {
         private readonly IMapper _mapper;
         private readonly ISqlDbContext _dbContext;
@@ -59,18 +52,18 @@ namespace Pors.Application.Roles.Queries
             _dbContext = dbContext;
         }
 
-        public async Task<Result<GetRoleQueryResponse>> Handle(GetRoleQuery request, CancellationToken cancellationToken)
+        public async Task<GetRoleQueryResponse> Handle(GetRoleQuery request, CancellationToken cancellationToken)
         {
-            var role = await _dbContext.Roles.FindAsync(request.Id);
+            var entity = await _dbContext.Roles.FindAsync(request.Id);
 
-            if (role == null)
+            if (entity == null)
             {
-                return Result<GetRoleQueryResponse>.Failure("نقش یافت نشد.");
+                throw new NotFoundException(nameof(Role), request.Id);
             }
 
-            var result = _mapper.Map<GetRoleQueryResponse>(role);
+            var result = _mapper.Map<GetRoleQueryResponse>(entity);
 
-            return Result<GetRoleQueryResponse>.Success(result);
+            return result;
         }
     }
 

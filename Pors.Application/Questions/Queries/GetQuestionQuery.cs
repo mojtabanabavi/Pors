@@ -1,37 +1,30 @@
 ﻿using System;
 using MediatR;
-using Loby.Tools;
 using AutoMapper;
-using System.Text;
-using System.Linq;
 using System.Threading;
-using FluentValidation;
 using Pors.Domain.Entities;
 using System.Threading.Tasks;
-using System.Collections.Generic;
-using FluentValidation.Validators;
-using Microsoft.EntityFrameworkCore;
-using Pors.Application.Common.Models;
 using Pors.Application.Common.Mappings;
 using Pors.Application.Common.Interfaces;
+using Pors.Application.Common.Exceptions;
 
 namespace Pors.Application.Questions.Queries
 {
     #region query
 
-    public class GetQuestionQuery : IRequest<Result<GetQuestionQueryResponse>>
+    public class GetQuestionQuery : IRequest<GetQuestionQueryResponse>
     {
         public int Id { get; set; }
-
-        public GetQuestionQuery()
-        {
-        }
 
         public GetQuestionQuery(int id)
         {
             Id = id;
         }
     }
+
+    #endregion;
+
+    #region response
 
     public class GetQuestionQueryResponse : IMapFrom<ExamQuestion>
     {
@@ -47,7 +40,7 @@ namespace Pors.Application.Questions.Queries
 
     #region handler
 
-    public class GetQuestionQueryHandler : IRequestHandler<GetQuestionQuery, Result<GetQuestionQueryResponse>>
+    public class GetQuestionQueryHandler : IRequestHandler<GetQuestionQuery, GetQuestionQueryResponse>
     {
         private readonly IMapper _mapper;
         private readonly ISqlDbContext _dbContext;
@@ -58,18 +51,18 @@ namespace Pors.Application.Questions.Queries
             _dbContext = dbContext;
         }
 
-        public async Task<Result<GetQuestionQueryResponse>> Handle(GetQuestionQuery request, CancellationToken cancellationToken)
+        public async Task<GetQuestionQueryResponse> Handle(GetQuestionQuery request, CancellationToken cancellationToken)
         {
-            var question = await _dbContext.ExamQuestions.FindAsync(request.Id);
+            var entity = await _dbContext.ExamQuestions.FindAsync(request.Id);
 
-            if (question == null)
+            if (entity == null)
             {
-                return Result<GetQuestionQueryResponse>.Failure("سوال یافت نشد");
+                throw new NotFoundException(nameof(ExamQuestion), request.Id);
             }
 
-            var result = _mapper.Map<GetQuestionQueryResponse>(question);
+            var result = _mapper.Map<GetQuestionQueryResponse>(entity);
 
-            return Result<GetQuestionQueryResponse>.Success(result);
+            return result;
         }
     }
 

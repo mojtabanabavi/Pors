@@ -1,37 +1,30 @@
 ﻿using System;
 using MediatR;
-using Loby.Tools;
 using AutoMapper;
-using System.Text;
-using System.Linq;
-using FluentValidation;
 using System.Threading;
 using Pors.Domain.Entities;
 using System.Threading.Tasks;
-using System.Collections.Generic;
-using FluentValidation.Validators;
-using Microsoft.EntityFrameworkCore;
-using Pors.Application.Common.Models;
 using Pors.Application.Common.Mappings;
 using Pors.Application.Common.Interfaces;
+using Pors.Application.Common.Exceptions;
 
 namespace Pors.Application.Exams.Queries
 {
     #region query
 
-    public class GetExamQuery : IRequest<Result<GetExamQueryResponse>>
+    public class GetExamQuery : IRequest<GetExamQueryResponse>
     {
         public int Id { get; set; }
-
-        public GetExamQuery()
-        {
-        }
 
         public GetExamQuery(int id)
         {
             Id = id;
         }
     }
+
+    #endregion;
+
+    #region response
 
     public class GetExamQueryResponse : IMapFrom<Exam>
     {
@@ -50,7 +43,7 @@ namespace Pors.Application.Exams.Queries
 
     #region handler
 
-    public class GetExamQueryHandler : IRequestHandler<GetExamQuery, Result<GetExamQueryResponse>>
+    public class GetExamQueryHandler : IRequestHandler<GetExamQuery, GetExamQueryResponse>
     {
         private readonly IMapper _mapper;
         private readonly ISqlDbContext _dbContext;
@@ -61,18 +54,18 @@ namespace Pors.Application.Exams.Queries
             _dbContext = dbContext;
         }
 
-        public async Task<Result<GetExamQueryResponse>> Handle(GetExamQuery request, CancellationToken cancellationToken)
+        public async Task<GetExamQueryResponse> Handle(GetExamQuery request, CancellationToken cancellationToken)
         {
-            var exam = await _dbContext.Exams.FindAsync(request.Id);
+            var entity = await _dbContext.Exams.FindAsync(request.Id);
 
-            if (exam == null)
+            if (entity == null)
             {
-                return Result<GetExamQueryResponse>.Failure("آزمون یافت نشد");
+                throw new NotFoundException(nameof(Exam), request.Id);
             }
 
-            var result = _mapper.Map<GetExamQueryResponse>(exam);
+            var result = _mapper.Map<GetExamQueryResponse>(entity);
 
-            return Result<GetExamQueryResponse>.Success(result);
+            return result;
         }
     }
 

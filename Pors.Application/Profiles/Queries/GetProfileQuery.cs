@@ -1,17 +1,9 @@
 ﻿using System;
 using MediatR;
-using Loby.Tools;
 using AutoMapper;
-using System.Text;
-using System.Linq;
 using System.Threading;
-using FluentValidation;
 using Pors.Domain.Entities;
 using System.Threading.Tasks;
-using System.Collections.Generic;
-using FluentValidation.Validators;
-using Microsoft.EntityFrameworkCore;
-using Pors.Application.Common.Models;
 using Pors.Application.Common.Mappings;
 using Pors.Application.Common.Interfaces;
 
@@ -22,6 +14,10 @@ namespace Pors.Application.Profiles.Queries
     public class GetProfileQuery : IRequest<GetProfileQueryResponse>
     {
     }
+
+    #endregion;
+
+    #region response
 
     public class GetProfileQueryResponse : IMapFrom<User>
     {

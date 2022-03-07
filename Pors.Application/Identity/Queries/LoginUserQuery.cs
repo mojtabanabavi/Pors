@@ -1,14 +1,11 @@
 ﻿using System;
 using MediatR;
 using Loby.Tools;
-using System.Text;
 using System.Linq;
 using FluentValidation;
 using System.Threading;
 using Pors.Domain.Entities;
 using System.Threading.Tasks;
-using System.Collections.Generic;
-using FluentValidation.Validators;
 using Microsoft.EntityFrameworkCore;
 using Pors.Application.Common.Models;
 using Pors.Application.Common.Interfaces;
@@ -23,6 +20,10 @@ namespace Pors.Application.Identity.Queries
         public string Password { get; set; }
     }
 
+    #endregion;
+
+    #region response
+
     public class LoginUserQueryResponse
     {
         public LoginUserQueryResponse(User user)
@@ -35,36 +36,51 @@ namespace Pors.Application.Identity.Queries
         {
             get
             {
-                string fullName = null;
+                string fullName = string.Empty;
 
                 if (!string.IsNullOrEmpty(User.FirstName) && !string.IsNullOrEmpty(User.LastName))
                 {
                     fullName = $"{User.FirstName} {User.LastName}";
                 }
 
-                return fullName ?? User.PhoneNumber ?? User.Email;
+                return fullName ?? User.Email ?? User.PhoneNumber;
             }
         }
     }
 
     #endregion;
 
-    #region validation
+    #region validator
 
     public class LoginUserQueryValidator : AbstractValidator<LoginUserQuery>
     {
-        public LoginUserQueryValidator()
+        private readonly ISqlDbContext _dbContext;
+
+        public LoginUserQueryValidator(ISqlDbContext dbContext)
         {
+            _dbContext = dbContext;
+
             RuleFor(x => x.Email)
-                .NotNull().WithMessage("وارد کردن ایمیل الزامی است")
-                .NotEmpty().WithMessage("وارد کردن ایمیل الزامی است")
-                .EmailAddress(EmailValidationMode.AspNetCoreCompatible).WithMessage("ایمیل وارد شده معتبر نمی باشد.")
-                .MaximumLength(320).WithMessage("ایمیل نباید بیش از 320 کاراکتر داشته باشد");
+                .NotEmpty()
+                .MaximumLength(320)
+                .Must(ValidEmail).WithMessage("'{PropertyName}' معتبر نمی‌باشد.")
+                .Must(ExistEmail).WithMessage("'{PropertyName}' یافت نشد.")
+                .WithName("ایمیل");
 
             RuleFor(x => x.Password)
-                .NotNull().WithMessage("وارد کردن رمزعبور الزامی است")
-                .NotEmpty().WithMessage("وارد کردن رمزعبور الزامی است")
-                .Length(8, 50).WithMessage("رمز عبور میتواند حداقل 8 و حداکثر 50 کاراکتر داشته باشد");
+                .NotEmpty()
+                .Length(8, 50)
+                .WithName("رمزعبور");
+        }
+
+        private bool ValidEmail(string email)
+        {
+            return Validator.IsValidEmail(email);
+        }
+
+        private bool ExistEmail(string email)
+        {
+            return _dbContext.Users.Any(x => x.Email == email);
         }
     }
 
@@ -83,16 +99,17 @@ namespace Pors.Application.Identity.Queries
 
         public async Task<Result<LoginUserQueryResponse>> Handle(LoginUserQuery request, CancellationToken cancellationToken)
         {
-            var entity = await _dbContext.Users.SingleOrDefaultAsync(x => x.Email == request.Email);
+            var entity = await _dbContext.Users
+                .SingleOrDefaultAsync(x => x.Email == request.Email);
 
             if (entity == null)
             {
-                return Result<LoginUserQueryResponse>.Failure("نام کاربری یا رمز عبور اشتباه می باشد.");
+                return Result<LoginUserQueryResponse>.Failure("ایمیل یا رمزعبور صحیح نیست.");
             }
 
             if (!PasswordHasher.Verify(request.Password, entity.PasswordHash))
             {
-                return Result<LoginUserQueryResponse>.Failure("نام کاربری یا رمز عبور اشتباه می باشد.");
+                return Result<LoginUserQueryResponse>.Failure("ایمیل یا رمزعبور صحیح نیست.");
             }
 
             return Result<LoginUserQueryResponse>.Success(new LoginUserQueryResponse(entity));
