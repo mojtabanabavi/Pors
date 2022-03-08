@@ -91,6 +91,11 @@ namespace Pors.Application.Identity.Queries
 
     public class LoginUserQueryHandler : IRequestHandler<LoginUserQuery, Result<LoginUserQueryResponse>>
     {
+        private const int DefaultLockoutMinutes = 3;
+        private const int MaxFailedAccessAttempts = 5;
+        private const bool RequireConfirmedEmail = false;
+        private const bool RequireConfirmedPhoneNumber = false;
+
         private readonly ISqlDbContext _dbContext;
 
         public LoginUserQueryHandler(ISqlDbContext dbContext)
@@ -105,15 +110,119 @@ namespace Pors.Application.Identity.Queries
 
             if (entity == null)
             {
-                return Result<LoginUserQueryResponse>.Failure("ایمیل یا رمزعبور صحیح نیست.");
+                return Result<LoginUserQueryResponse>.Failure(GenerateCredentialMismatchMessage());
             }
 
+            if (!entity.IsActive)
+            {
+                return Result<LoginUserQueryResponse>.Failure(GenerateAccountIsInActiveMessage());
+            }
+
+            if (IsAccountLocked(entity))
+            {
+                return Result<LoginUserQueryResponse>.Failure(GenerateAccountIsLockedMessage(entity));
+            }
+
+            if (RequireConfirmedEmail && entity.IsEmailConfirmed)
+            {
+                return Result<LoginUserQueryResponse>.Failure(GenerateRequireConfirmedEmailMessage());
+            }
+
+            if (RequireConfirmedPhoneNumber && entity.IsPhoneNumberConfirmed)
+            {
+                return Result<LoginUserQueryResponse>.Failure(GenerateRequireConfirmedPhoneNumberMessage());
+            }
+
+            // mismatch password
             if (!PasswordHasher.Verify(request.Password, entity.PasswordHash))
             {
-                return Result<LoginUserQueryResponse>.Failure("ایمیل یا رمزعبور صحیح نیست.");
+                await IncreaseFailedAccessAttemptsCountAsync(entity);
+
+                if (entity.AccessFailedCount >= MaxFailedAccessAttempts)
+                {
+                    await LockAccountAsync(entity);
+
+                    return Result<LoginUserQueryResponse>.Failure(GenerateAccountIsLockedMessage(entity));
+                }
+
+                return Result<LoginUserQueryResponse>.Failure(GenerateCredentialMismatchMessage());
             }
 
+            if (entity.AccessFailedCount != 0)
+            {
+                await UnLockAccountAsync(entity);
+            }
+
+            await UpdateLastLoginDateTimeAsync(entity);
+
             return Result<LoginUserQueryResponse>.Success(new LoginUserQueryResponse(entity));
+        }
+
+
+        private string GenerateAccountIsLockedMessage(User user)
+        {
+            var remainingLockoutMinutes = (DateTime.Now - user.LockoutEndAt.Value).Minutes;
+
+            var message = $"بدلیل {MaxFailedAccessAttempts} تلاش ناموفق، حساب شما تا {remainingLockoutMinutes} دقیقه‌ی آینده قفل می‌باشد.";
+
+            return message;
+        }
+
+        private string GenerateCredentialMismatchMessage()
+        {
+            return "ایمیل یا رمزعبور صحیح نیست.";
+        }
+
+        private string GenerateAccountIsInActiveMessage()
+        {
+            return "متاسفانه حساب شما غیرفعال شده است. لطفا با پشتیبانی تماس بگیرید.";
+        }
+
+        private string GenerateRequireConfirmedEmailMessage()
+        {
+            return "برای ورود به حساب لازم است ایمیل شما تایید شده باشد.";
+        }
+
+        private string GenerateRequireConfirmedPhoneNumberMessage()
+        {
+            return "برای ورود به حساب لازم است شماره تلفن شما تایید شده باشد.";
+        }
+
+
+        private async Task IncreaseFailedAccessAttemptsCountAsync(User user)
+        {
+            user.AccessFailedCount += 1;
+
+            await _dbContext.SaveChangesAsync();
+        }
+
+        private async Task LockAccountAsync(User user)
+        {
+            user.AccessFailedCount = 0;
+            user.LockoutEndAt = DateTime.Now.AddMinutes(DefaultLockoutMinutes);
+
+            await _dbContext.SaveChangesAsync();
+        }
+
+        private async Task UnLockAccountAsync(User user)
+        {
+            user.LockoutEndAt = null;
+            user.AccessFailedCount = 0;
+
+            await _dbContext.SaveChangesAsync();
+        }
+
+        private async Task UpdateLastLoginDateTimeAsync(User user)
+        {
+            user.LastLoginDateTime = DateTime.Now;
+
+            await _dbContext.SaveChangesAsync();
+        }
+
+
+        private bool IsAccountLocked(User user)
+        {
+            return user.LockoutEndAt.HasValue && user.LockoutEndAt.Value > DateTime.Now;
         }
     }
 

@@ -1,26 +1,25 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <title>پرس - @ViewData["Title"]</title>
+    <title>پُرس - @ViewData["Title"]</title>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0 shrink-to-fit=no">
 
     <!-- favicon -->
-    <link rel="icon" type="image/png" href="~/img/brands/favicon.png">
+    <link async rel="icon" type="image/png" href="~/img/defaults/favicon.png">
 
     <!-- librarys -->
-    <link rel="stylesheet" href="~/lib/bootstrap/css/bootstrap.min.css" />
+    <link async rel="stylesheet" href="~/lib/bootstrap/css/bootstrap.rtl.css">
 
     <!-- fonts -->
-    <link rel="stylesheet" href="~/fonts/yekan/css/yekan.css">
-    <link rel="stylesheet" href="~/fonts/nucleo/css/nucleo.css">
-    <link rel="stylesheet" href="~/fonts/fontawesome/css/all.min.css">
+    <link async rel="stylesheet" href="~/fonts/yekan/css/yekan.css">
+    <link async rel="stylesheet" href="~/fonts/nucleo/css/nucleo.min.css">
+    <link async rel="stylesheet" href="~/fonts/fontawesome/css/fontawesome.min.css">
 
     <!-- styles -->
-    <link rel="stylesheet" href="~/css/argon.css" />
-    <link rel="stylesheet" href="~/css/main.css" />
-
+    <link async rel="stylesheet" href="~/css/argon.css" />
+    <link async rel="stylesheet" href="~/css/main.management.css" />
 </head>
 <body class="bg-default">
     <div class="main-content">
@@ -48,10 +47,11 @@
     <!-- librarys -->
     <script src="~/lib/jquery/js/jquery.min.js"></script>
     <script src="~/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <partial name="_ValidationScripts" />
+    <script src="~/lib/jquery-validation/js/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/js/jquery.validate.unobtrusive.min.js"></script>
 
     <!-- scripts -->
     <script src="~/js/argon.js"></script>
-    <script src="~/js/main.js"></script>
+    <script src="~/js/main.management.js"></script>
 </body>
 </html>
