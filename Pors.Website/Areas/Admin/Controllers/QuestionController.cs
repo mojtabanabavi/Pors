@@ -16,7 +16,7 @@ namespace Pors.Website.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> GetQuestions()
         {
-            var dataTableRequest = BindDataTableRequest();
+            var dataTableRequest = DataTable.FetchRequest();
 
             var examIdTemp = Request.Form["id"].FirstOrDefault();
             var examId = examIdTemp != null ? Convert.ToInt32(examIdTemp) : 0;

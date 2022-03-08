@@ -12,7 +12,7 @@ namespace Pors.Website.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> GetUsers()
         {
-            var dataTableRequest = BindDataTableRequest();
+            var dataTableRequest = DataTable.FetchRequest();
 
             var request = new GetUsersQuery
             {

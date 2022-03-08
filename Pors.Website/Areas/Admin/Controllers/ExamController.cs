@@ -14,7 +14,7 @@ namespace Pors.Website.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> GetExams()
         {
-            var dataTableRequest = BindDataTableRequest();
+            var dataTableRequest = DataTable.FetchRequest();
 
             var request = new GetExamsQuery
             {

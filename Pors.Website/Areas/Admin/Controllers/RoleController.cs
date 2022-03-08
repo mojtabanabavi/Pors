@@ -12,7 +12,7 @@ namespace Pors.Website.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> GetRoles()
         {
-            var dataTableRequest = BindDataTableRequest();
+            var dataTableRequest = DataTable.FetchRequest();
 
             var request = new GetRolesQuery
             {

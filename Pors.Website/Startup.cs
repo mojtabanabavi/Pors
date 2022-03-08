@@ -54,6 +54,7 @@ namespace Pors.Website
                     options.ExpireTimeSpan = TimeSpan.FromHours(1);
                 });
 
+            services.AddScoped<IDataTableService, DataTableService>();
             services.AddSingleton<ICurrentUserService, CurrentUserService>();
             services.AddScoped<IActionDiscoveryService, ActionDiscoveryService>();
             services.Configure<EmailNotificationService.Settings>(Configuration.GetSection("Notifications:Email"));
