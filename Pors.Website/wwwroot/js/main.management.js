@@ -1,7 +1,15 @@
-﻿/* ############### default image ############### */
+﻿/* ############### navbar collapse ############### */
+
+$('.nav-link[data-toggle="collapse"].active').each(function () {
+    var $this = $(this);
+    var $target = $(`.collapse${$this.attr('href')}`);
+    $target.collapse('show');
+});
+
+/* ############### default image ############### */
 
 function SetDefaultImages() {
-    $('img').each(function (item) {
+    $('img').each(function () {
         let $this = $(this);
         if (!$this.attr('src')) {
             $this.attr('src', '/img/defaults/nopicture.jpg');

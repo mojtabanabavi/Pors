@@ -1,9 +1,4 @@
-﻿@{
-    @inject Pors.Application.Common.Interfaces.ICurrentUserService CurrentUser
-    var currentPersianDate = Loby.Tools.Dater.ToIranSolar(DateTime.Now, "dddd، dd MMMM yyyy");
-}
-
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
     <title>پُرس - @ViewData["Title"]</title>
@@ -29,205 +24,14 @@
     <link async rel="stylesheet" href="~/css/main.management.css" />
 </head>
 <body>
-    <nav class="navbar navbar-vertical fixed-left navbar-expand-md navbar-light bg-white" id="sidenav-main">
-        <div class="container-fluid">
-            <!-- toggler -->
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#sidenav-collapse-main" aria-controls="sidenav-main" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <!-- brand -->
-            <a class="navbar-brand pt-0" asp-controller="home" asp-action="index">پنل مدیریت</a>
-            <!-- user -->
-            <ul class="nav align-items-center d-md-none">
-                <li class="nav-item dropdown">
-                    <a class="nav-link" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <div class="media align-items-center">
-                            <span class="avatar avatar-sm rounded-circle">
-                                <img alt="Image placeholder" src="@CurrentUser.ProfilePicture">
-                            </span>
-                        </div>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-arrow dropdown-menu-right">
-                        <a asp-controller="profile" asp-action="index" class="dropdown-item">
-                            <i class="ni ni-single-02"></i>
-                            <span>حساب کاربری</span>
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <a asp-controller="identity" asp-action="logout" class="dropdown-item">
-                            <i class="ni ni-user-run"></i>
-                            <span>خروج از حساب</span>
-                        </a>
-                    </div>
-                </li>
-            </ul>
-            <!-- collapse -->
-            <div class="collapse navbar-collapse" id="sidenav-collapse-main">
-                <!-- collapse header -->
-                <div class="navbar-collapse-header d-md-none">
-                    <div class="row">
-                        <div class="col-6 collapse-brand">منو</div>
-                        <div class="col-6 collapse-close">
-                            <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#sidenav-collapse-main" aria-controls="sidenav-main" aria-expanded="false" aria-label="Toggle sidenav">
-                                <span></span>
-                                <span></span>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <!-- navigation -->
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link active" asp-controller="home" asp-action="index">
-                            <i class="ni ni-tv-2 text-primary"></i> داشبورد
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#navbar-users" data-toggle="collapse">
-                            <i class="ni ni-single-02 text-red"></i>
-                            <span>کاربران</span>
-                        </a>
-                        <div class="collapse" id="navbar-users">
-                            <ul class="nav nav-sm flex-column">
-                                <li class="nav-item">
-                                    <a asp-controller="user" asp-action="index" class="nav-link">لیست کاربران</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a asp-controller="user" asp-action="create" class="nav-link">ایجاد کاربر</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#navbar-rols" data-toggle="collapse">
-                            <i class="ni ni-key-25 text-green"></i>
-                            <span>نقش ها</span>
-                        </a>
-                        <div class="collapse" id="navbar-rols">
-                            <ul class="nav nav-sm flex-column">
-                                <li class="nav-item">
-                                    <a asp-controller="role" asp-action="index" class="nav-link">لیست نقش ها</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a asp-controller="role" asp-action="create" class="nav-link">ایجاد نقش</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link disabled" href="#navbar-acess" data-toggle="collapse">
-                            <i class="ni ni-app text-info"></i>
-                            <span>سطوح دسترسی</span>
-                        </a>
-                        <div class="collapse" id="navbar-acess">
-                            <ul class="nav nav-sm flex-column">
-                                <li class="nav-item">
-                                    <a asp-controller="exam" asp-action="index" class="nav-link">لیست سطوح دسترسی</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#navbar-exams" data-toggle="collapse">
-                            <i class="ni ni-paper-diploma text-primary"></i>
-                            <span>آزمون ها</span>
-                        </a>
-                        <div class="collapse" id="navbar-exams">
-                            <ul class="nav nav-sm flex-column">
-                                <li class="nav-item">
-                                    <a asp-controller="exam" asp-action="index" class="nav-link">لیست آزمون ها</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a asp-controller="exam" asp-action="create" class="nav-link">ایجاد آزمون</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#navbar-questions" data-toggle="collapse">
-                            <i class="ni ni-sound-wave text-pink"></i>
-                            <span>سوالات</span>
-                        </a>
-                        <div class="collapse" id="navbar-questions">
-                            <ul class="nav nav-sm flex-column">
-                                <li class="nav-item">
-                                    <a asp-controller="question" asp-action="index" class="nav-link">لیست سوالات</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a asp-controller="question" asp-action="create" class="nav-link">ایجاد سوال</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#navbar-options" data-toggle="collapse">
-                            <i class="ni ni-active-40 text-info"></i>
-                            <span>گزینه ها</span>
-                        </a>
-                        <div class="collapse" id="navbar-options">
-                            <ul class="nav nav-sm flex-column">
-                                <li class="nav-item">
-                                    <a asp-controller="option" asp-action="index" class="nav-link">لیست گزینه ها</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a asp-controller="option" asp-action="create" class="nav-link disabled">ایجاد گزینه</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link disabled" href="#navbar-answers" data-toggle="collapse">
-                            <i class="ni ni-planet text-default"></i>
-                            <span>پاسخ ها</span>
-                        </a>
-                        <div class="collapse" id="navbar-answers">
-                            <ul class="nav nav-sm flex-column">
-                                <li class="nav-item">
-                                    <a asp-controller="exam" asp-action="index" class="nav-link">لیست پاسخ ها</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+    <!-- sidebar -->
+    <partial name="_adminSidebar" />
 
     <!-- main content -->
     <div class="main-content">
+
         <!-- navbar -->
-        <nav class="navbar navbar-top navbar-expand-md navbar-dark" id="navbar-main">
-            <div class="container-fluid">
-                <div class="col pr-md-0">
-                    <p class="h4 mb-0 text-white">امروز: @currentPersianDate</p>
-                </div>
-                <!-- user -->
-                <ul class="navbar-nav align-items-center d-none d-md-flex">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link pr-0" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <div class="media align-items-center">
-                                <span class="avatar avatar-sm rounded-circle">
-                                    <img alt="Image placeholder" src="~/@CurrentUser.ProfilePicture">
-                                </span>
-                                <div class="media-body ml-2 d-none d-lg-block">
-                                    <span class="mb-0 text-sm  font-weight-bold">@CurrentUser.DisplayName</span>
-                                </div>
-                            </div>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-arrow dropdown-menu-right">
-                            <a asp-controller="profile" asp-action="index" class="dropdown-item">
-                                <i class="ni ni-single-02"></i>
-                                <span>حساب کاربری</span>
-                            </a>
-                            <div class="dropdown-divider"></div>
-                            <a asp-controller="identity" asp-action="logout" class="dropdown-item">
-                                <i class="ni ni-user-run"></i>
-                                <span>خروج از حساب</span>
-                            </a>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-        </nav>
+        <partial name="_adminNavbar" />
 
         <!-- header -->
         <div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
@@ -248,7 +52,7 @@
                         <span>طراحی و توسعه:</span> <a href="https://nabawi.info" class="font-weight-bold ml-1" target="_blank">مجتبی نبوی</a>
                     </div>
                     <div>
-                        <span>@currentPersianDate</span>
+                        <span>سامانه‌ی پُرس</span>
                     </div>
                 </div>
             </footer>
