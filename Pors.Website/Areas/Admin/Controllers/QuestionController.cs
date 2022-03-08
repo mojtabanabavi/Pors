@@ -13,11 +13,9 @@ namespace Pors.Website.Areas.Admin.Controllers
     public class QuestionController : BaseController
     {
         [HttpPost]
-        public async Task<IActionResult> GetQuestions()
+        public async Task<IActionResult> GetQuestions(int examId)
         {
             var query = DataTable.FetchRequest();
-
-            var examId = Convert.ToInt32(Request.Form["id"].FirstOrDefault());
 
             var request = new GetQuestionsQuery(query, examId);
 

@@ -356,7 +356,7 @@ let questionDataTableOptions = {
         'type': 'post',
         'datatype': 'json',
         'data': function (params) {
-            params.id = $('#exam-id').val()
+            params.ExamId = $('#exam-id').val()
         },
     },
     'columns': [
@@ -556,7 +556,7 @@ let optionsDataTableOptions = {
         'type': 'post',
         'datatype': 'json',
         'data': function (params) {
-            params.id = $('#question-id').val()
+            params.questionId = $('#question-id').val()
         },
     },
     'columns': [

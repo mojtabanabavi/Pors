@@ -12,11 +12,9 @@ namespace Pors.Website.Areas.Admin.Controllers
     public class OptionController : BaseController
     {
         [HttpPost]
-        public async Task<IActionResult> GetOptions()
+        public async Task<IActionResult> GetOptions(int questionId)
         {
             var query = DataTable.FetchRequest();
-
-            var questionId = Convert.ToInt32(Request.Form["id"].FirstOrDefault());
 
             var request = new GetOptionsQuery(query, questionId);
 
