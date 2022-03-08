@@ -17,7 +17,7 @@ namespace Pors.Website.Areas.Admin.Controllers
 
         protected ISender Mediator => _mediator ??= HttpContext.RequestServices.GetRequiredService<ISender>();
 
-        protected DataTableRequest BindDataTableRequest()
+        protected DataTableQuery BindDataTableRequest()
         {
             var draw = Request.Form["draw"].FirstOrDefault();
 
@@ -40,7 +40,7 @@ namespace Pors.Website.Areas.Admin.Controllers
             int page = start != null ? Convert.ToInt32(start) : 1;
             int pageSize = length != null ? Convert.ToInt32(length) : 15;
 
-            var result = new DataTableRequest
+            var result = new DataTableQuery
             {
                 Draw = draw,
                 Page = page,

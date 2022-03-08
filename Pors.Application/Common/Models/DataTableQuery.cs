@@ -8,8 +8,9 @@ namespace Pors.Application.Common.Models
 {
     public class DataTableQuery
     {
-        public int Page { get; set; } = 1;
-        public int PageSize { get; set; } = 10;
+        public int Page { get; set; }
+        public string Draw { get; set; }
+        public int PageSize { get; set; }
         public string Search { get; set; }
         public string SortColumn { get; set; }
         public string SortColumnDirection { get; set; }
