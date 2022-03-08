@@ -48,7 +48,7 @@ namespace Pors.Website.Areas.Admin.Controllers
                     var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
                     var authenticationProperties = new AuthenticationProperties
                     {
-                        IsPersistent = true,
+                        IsPersistent = request.RememberMe,
                     };
 
                     await HttpContext.SignInAsync(AuthenticationSchemes.Management, claimsPrincipal, authenticationProperties);
