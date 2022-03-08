@@ -14,27 +14,18 @@ namespace Pors.Website.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> GetOptions()
         {
-            var dataTableRequest = DataTable.FetchRequest();
+            var query = DataTable.FetchRequest();
 
-            var questionIdTemp = Request.Form["id"].FirstOrDefault();
-            var questionId = questionIdTemp != null ? Convert.ToInt32(questionIdTemp) : 0;
+            var questionId = Convert.ToInt32(Request.Form["id"].FirstOrDefault());
 
-            var request = new GetOptionsQuery
-            {
-                Id = questionId,
-                Page = dataTableRequest.Page,
-                Search = dataTableRequest.Search,
-                PageSize = dataTableRequest.PageSize,
-                SortColumn = dataTableRequest.SortColumn,
-                SortColumnDirection = dataTableRequest.SortColumnDirection
-            };
+            var request = new GetOptionsQuery(query, questionId);
 
             var result = await Mediator.Send(request);
 
             var jsonData = new DataTableResponse
             {
+                Draw = query.Draw,
                 Data = result.Items,
-                Draw = dataTableRequest.Draw,
                 RecordsTotal = result.TotalItems,
                 RecordsFiltered = result.TotalItems,
             };

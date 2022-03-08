@@ -20,6 +20,11 @@ namespace Pors.Application.Questions.Queries
     public class GetQuestionsQuery : DataTableQuery, IRequest<PagingResult<GetQuestionsQueryResponse>>
     {
         public int Id { get; set; }
+
+        public GetQuestionsQuery(DataTableQuery query, int examId) : base(query)
+        {
+            Id = examId;
+        }
     }
 
     #endregion;
@@ -63,9 +68,9 @@ namespace Pors.Application.Questions.Queries
                 query = query.Where(x => x.ExamId == request.Id);
             }
 
-            if (request.SortColumn.HasValue() && request.SortColumnDirection.HasValue())
+            if (request.SortColumn.HasValue() && request.SortDirection.HasValue())
             {
-                query = query.OrderBy($"{request.SortColumn} {request.SortColumnDirection}");
+                query = query.OrderBy($"{request.SortColumn} {request.SortDirection}");
             }
 
             if (request.Search.HasValue())

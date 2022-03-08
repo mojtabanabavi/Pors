@@ -34,10 +34,10 @@ namespace Pors.Infrastructure.Services
             var sortColumn = form["columns[" + form["order[0][column]"].FirstOrDefault() + "][name]"].FirstOrDefault();
 
             // sort column direction (asc, desc) 
-            var sortColumnDirection = form["order[0][dir]"].FirstOrDefault();
+            var sortDirection = form["order[0][dir]"].FirstOrDefault();
 
             // search value from (search box) 
-            var searchValue = form["search[value]"].FirstOrDefault();
+            var searchKey = form["search[value]"].FirstOrDefault();
 
             start = start == "0" ? "1" : start;
             int page = start != null ? Convert.ToInt32(start) : 1;
@@ -49,8 +49,8 @@ namespace Pors.Infrastructure.Services
                 Page = page,
                 PageSize = pageSize,
                 SortColumn = sortColumn,
-                Search = searchValue.ToLower(),
-                SortColumnDirection = sortColumnDirection
+                Search = searchKey.ToLower(),
+                SortDirection = sortDirection
             };
 
             return result;

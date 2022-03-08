@@ -14,23 +14,16 @@ namespace Pors.Website.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> GetExams()
         {
-            var dataTableRequest = DataTable.FetchRequest();
+            var query = DataTable.FetchRequest();
 
-            var request = new GetExamsQuery
-            {
-                Page = dataTableRequest.Page,
-                Search = dataTableRequest.Search,
-                PageSize = dataTableRequest.PageSize,
-                SortColumn = dataTableRequest.SortColumn,
-                SortColumnDirection = dataTableRequest.SortColumnDirection
-            };
+            var request = new GetExamsQuery(query);
 
             var result = await Mediator.Send(request);
 
             var jsonData = new DataTableResponse
             {
+                Draw = query.Draw,
                 Data = result.Items,
-                Draw = dataTableRequest.Draw,
                 RecordsTotal = result.TotalItems,
                 RecordsFiltered = result.TotalItems,
             };
@@ -40,11 +33,10 @@ namespace Pors.Website.Areas.Admin.Controllers
 
         #endregion;
 
-        public async Task<IActionResult> Index(GetExamsQuery request)
+        [HttpGet]
+        public IActionResult Index()
         {
-            var result = await Mediator.Send(request);
-
-            return View(result);
+            return View();
         }
 
         [HttpGet]

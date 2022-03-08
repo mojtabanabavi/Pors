@@ -12,23 +12,16 @@ namespace Pors.Website.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> GetRoles()
         {
-            var dataTableRequest = DataTable.FetchRequest();
+            var query = DataTable.FetchRequest();
 
-            var request = new GetRolesQuery
-            {
-                Page = dataTableRequest.Page,
-                Search = dataTableRequest.Search,
-                PageSize = dataTableRequest.PageSize,
-                SortColumn = dataTableRequest.SortColumn,
-                SortColumnDirection = dataTableRequest.SortColumnDirection
-            };
+            var request = new GetRolesQuery(query);
 
             var result = await Mediator.Send(request);
 
             var jsonData = new DataTableResponse
             {
+                Draw = query.Draw,
                 Data = result.Items,
-                Draw = dataTableRequest.Draw,
                 RecordsTotal = result.TotalItems,
                 RecordsFiltered = result.TotalItems,
             };

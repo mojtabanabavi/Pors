@@ -19,6 +19,9 @@ namespace Pors.Application.Exams.Queries
 
     public class GetExamsQuery : DataTableQuery, IRequest<PagingResult<GetExamsQueryResponse>>
     {
+        public GetExamsQuery(DataTableQuery query) : base(query)
+        {
+        }
     }
 
     #endregion;
@@ -56,9 +59,9 @@ namespace Pors.Application.Exams.Queries
         {
             IQueryable<Exam> query = _dbContext.Exams;
 
-            if (request.SortColumn.HasValue() && request.SortColumnDirection.HasValue())
+            if (request.SortColumn.HasValue() && request.SortDirection.HasValue())
             {
-                query = query.OrderBy($"{request.SortColumn} {request.SortColumnDirection}");
+                query = query.OrderBy($"{request.SortColumn} {request.SortDirection}");
             }
 
             if (request.Search.HasValue())

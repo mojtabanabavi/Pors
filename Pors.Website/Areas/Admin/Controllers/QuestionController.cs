@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Pors.Website.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Pors.Application.Common.Models;
 using Pors.Application.Exams.Queries;
@@ -16,27 +15,18 @@ namespace Pors.Website.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> GetQuestions()
         {
-            var dataTableRequest = DataTable.FetchRequest();
+            var query = DataTable.FetchRequest();
 
-            var examIdTemp = Request.Form["id"].FirstOrDefault();
-            var examId = examIdTemp != null ? Convert.ToInt32(examIdTemp) : 0;
+            var examId = Convert.ToInt32(Request.Form["id"].FirstOrDefault());
 
-            var request = new GetQuestionsQuery
-            {
-                Id = examId,
-                Page = dataTableRequest.Page,
-                Search = dataTableRequest.Search,
-                PageSize = dataTableRequest.PageSize,
-                SortColumn = dataTableRequest.SortColumn,
-                SortColumnDirection = dataTableRequest.SortColumnDirection
-            };
+            var request = new GetQuestionsQuery(query, examId);
 
             var result = await Mediator.Send(request);
 
             var jsonData = new DataTableResponse
             {
+                Draw = query.Draw,
                 Data = result.Items,
-                Draw = dataTableRequest.Draw,
                 RecordsTotal = result.TotalItems,
                 RecordsFiltered = result.TotalItems,
             };

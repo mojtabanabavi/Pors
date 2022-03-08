@@ -19,6 +19,9 @@ namespace Pors.Application.Roles.Queries
 
     public class GetRolesQuery : DataTableQuery, IRequest<PagingResult<GetRolesQueryResponse>>
     {
+        public GetRolesQuery(DataTableQuery query) : base(query)
+        {
+        }
     }
 
     #endregion;
@@ -55,9 +58,9 @@ namespace Pors.Application.Roles.Queries
         {
             IQueryable<Role> query = _dbContext.Roles;
 
-            if (request.SortColumn.HasValue() && request.SortColumnDirection.HasValue())
+            if (request.SortColumn.HasValue() && request.SortDirection.HasValue())
             {
-                query = query.OrderBy($"{request.SortColumn} {request.SortColumnDirection}");
+                query = query.OrderBy($"{request.SortColumn} {request.SortDirection}");
             }
 
             if (request.Search.HasValue())

@@ -19,6 +19,9 @@ namespace Pors.Application.Users.Queries
 
     public class GetUsersQuery : DataTableQuery, IRequest<PagingResult<GetUsersQueryResponse>>
     {
+        public GetUsersQuery(DataTableQuery query) : base(query)
+        {
+        }
     }
 
     #endregion;
@@ -58,9 +61,9 @@ namespace Pors.Application.Users.Queries
         {
             IQueryable<User> query = _dbContext.Users;
 
-            if (request.SortColumn.HasValue() && request.SortColumnDirection.HasValue())
+            if (request.SortColumn.HasValue() && request.SortDirection.HasValue())
             {
-                query = query.OrderBy($"{request.SortColumn} {request.SortColumnDirection}");
+                query = query.OrderBy($"{request.SortColumn} {request.SortDirection}");
             }
 
             if (request.Search.HasValue())
