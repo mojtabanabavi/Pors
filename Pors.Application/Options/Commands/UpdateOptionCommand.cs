@@ -17,6 +17,7 @@ namespace Pors.Application.Options.Commands
     {
         public int Id { get; set; }
         public string Title { get; set; }
+        public string Description { get; set; }
         public IFormFile Image { get; set; }
     }
 
@@ -77,6 +78,7 @@ namespace Pors.Application.Options.Commands
             }
 
             entity.Title = request.Title;
+            entity.Description = request.Description;
 
             if (request.Image != null)
             {

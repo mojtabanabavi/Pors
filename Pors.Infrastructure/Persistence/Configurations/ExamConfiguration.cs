@@ -22,6 +22,9 @@ namespace Pors.Infrastructure.Persistence.Configurations
                 .HasMaxLength(150)
                 .IsRequired();
 
+            builder.Property(x => x.Image)
+                .HasMaxLength(120);
+
             builder.Property(x => x.CreatedAt)
                 .HasDefaultValueSql("getdate()");
         }

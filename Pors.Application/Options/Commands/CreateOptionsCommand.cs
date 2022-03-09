@@ -31,6 +31,7 @@ namespace Pors.Application.Options.Commands
         public class CreateOptionItems
         {
             public string Title { get; set; }
+            public string Description { get; set; }
             public IFormFile Image { get; set; }
         }
     }
@@ -89,6 +90,7 @@ namespace Pors.Application.Options.Commands
                 {
                     QuestionId = request.Id,
                     Title = requestOption.Title,
+                    Description = requestOption.Description,
                 };
 
                 if (requestOption.Image != null)

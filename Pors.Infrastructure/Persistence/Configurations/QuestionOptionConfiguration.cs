@@ -17,6 +17,9 @@ namespace Pors.Infrastructure.Persistence.Configurations
             builder.Property(x => x.Title)
                 .HasMaxLength(100)
                 .IsRequired();
+
+            builder.Property(x => x.Image)
+                .HasMaxLength(120);
         }
     }
 }

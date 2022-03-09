@@ -20,16 +20,20 @@
                     <div asp-validation-summary="All" class="text-center mb-4"></div>
                     <div data-repeater-list="items">
                         <div data-repeater-item>
-                            <div class="row justify-content-between">
-                                <div class="col-md-5 col-sm-12 form-group">
+                            <div class="row">
+                                <div class="col-sm-12 col-lg-6 form-group">
                                     <label class="form-control-label">عنوان گزینه</label>
                                     <input name="Title" class="form-control form-control-alternative" placeholder="عنوان را وارد کنید">
                                 </div>
-                                <div class="col-md-5 col-sm-12 form-group">
+                                <div class="col-sm-12 col-lg-6 form-group">
                                     <label class="form-control-label">تصویر گزینه</label>
                                     <input name="Image" type="file" accept="image/*" class="form-control form-control-alternative">
                                 </div>
-                                <div class="col-md-2 col-sm-12 form-group">
+                                <div class="col-sm-12 col-lg-11 form-group">
+                                    <label class="form-control-label">توضیجات</label>
+                                    <textarea name="Description" rows="5" class="form-control form-control-alternative" placeholder="توضیحات"></textarea>
+                                </div>
+                                <div class="col-sm-12 col-lg-1 form-group d-flex align-items-center">
                                     <label></label>
                                     <button type="button" class="btn btn-danger d-block mt-2" data-repeater-delete>حذف</button>
                                 </div>
