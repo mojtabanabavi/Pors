@@ -19,6 +19,60 @@ function SetDefaultImages() {
 
 SetDefaultImages();
 
+/* ############### sweet alerts ############### */
+
+// delete alert
+$(document).on('click', '[data-delete-btn]', function (e) {
+    e.preventDefault();
+    Swal.fire({
+        type: 'warning',
+        title: 'آیا اطمینان دارید؟',
+        text: "این عمل قابل بازگشت نخواهد بود!",
+        buttonsStyling: false,
+        showCancelButton: true,
+        cancelButtonText: 'انصراف',
+        confirmButtonText: 'بله، حذف شود!',
+        confirmButtonClass: 'btn btn-danger',
+        cancelButtonClass: 'btn btn-primary mr-3',
+
+    }).then((result) => {
+        if (result.value) {
+            let url = '';
+            let isLink = $(e.target).is('a, a *');
+
+            if (isLink) {
+                url = $(this).attr('href');
+            }
+            else {
+                url = $(this).data('data-delete-url');
+            }
+
+            fetch(url)
+                .then(response => {
+                    if (!response.ok) {
+                        Swal.fire({
+                            type: 'error',
+                            title: 'خطا',
+                            confirmButtonText: 'متوجه شدم',
+                            text: 'خطایی در انجام عملیات اتفاق افتاد!',
+                        });
+                    }
+                    else {
+                        // reload datatable
+                        $(document).find("table").dataTable().api().ajax.reload();
+
+                        Swal.fire({
+                            timer: 1500,
+                            type: 'success',
+                            showConfirmButton: false,
+                            title: 'عملیات با موفقیت انجام شد',
+                        });
+                    }
+                });
+        }
+    })
+});
+
 /* ############### image previews ############### */
 
 function PreviewImage(input, output) {
@@ -42,6 +96,23 @@ $(imagePreviewInput).change(function () {
     //    parent.append('<button type="button" id="image-preview-clear" class="btn btn-danger mr-2 disabled">حذف تصویر</button>');
     //}
 });
+
+/* ############### question options ############### */
+
+let repeaterTarget = $('.form-repeater');
+
+if (repeaterTarget.length) {
+    repeaterTarget.repeater({
+        show: function () {
+            $(this).slideDown();
+        },
+        hide: function (deleteElement) {
+            if (confirm('آیا از حذف این آیتم مطمئن هستید؟')) {
+                $(this).slideUp(deleteElement);
+            }
+        }
+    });
+}
 
 /* ############### datatables ############### */
 
@@ -332,7 +403,7 @@ let examsDataTableOptions = {
                           <div class="dropdown-menu">
                             <a class="dropdown-item" href="/admin/question/index/${row.id}">لیست ‌سوالات</a>
                             <a class="dropdown-item" href="/admin/exam/update/${row.id}">ویرایش</a>
-                            <a class="dropdown-item" href="/admin/exam/delete/${row.id}">حذف</a>
+                            <a class="dropdown-item" href="/admin/exam/delete/${row.id}" data-delete-btn>حذف</a>
                           </div>
                       </div>
                     </div>`;
@@ -402,7 +473,7 @@ let questionDataTableOptions = {
                             <a class="dropdown-item" href="/admin/option/index/${row.id}">لیست گزینه‌ها</a>
                             <a class="dropdown-item" href="/admin/option/create/${row.id}">افزودن گزینه</a>
                             <a class="dropdown-item" href="/admin/option/update/${row.id}">ویرایش</a>
-                            <a class="dropdown-item" href="/admin/option/delete/${row.id}">حذف</a>
+                            <a class="dropdown-item" href="/admin/option/delete/${row.id}" data-delete-btn>حذف</a>
                           </div>
                       </div>
                     </div>`;
@@ -454,7 +525,7 @@ let rolesDataTableOptions = {
                           </button>
                           <div class="dropdown-menu">
                             <a class="dropdown-item" href="/admin/role/update/${row.id}">ویرایش</a>
-                            <a class="dropdown-item" href="/admin/role/delete/${row.id}">حذف</a>
+                            <a class="dropdown-item" href="/admin/role/delete/${row.id}" data-delete-btn>حذف</a>
                           </div>
                       </div>
                     </div>`;
@@ -533,7 +604,7 @@ let usersDataTableOptions = {
                           </button>
                           <div class="dropdown-menu">
                             <a class="dropdown-item" href="/admin/user/update/${row.id}">ویرایش</a>
-                            <a class="dropdown-item" href="/admin/user/delete/${row.id}">حذف</a>
+                            <a class="dropdown-item" href="/admin/user/delete/${row.id}" data-delete-btn>حذف</a>
                           </div>
                       </div>
                     </div>`;
@@ -556,7 +627,7 @@ let optionsDataTableOptions = {
         'type': 'post',
         'datatype': 'json',
         'data': function (params) {
-            params.questionId = $('#question-id').val()
+            params.questionId = $('#question-id').val();
         },
     },
     'columns': [
@@ -604,7 +675,7 @@ let optionsDataTableOptions = {
                           </button>
                           <div class="dropdown-menu">
                             <a class="dropdown-item" href="/admin/option/update/${row.id}">ویرایش</a>
-                            <a class="dropdown-item" href="/admin/option/delete/${row.id}">حذف</a>
+                            <a class="dropdown-item" href="/admin/option/delete/${row.id}" data-delete-btn>حذف</a>
                           </div>
                       </div>
                     </div>`;
@@ -617,21 +688,4 @@ let optionsDataTableOptions = {
 
 if (optionsDataTableTarget.length) {
     initDataTable(optionsDataTableTarget, optionsDataTableOptions);
-}
-
-/* ############### question options ############### */
-
-let repeaterTarget = $('.form-repeater');
-
-if (repeaterTarget.length) {
-    repeaterTarget.repeater({
-        show: function () {
-            $(this).slideDown();
-        },
-        hide: function (deleteElement) {
-            if (confirm('آیا از حذف این آیتم مطمئن هستید؟')) {
-                $(this).slideUp(deleteElement);
-            }
-        }
-    });
 }
