@@ -6,10 +6,10 @@ using System.Collections.Generic;
 
 namespace Pors.Website.Controllers
 {
-    public class HomeController : BaseController
+    public class ExamsController : BaseController
     {
         [HttpGet]
-        public IActionResult Index()
+        public IActionResult Start()
         {
             return View();
         }
