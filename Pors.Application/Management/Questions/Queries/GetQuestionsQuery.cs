@@ -19,11 +19,11 @@ namespace Pors.Application.Management.Questions.Queries
 
     public class GetQuestionsQuery : DataTableQuery, IRequest<PagingResult<GetQuestionsQueryResponse>>
     {
-        public int Id { get; set; }
+        public int ExamId { get; set; }
 
         public GetQuestionsQuery(DataTableQuery query, int examId) : base(query)
         {
-            Id = examId;
+            ExamId = examId;
         }
     }
 
@@ -63,9 +63,9 @@ namespace Pors.Application.Management.Questions.Queries
         {
             IQueryable<ExamQuestion> query = _dbContext.ExamQuestions;
 
-            if (request.Id != default(int))
+            if (request.ExamId != default(int))
             {
-                query = query.Where(x => x.ExamId == request.Id);
+                query = query.Where(x => x.ExamId == request.ExamId);
             }
 
             if (request.SortColumn.HasValue() && request.SortDirection.HasValue())

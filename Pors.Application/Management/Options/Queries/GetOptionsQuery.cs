@@ -19,11 +19,11 @@ namespace Pors.Application.Management.Options.Queries
 
     public class GetOptionsQuery : DataTableQuery, IRequest<PagingResult<GetOptionsQueryResponse>>
     {
-        public int Id { get; set; }
+        public int QuestionId { get; set; }
 
         public GetOptionsQuery(DataTableQuery query, int questionId) : base(query)
         {
-            Id = questionId;
+            QuestionId = questionId;
         }
     }
 
@@ -62,9 +62,9 @@ namespace Pors.Application.Management.Options.Queries
         {
             IQueryable<QuestionOption> query = _dbContext.QuestionOptions;
 
-            if (request.Id != default(int))
+            if (request.QuestionId != default(int))
             {
-                query = query.Where(x => x.QuestionId == request.Id);
+                query = query.Where(x => x.QuestionId == request.QuestionId);
             }
 
             if (request.SortColumn.HasValue() && request.SortDirection.HasValue())
