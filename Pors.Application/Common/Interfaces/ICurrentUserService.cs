@@ -9,6 +9,7 @@ namespace Pors.Application.Common.Interfaces
     public interface ICurrentUserService
     {
         string UserId { get; }
+        string IpAddress { get; }
         string ProfilePicture { get; }
         public string DisplayName { get; }
     }
