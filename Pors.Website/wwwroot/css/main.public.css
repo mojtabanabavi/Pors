@@ -1,0 +1,11 @@
+﻿.navbar-brand {
+    font-weight: 800;
+}
+
+.disabled {
+    pointer-events: none !important;
+}
+
+.custom-nav-link.disabled {
+    color: #6c757d !important;
+}
