@@ -20,6 +20,7 @@ namespace Pors.Domain.Entities
         public DateTime? LastLoginDateTime { get; set; }
         public DateTime RegisterDateTime { get; set; }
 
+        public ICollection<Exam> Exams { get; set; }
         public ICollection<UserToken> Tokens { get; set; }
         public ICollection<UserRole> UserRoles { get; set; }
     }

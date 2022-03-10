@@ -8,6 +8,7 @@ using System.Threading;
 using Pors.Domain.Entities;
 using System.Threading.Tasks;
 using System.Linq.Dynamic.Core;
+using Microsoft.EntityFrameworkCore;
 using Pors.Application.Common.Models;
 using AutoMapper.QueryableExtensions;
 using Pors.Application.Common.Mappings;
@@ -32,8 +33,16 @@ namespace Pors.Application.Management.Exams.Queries
     {
         public int Id { get; set; }
         public string Title { get; set; }
+        public string Status { get; set; }
         public string CreatedBy { get; set; }
         public string CreatedAt { get; set; }
+
+        public void Mapping(Profile profile)
+        {
+            profile.CreateMap<Exam, GetExamsQueryResponse>()
+                .ForMember(x => x.CreatedBy, option => option.MapFrom(y => y.User.Email))
+                .ForMember(x => x.Status, option => option.MapFrom(y => y.Status.GetDescription()));
+        }
     }
 
     #endregion;
@@ -57,7 +66,7 @@ namespace Pors.Application.Management.Exams.Queries
 
         public async Task<PagingResult<GetExamsQueryResponse>> Handle(GetExamsQuery request, CancellationToken cancellationToken)
         {
-            IQueryable<Exam> query = _dbContext.Exams;
+            IQueryable<Exam> query = _dbContext.Exams.Include(x=> x.User);
 
             if (request.SortColumn.HasValue() && request.SortDirection.HasValue())
             {

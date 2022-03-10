@@ -51,12 +51,10 @@ namespace Pors.Application.Management.Questions.Commands
     public class CreateQuestionCommandHandler : IRequestHandler<CreateQuestionCommand, int>
     {
         private readonly ISqlDbContext _dbContext;
-        private readonly ICurrentUserService _currentUser;
 
-        public CreateQuestionCommandHandler(ISqlDbContext sqlDbContext, ICurrentUserService currentUser)
+        public CreateQuestionCommandHandler(ISqlDbContext sqlDbContext)
         {
             _dbContext = sqlDbContext;
-            _currentUser = currentUser;
         }
 
         public async Task<int> Handle(CreateQuestionCommand request, CancellationToken cancellationToken)
@@ -72,7 +70,6 @@ namespace Pors.Application.Management.Questions.Commands
             {
                 Title = request.Title,
                 ExamId = request.ExamId,
-                CreatedBy = _currentUser.DisplayName
             };
 
             _dbContext.ExamQuestions.Add(entity);

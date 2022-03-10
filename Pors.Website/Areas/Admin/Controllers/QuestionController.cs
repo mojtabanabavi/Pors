@@ -39,12 +39,8 @@ namespace Pors.Website.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Create()
+        public IActionResult Create()
         {
-            var result = await Mediator.Send(new GetExamsSelectListQuery());
-
-            ViewBag.ExamsSelectList = new SelectList(result.Items, "Text", "Value");
-
             return View();
         }
 

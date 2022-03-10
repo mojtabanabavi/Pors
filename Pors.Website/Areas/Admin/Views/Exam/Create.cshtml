@@ -2,6 +2,8 @@
 @{
     Layout = "_adminLayout";
     ViewData["Title"] = "ایجاد آزمون";
+
+    var examStatusSelectList = Pors.Website.Extensions.EnumExtensions.ToSelectList<ExamStatus>();
 }
 
 <form asp-action="create" enctype="multipart/form-data" method="post">
@@ -14,11 +16,18 @@
                 <div class="card-body">
                     <div asp-validation-summary="ModelOnly" class="text-center mb-4"></div>
                     <div class="row">
-                        <div class="col-lg-12">
+                        <div class="col-lg-10">
                             <div class="form-group">
                                 <label asp-for="Title" class="form-control-label">عنوان آزمون</label>
                                 <input asp-for="Title" class="form-control form-control-alternative" placeholder="عنوان آزمون">
                                 <span asp-validation-for="Title"></span>
+                            </div>
+                        </div>
+                        <div class="col-lg-2">
+                            <div class="form-group">
+                                <label asp-for="Status" class="form-control-label">وضعیت آزمون</label>
+                                <select asp-for="Status" asp-items="@examStatusSelectList" class="form-control form-control-alternative"></select>
+                                <span asp-validation-for="Status"></span>
                             </div>
                         </div>
                         <div class="col-lg-12">

@@ -11,7 +11,6 @@ namespace Pors.Domain.Entities
         public int Id { get; set; }
         public int ExamId { get; set; }
         public string Title { get; set; }
-        public string CreatedBy { get; set; }
         public DateTime CreatedAt { get; set; }
 
         public Exam Exam { get; set; }

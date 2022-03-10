@@ -20,6 +20,9 @@ namespace Pors.Infrastructure.Persistence.Configurations
 
             builder.Property(x => x.Image)
                 .HasMaxLength(120);
+
+            builder.Property(x => x.CreatedAt)
+                .HasDefaultValueSql("getdate()");
         }
     }
 }

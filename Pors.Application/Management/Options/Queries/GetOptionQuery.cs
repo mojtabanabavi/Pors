@@ -36,6 +36,7 @@ namespace Pors.Application.Management.Options.Queries
         public string Title { get; set; }
         public string Image { get; set; }
         public string Description { get; set; }
+        public string CreatedAt { get; set; }
     }
 
     #endregion;

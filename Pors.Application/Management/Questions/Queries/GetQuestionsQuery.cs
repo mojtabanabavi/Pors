@@ -36,7 +36,6 @@ namespace Pors.Application.Management.Questions.Queries
         public int Id { get; set; }
         public int ExamId { get; set; }
         public string Title { get; set; }
-        public string CreatedBy { get; set; }
         public string CreatedAt { get; set; }
     }
 

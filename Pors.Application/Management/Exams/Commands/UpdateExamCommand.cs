@@ -3,6 +3,7 @@ using MediatR;
 using System.Linq;
 using FluentValidation;
 using System.Threading;
+using Pors.Domain.Enums;
 using Pors.Domain.Entities;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
@@ -17,6 +18,7 @@ namespace Pors.Application.Management.Exams.Commands
     {
         public int Id { get; set; }
         public string Title { get; set; }
+        public ExamStatus Status { get; set; }
         public string ShortDescription { get; set; }
         public string LongDescription { get; set; }
         public IFormFile Image { get; set; }
@@ -84,8 +86,9 @@ namespace Pors.Application.Management.Exams.Commands
             }
 
             entity.Title = request.Title;
-            entity.ShortDescription = request.ShortDescription;
+            entity.Status = request.Status;
             entity.LongDescription = request.LongDescription;
+            entity.ShortDescription = request.ShortDescription;
 
             if (request.Image != null)
             {

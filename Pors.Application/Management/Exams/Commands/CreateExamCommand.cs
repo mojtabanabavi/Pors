@@ -1,8 +1,10 @@
 ﻿using System;
 using MediatR;
 using System.Linq;
+using Loby.Extensions;
 using FluentValidation;
 using System.Threading;
+using Pors.Domain.Enums;
 using Pors.Domain.Entities;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
@@ -15,6 +17,7 @@ namespace Pors.Application.Management.Exams.Commands
     public class CreateExamCommand : IRequest<int>
     {
         public string Title { get; set; }
+        public ExamStatus Status { get; set; }
         public string ShortDescription { get; set; }
         public string LongDescription { get; set; }
         public IFormFile Image { get; set; }
@@ -72,7 +75,8 @@ namespace Pors.Application.Management.Exams.Commands
             var entity = new Exam
             {
                 Title = request.Title,
-                CreatedBy = _currentUser.DisplayName,
+                Status = request.Status,
+                UserId = _currentUser.UserId.As<int>(),
                 LongDescription = request.LongDescription,
                 ShortDescription = request.ShortDescription,
             };

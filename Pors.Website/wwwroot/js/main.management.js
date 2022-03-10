@@ -11,7 +11,8 @@ $('.nav-link[data-toggle="collapse"].active').each(function () {
 function SetDefaultImages() {
     $('img').each(function () {
         let $this = $(this);
-        if (!$this.attr('src')) {
+        let $src = $this.attr('src');
+        if (!$src || $src == '/') {
             $this.attr('src', '/img/defaults/nopicture.jpg');
         }
     });
@@ -381,6 +382,14 @@ let examsDataTableOptions = {
             'searchable': true
         },
         {
+            'name': 'status',
+            'autoWidth': true,
+            'searchable': false,
+            'render': function (data, type, row) {
+                return `<p class="badge badge-primary">${row.status}</p>`
+            }
+        },
+        {
             'name': 'createdBy',
             'data': 'createdBy',
             'autoWidth': true,
@@ -450,12 +459,6 @@ let questionDataTableOptions = {
             'searchable': true
         },
         {
-            'name': 'createdBy',
-            'data': 'createdBy',
-            'autoWidth': true,
-            'searchable': false
-        },
-        {
             'name': 'createdAt',
             'data': 'createdAt',
             'autoWidth': true,
@@ -504,8 +507,8 @@ let rolesDataTableOptions = {
             'searchable': false
         },
         {
-            'name': 'name',
-            'data': 'name',
+            'name': 'title',
+            'data': 'title',
             'autoWidth': true,
             'searchable': false
         },
@@ -664,6 +667,12 @@ let optionsDataTableOptions = {
 
                 return content;
             }
+        },
+        {
+            'name': 'createdAt',
+            'data': 'createdAt',
+            'autoWidth': true,
+            'searchable': false
         },
         {
             'orderable': false,

@@ -2,6 +2,7 @@
 using MediatR;
 using AutoMapper;
 using System.Threading;
+using Pors.Domain.Enums;
 using Pors.Domain.Entities;
 using System.Threading.Tasks;
 using Pors.Application.Common.Mappings;
@@ -33,10 +34,12 @@ namespace Pors.Application.Management.Exams.Queries
     public class GetExamQueryResponse : IMapFrom<Exam>
     {
         public int Id { get; set; }
+        public ExamStatus Status { get; set; }
         public string Title { get; set; }
         public string ShortDescription { get; set; }
         public string LongDescription { get; set; }
         public string Image { get; set; }
+        public string CreatedAt { get; set; }
     }
 
     #endregion;
