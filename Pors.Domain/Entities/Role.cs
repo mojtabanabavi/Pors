@@ -6,7 +6,7 @@ namespace Pors.Domain.Entities
     public class Role
     {
         public int Id { get; set; }
-        public string Name { get; set; }
+        public string Title { get; set; }
         public string Description { get; set; }
 
         public ICollection<UserRole> UserRoles { get; set; }
@@ -16,12 +16,12 @@ namespace Pors.Domain.Entities
         {
         }
 
-        public Role(string name)
+        public Role(string title)
         {
-            Name = name;
+            Title = title;
         }
 
-        public Role(string name, string description) : this(name)
+        public Role(string title, string description) : this(title)
         {
             Description = description;
         }

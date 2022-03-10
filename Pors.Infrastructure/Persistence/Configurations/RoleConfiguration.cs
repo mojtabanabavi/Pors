@@ -12,9 +12,9 @@ namespace Pors.Infrastructure.Persistence.Configurations
             builder.Property(x => x.Id)
                 .UseIdentityColumn();
 
-            builder.HasIndex(x => x.Name);
+            builder.HasIndex(x => x.Title);
 
-            builder.Property(x => x.Name)
+            builder.Property(x => x.Title)
                 .HasMaxLength(50)
                 .IsRequired();
 

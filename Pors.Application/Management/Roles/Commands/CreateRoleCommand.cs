@@ -14,7 +14,7 @@ namespace Pors.Application.Management.Roles.Commands
 
     public class CreateRoleCommand : IRequest<int>
     {
-        public string Name { get; set; }
+        public string Title { get; set; }
         public string Description { get; set; }
     }
 
@@ -30,7 +30,7 @@ namespace Pors.Application.Management.Roles.Commands
         {
             _dbContext = sqlDbContext;
 
-            RuleFor(x => x.Name)
+            RuleFor(x => x.Title)
                 .NotEmpty()
                 .MaximumLength(50)
                 .Must(UniqueTitle).WithMessage("'{PropertyName}' تکراری است.")
@@ -44,7 +44,7 @@ namespace Pors.Application.Management.Roles.Commands
 
         private bool UniqueTitle(string title)
         {
-            return _dbContext.Roles.All(x => x.Name != title);
+            return _dbContext.Roles.All(x => x.Title != title);
         }
     }
 
@@ -63,7 +63,7 @@ namespace Pors.Application.Management.Roles.Commands
 
         public async Task<int> Handle(CreateRoleCommand request, CancellationToken cancellationToken)
         {
-            var entity = new Role(request.Name, request.Description);
+            var entity = new Role(request.Title, request.Description);
 
             _dbContext.Roles.Add(entity);
 

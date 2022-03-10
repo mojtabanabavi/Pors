@@ -16,7 +16,7 @@ namespace Pors.Application.Management.Roles.Commands
     public class UpdateRoleCommand : IRequest
     {
         public int Id { get; set; }
-        public string Name { get; set; }
+        public string Title { get; set; }
         public string Description { get; set; }
     }
 
@@ -32,7 +32,7 @@ namespace Pors.Application.Management.Roles.Commands
         {
             _dbContext = sqlDbContext;
 
-            RuleFor(x => x.Name)
+            RuleFor(x => x.Title)
                 .NotEmpty()
                 .MaximumLength(50)
                 .Must(UniqueTitle).WithMessage("'{PropertyName}' تکراری است.")
@@ -48,12 +48,12 @@ namespace Pors.Application.Management.Roles.Commands
         {
             var entity = _dbContext.Roles.Find(command.Id);
 
-            if (entity?.Name == title)
+            if (entity?.Title == title)
             {
                 return true;
             }
 
-            return _dbContext.Roles.All(x => x.Name != title);
+            return _dbContext.Roles.All(x => x.Title != title);
         }
     }
 
@@ -79,7 +79,7 @@ namespace Pors.Application.Management.Roles.Commands
                 throw new NotFoundException(nameof(Role), request.Id);
             }
 
-            entity.Name = request.Name;
+            entity.Title = request.Title;
             entity.Description = request.Description;
 
             await _dbContext.SaveChangesAsync();

@@ -31,7 +31,7 @@ namespace Pors.Application.Management.Roles.Queries
     public class GetRolesQueryResponse : IMapFrom<Role>
     {
         public int Id { get; set; }
-        public string Name { get; set; }
+        public string Title { get; set; }
         public string Description { get; set; }
     }
 
@@ -65,7 +65,7 @@ namespace Pors.Application.Management.Roles.Queries
 
             if (request.Search.HasValue())
             {
-                query = query.Where(x => x.Name.Contains(request.Search));
+                query = query.Where(x => x.Title.Contains(request.Search));
             }
 
             var result = await query
