@@ -9,3 +9,40 @@
 .custom-nav-link.disabled {
     color: #6c757d !important;
 }
+
+.answer-error {
+    color: #FF5B5C;
+    font-size: 13px;
+}
+
+.wizard .steps ul li a i {
+    font-weight: 400;
+    font-style: normal;
+}
+
+.wizard .steps ul li a .step {
+    border: 1px solid;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.wizard .steps ul li.disabled a .step {
+    border: 1px solid;
+}
+
+.wizard .steps ul li:last-child:after {
+    content: '';
+}
+
+.wizard .actions ul {
+    float: none;
+    display: flex !important;
+    justify-content: center;
+}
+
+.custom-radio .custom-control-input ~ .custom-control-label {
+    font-size: .875rem;
+    height: 1rem;
+    cursor: pointer;
+}

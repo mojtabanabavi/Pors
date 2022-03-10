@@ -3,15 +3,21 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using Pors.Application.Public.Exams.Queries;
+using Pors.Application.Public.ExamVisits.Commands;
 
 namespace Pors.Website.Controllers
 {
     public class ExamsController : BaseController
     {
         [HttpGet]
-        public IActionResult Start()
+        public async Task<IActionResult> Start(GetExamQuery request)
         {
-            return View();
+            await Mediator.Send(new CreateExamVisitCommand(request.Id));
+
+            var result = await Mediator.Send(request);
+
+            return View(result);
         }
     }
 }

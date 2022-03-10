@@ -1,10 +1,10 @@
 jQuery(function ($) {
   'use strict'
 
-  // 1. preloader
-  $(window).ready(function () {
-    $('#preloader').delay(200).fadeOut('fade')
-  })
+  //// 1. preloader
+  //$(window).ready(function () {
+  //  $('#preloader').delay(200).fadeOut('fade')
+  //})
 
   // 2. mega menu js
   $('.js-mega-menu').HSMegaMenu({
@@ -107,14 +107,14 @@ jQuery(function ($) {
   $('.custom-map-location li span').tooltip('show')
 
   // 8. magnify popup video
-  $('.popup-youtube, .popup-vimeo, .popup-gmaps').magnificPopup({
-    disableOn: 700,
-    type: 'iframe',
-    mainClass: 'mfp-fade',
-    removalDelay: 160,
-    preloader: false,
-    fixedContentPos: false,
-  })
+  //$('.popup-youtube, .popup-vimeo, .popup-gmaps').magnificPopup({
+  //  disableOn: 700,
+  //  type: 'iframe',
+  //  mainClass: 'mfp-fade',
+  //  removalDelay: 160,
+  //  preloader: false,
+  //  fixedContentPos: false,
+  //})
 
   // 9. hero slider one
   $('.hero-slider-one').owlCarousel({

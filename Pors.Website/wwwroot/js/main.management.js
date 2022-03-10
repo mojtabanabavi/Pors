@@ -475,8 +475,8 @@ let questionDataTableOptions = {
                           <div class="dropdown-menu">
                             <a class="dropdown-item" href="/admin/option/index/${row.id}">لیست گزینه‌ها</a>
                             <a class="dropdown-item" href="/admin/option/create/${row.id}">افزودن گزینه</a>
-                            <a class="dropdown-item" href="/admin/option/update/${row.id}">ویرایش</a>
-                            <a class="dropdown-item" href="/admin/option/delete/${row.id}" data-delete-btn>حذف</a>
+                            <a class="dropdown-item" href="/admin/question/update/${row.id}">ویرایش</a>
+                            <a class="dropdown-item" href="/admin/question/delete/${row.id}" data-delete-btn>حذف</a>
                           </div>
                       </div>
                     </div>`;

@@ -1,8 +1,64 @@
-﻿
+﻿@model GetExamQueryResponse
 @{
-    ViewData["Title"] = "";
     Layout = "_publicLayout";
+    ViewData["Title"] = Model.Title;
 }
 
-<h1>Start</h1>
+@section styles{
+    <link rel="stylesheet" href="~/lib/jquery-steps/css/jquery.steps.css" />
+}
 
+@section scripts{
+    <script src="~/lib/jquery-steps/js/jquery.steps.min.js"></script>
+    <script src="~/lib/jquery-validation//js/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/js/jquery.validate.unobtrusive.min.js"></script>
+}
+
+<section class="ptb-100 gray-light-bg">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-9 col-lg-8">
+                <div class="section-heading text-center mb-5 mb-sm-5 mb-md-3 mb-lg-5">
+                    <h2>@Model.Title</h2>
+                </div>
+            </div>
+        </div>
+        <section id="validation">
+            <div class="row justify-content-center">
+                <div class="col-12 col-lg-8">
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="card-body">
+                                <form action="#" class="exam-form-wizard">
+                                    @for (int i = 0; i < Model.Questions.Count; i++)
+                                    {
+                                        <h6><i class="step-icon"></i></h6>
+                                    }
+                                    @foreach (var question in Model.Questions)
+                                    {
+                                        <fieldset class="p-4">
+                                            <h5>@question.Title <label class="answer-error"></label></h5>
+                                            @foreach (var option in question.Options)
+                                            {
+                                                <div class="custom-control custom-radio mb-3">
+                                                    <input type="radio" name="answer" value="@option.Id" class="custom-control-input" id="option-@option.Id" required>
+                                                    <label class="custom-control-label" for="option-@option.Id">
+                                                        @option.Title
+                                                    </label>
+                                                    @if (option.Image != null)
+                                                    {
+                                                        <img class="d-block my-2 w-100" src="~/@option.Image" alt="@option.Title" />
+                                                    }
+                                                </div>
+                                            }
+                                        </fieldset>
+                                    }
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</section>

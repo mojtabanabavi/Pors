@@ -13,6 +13,11 @@ namespace Pors.Application.Public.ExamVisits.Commands
     public class CreateExamVisitCommand : IRequest<int>
     {
         public int ExamId { get; set; }
+
+        public CreateExamVisitCommand(int examId)
+        {
+            ExamId = examId;
+        }
     }
 
     #endregion;
