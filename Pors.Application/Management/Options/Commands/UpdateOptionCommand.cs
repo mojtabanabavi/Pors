@@ -82,9 +82,7 @@ namespace Pors.Application.Management.Options.Commands
 
             if (request.Image != null)
             {
-                await _fileManager.DeleteFileAsync(entity.Image);
-
-                entity.Image = await _fileManager.CreateFileAsync(request.Image);
+                entity.Image = await _fileManager.UpdateFileAsync(request.Image, entity.Image);
             }
 
             await _dbContext.SaveChangesAsync();

@@ -138,9 +138,7 @@ namespace Pors.Application.Management.Profiles.Commands
 
             if (request.ProfilePicture != null)
             {
-                await _fileManager.DeleteFileAsync(entity.ProfilePicture);
-
-                entity.ProfilePicture = await _fileManager.CreateFileAsync(request.ProfilePicture);
+                entity.ProfilePicture = await _fileManager.UpdateFileAsync(request.ProfilePicture, entity.ProfilePicture);
             }
 
             await _dbContext.SaveChangesAsync();

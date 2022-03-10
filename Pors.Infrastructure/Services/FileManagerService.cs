@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using Loby.Extensions;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Pors.Application.Common.Interfaces;
@@ -21,18 +22,36 @@ namespace Pors.Infrastructure.Services
 
         public async Task<string> CreateFileAsync(IFormFile file)
         {
-            var extension = Path.GetExtension(file.FileName);
-            var imageName = Guid.NewGuid().ToString() + extension;
-            var imagePath = Path.Combine(UPLOAD_PATH, imageName);
+            var path = GenerateFilePath(file);
 
             try
             {
-                using (var fileStream = new FileStream(imagePath, FileMode.Create))
+                using (var fileStream = new FileStream(path, FileMode.Create))
                 {
                     await file.CopyToAsync(fileStream);
                 }
 
-                return BuildRelativePath(imagePath);
+                return path.Replace($"{ROOT_PATH}/", string.Empty);
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        public async Task<string> UpdateFileAsync(IFormFile file, string path)
+        {
+            path = path.HasValue() ?
+                Path.Combine(ROOT_PATH, path) : GenerateFilePath(file);
+
+            try
+            {
+                using (var fileStream = new FileStream(path, FileMode.OpenOrCreate))
+                {
+                    await file.CopyToAsync(fileStream);
+                }
+
+                return path.Replace($"{ROOT_PATH}/", string.Empty);
             }
             catch
             {
@@ -42,7 +61,7 @@ namespace Pors.Infrastructure.Services
 
         public async Task DeleteFileAsync(string path)
         {
-            path = Path.Combine(ROOT_PATH, path);
+            path = Path.Combine(ROOT_PATH, path ?? string.Empty);
 
             if (File.Exists(path))
             {
@@ -50,9 +69,13 @@ namespace Pors.Infrastructure.Services
             }
         }
 
-        private string BuildRelativePath(string absolutePath)
+        private string GenerateFilePath(IFormFile file)
         {
-            return absolutePath.Replace($"{ROOT_PATH}\\", string.Empty);
+            var extension = Path.GetExtension(file.FileName);
+            var imageName = Guid.NewGuid().ToString() + extension;
+            var imagePath = Path.Combine(UPLOAD_PATH, imageName);
+
+            return imagePath;
         }
     }
 }
