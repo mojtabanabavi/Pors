@@ -1,5 +1,6 @@
 ﻿using System;
 using MediatR;
+using AutoMapper;
 using Loby.Tools;
 using Loby.Extensions;
 using FluentValidation;
@@ -16,8 +17,8 @@ namespace Pors.Application
 
             services.AddAutoMapper(configs =>
             {
+                configs.ValueTransformers.Add<string>(str => str.HasValue() ? str : "-");
                 configs.CreateMap<DateTime, string>().ConvertUsing(x => Dater.ToIranSolar(x, "yyyy/MM/dd"));
-
             }, executingAssembly);
 
             services.AddMediatR(executingAssembly);

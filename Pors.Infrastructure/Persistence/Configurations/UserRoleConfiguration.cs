@@ -10,6 +10,9 @@ namespace Pors.Infrastructure.Persistence.Configurations
         public void Configure(EntityTypeBuilder<UserRole> builder)
         {
             builder.HasKey(x => new { x.UserId, x.RoleId });
+
+            builder.Property(x => x.CreatedAt)
+                .HasDefaultValueSql("getdate()");
         }
     }
 }

@@ -519,6 +519,12 @@ let rolesDataTableOptions = {
             'searchable': true
         },
         {
+            'name': 'createdAt',
+            'data': 'createdAt',
+            'autoWidth': true,
+            'searchable': false
+        },
+        {
             'orderable': false,
             'render': function (data, type, row) {
                 let content =

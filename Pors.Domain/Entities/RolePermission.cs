@@ -13,6 +13,7 @@ namespace Pors.Domain.Entities
         public string Controller { get; set; }
         public string Action { get; set; }
         public string DisplayName { get; set; }
+        public DateTime CreatedAt { get; set; }
 
         public Role Role { get; set; }
     }

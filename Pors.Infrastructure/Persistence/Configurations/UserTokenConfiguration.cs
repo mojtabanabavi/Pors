@@ -21,6 +21,9 @@ namespace Pors.Infrastructure.Persistence.Configurations
 
             builder.Property(x => x.ExpireAt)
                 .IsRequired();
+
+            builder.Property(x => x.CreatedAt)
+                .HasDefaultValueSql("getdate()");
         }
     }
 }

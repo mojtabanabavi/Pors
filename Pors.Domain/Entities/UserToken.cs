@@ -10,6 +10,7 @@ namespace Pors.Domain.Entities
         public int UserId { get; set; }
         public IdentityTokenType Type { get; set; }
         public string Value { get; set; }
+        public DateTime CreatedAt { get; set; }
         public DateTime ExpireAt { get; set; }
 
         public User User { get; set; }
