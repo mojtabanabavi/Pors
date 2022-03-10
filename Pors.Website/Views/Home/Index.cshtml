@@ -1,0 +1,74 @@
+﻿@{
+    Layout = "_publicLayout";
+    ViewData["Title"] = "صفحه‌ی اصلی";
+
+    @inject MediatR.ISender MediatR
+
+    var paginatedExams = await MediatR.Send(new GetExamsQuery(1, 10));
+}
+
+<!-- hero -->
+<section class="py-5 gradient-bg">
+    <div class="container">
+        <div class="hero-content-wrap text-white text-center py-5">
+            <h1 class="text-white">پُرس، سامانه‌ی پرسش و پاسخ</h1>
+            <p class="lead">
+                لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با
+                .تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- hot exams -->
+<section class="our-services ptb-100 gray-light-bg">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-9 col-lg-8">
+                <div class="section-heading text-center mb-5 mb-sm-5 mb-md-3 mb-lg-5">
+                    <h2>محبوب ترین آزمون‌ها</h2>
+                    <p class="lead">
+                        لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با
+                        استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و
+                        مجله در ستون و سطرآنچنان که لازم است
+                    </p>
+                </div>
+            </div>
+        </div>
+        @if (paginatedExams.Items.Any())
+        {
+            <div class="row">
+                @foreach (var exam in paginatedExams.Items)
+                {
+                    <div class="col-md-4">
+                        <div class="single-blog-card card border-0 shadow-sm">
+                            <span class="category position-absolute badge badge-pill badge-primary"></span>
+                            <img src="@exam.Image"
+                                 class="card-img-top position-relative"
+                                 alt="blog" />
+                            <div class="card-body">
+                                <div class="post-meta mb-2">
+                                    <ul class="list-inline meta-list">
+                                        <li class="list-inline-item"></li>
+                                        <li class="list-inline-item"><span></span></li>
+                                        <li class="list-inline-item">
+                                            <span></span>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <h3 class="h5 card-title">
+                                    <a href="#"></a>
+                                </h3>
+                                <p class="card-text">
+                                </p>
+                                <div class="text-center">
+                                    <a href="#" class="btn outline-btn"></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+</section>

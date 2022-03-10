@@ -1,0 +1,51 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>پُرس - @ViewData["Title"]</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0 shrink-to-fit=no">
+
+    <!-- favicon -->
+    <link async rel="icon" type="image/png" href="~/img/defaults/favicon.png">
+
+    <!-- librarys -->
+    <link async rel="stylesheet" href="~/lib/animate/css/animate.min.css">
+    <link async rel="stylesheet" href="~/lib/bootstrap/css/bootstrap.rtl.css">
+    <link async rel="stylesheet" href="~/lib/hs-megamenu/css/hs.megamenu.css">
+    @RenderSection("styles", false)
+
+    <!-- fonts -->
+    <link async rel="stylesheet" href="~/fonts/sahel/css/sahel.css">
+    <link async rel="stylesheet" href="~/fonts/themify/css/themify.css">
+    <link async rel="stylesheet" href="~/fonts/iransans/css/iransans.css">
+    <link async rel="stylesheet" href="~/fonts/fontawesome/css/fontawesome.min.css">
+
+    <!-- styles -->
+    <link async rel="stylesheet" href="~/css/hostlar.css" />
+    <link async rel="stylesheet" href="~/css/main.public.css" />
+</head>
+<body>
+
+    <!-- header -->
+    <partial name="_publicHeader" />
+
+    <!-- content -->
+    <div class="main main-with-padding">
+        @RenderBody()
+    </div>
+
+    <!-- footer -->
+    <partial name="_publicFooter" />
+
+    <!-- librarys -->
+    <script src="~/lib/jquery/js/jquery.min.js"></script>
+    <script src="~/lib/hs-megamenu/js/hs.megamenu.js"></script>
+    <script src="~/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+    @RenderSection("scripts", false)
+
+    <!-- scripts -->
+    <script src="~/js/hostlar.js"></script>
+    <script src="~/js/main.public.js"></script>
+</body>
+</html>
