@@ -2,8 +2,8 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Pors.Application.Common.Models;
-using Pors.Application.Exams.Queries;
-using Pors.Application.Exams.Commands;
+using Pors.Application.Management.Exams.Queries;
+using Pors.Application.Management.Exams.Commands;
 
 namespace Pors.Website.Areas.Admin.Controllers
 {

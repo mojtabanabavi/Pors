@@ -4,8 +4,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using Pors.Application.Common.Models;
-using Pors.Application.Options.Queries;
-using Pors.Application.Options.Commands;
+using Pors.Application.Management.Options.Queries;
+using Pors.Application.Management.Options.Commands;
 
 namespace Pors.Website.Areas.Admin.Controllers
 {

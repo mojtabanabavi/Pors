@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Pors.Application.Roles.Queries;
 using Pors.Application.Common.Models;
-using Pors.Application.Roles.Commands;
+using Pors.Application.Management.Roles.Queries;
+using Pors.Application.Management.Roles.Commands;
 
 namespace Pors.Website.Areas.Admin.Controllers
 {

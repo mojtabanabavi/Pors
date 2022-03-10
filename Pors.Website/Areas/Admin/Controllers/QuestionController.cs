@@ -3,10 +3,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Pors.Application.Common.Models;
-using Pors.Application.Exams.Queries;
-using Pors.Application.Questions.Queries;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Pors.Application.Questions.Commands;
+using Pors.Application.Management.Exams.Queries;
+using Pors.Application.Management.Questions.Queries;
+using Pors.Application.Management.Questions.Commands;
 
 namespace Pors.Website.Areas.Admin.Controllers
 {

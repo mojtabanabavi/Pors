@@ -2,8 +2,8 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Pors.Application.Common.Models;
-using Pors.Application.Users.Queries;
-using Pors.Application.Users.Commands;
+using Pors.Application.Management.Users.Queries;
+using Pors.Application.Management.Users.Commands;
 
 namespace Pors.Website.Areas.Admin.Controllers
 {
