@@ -14,5 +14,6 @@ namespace Pors.Domain.Entities
         public DateTime CreatedAt { get; set; }
 
         public Exam Exam { get; set; }
+        public ICollection<AttemptAnswer> Answers { get; set; }
     }
 }

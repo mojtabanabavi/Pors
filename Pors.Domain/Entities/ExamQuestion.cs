@@ -15,5 +15,6 @@ namespace Pors.Domain.Entities
 
         public Exam Exam { get; set; }
         public ICollection<QuestionOption> Options { get; set; }
+        public ICollection<AttemptAnswer> Answers { get; set; }
     }
 }
