@@ -8,6 +8,17 @@ using Pors.Application.Public.ExamVisits.Commands;
 
 namespace Pors.Website.Controllers
 {
+    public class answer
+    {
+        public List<items> answers { get; set; }
+
+        public class items
+        {
+            public int QuestionId { get; set; }
+            public int AnswerId { get; set; }
+        }
+    }
+
     public class ExamsController : BaseController
     {
         [HttpGet]
@@ -18,6 +29,14 @@ namespace Pors.Website.Controllers
             var result = await Mediator.Send(request);
 
             return View(result);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Answer(answer a)
+        {
+
+
+            return View();
         }
     }
 }

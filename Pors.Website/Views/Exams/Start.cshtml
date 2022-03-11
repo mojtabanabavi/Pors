@@ -29,19 +29,20 @@
                     <div class="card">
                         <div class="card-content">
                             <div class="card-body">
-                                <form action="#" class="exam-form-wizard">
+                                <form id="exam-form-wizard" asp-action="answer" method="post" class="exam-form-wizard">
                                     @for (int i = 0; i < Model.Questions.Count; i++)
                                     {
                                         <h6><i class="step-icon"></i></h6>
                                     }
-                                    @foreach (var question in Model.Questions)
+                                    @for (int i =0; i < Model.Questions.Count; i++)
                                     {
                                         <fieldset class="p-4">
-                                            <h5>@question.Title <label class="answer-error"></label></h5>
-                                            @foreach (var option in question.Options)
+                                            <h5>@Model.Questions[i].Title <label class="answer-error"></label></h5>
+                                            <input type="hidden" name="answers[@i][questionId]" value="@Model.Questions[i].Id" />
+                                            @foreach (var option in Model.Questions[i].Options)
                                             {
                                                 <div class="custom-control custom-radio mb-3">
-                                                    <input type="radio" name="answer" value="@option.Id" class="custom-control-input" id="option-@option.Id" required>
+                                                    <input type="radio" name="answers[@i][answerId]" value="@option.Id" class="custom-control-input" id="option-@option.Id" required>
                                                     <label class="custom-control-label" for="option-@option.Id">
                                                         @option.Title
                                                     </label>

@@ -39,7 +39,7 @@ examFormWizard.steps({
         return form.valid();
     },
     onFinished: function (event, currentIndex) {
-        alert("ثبت شد!");
+        $(this).submit();
     }
 });
 
@@ -69,6 +69,21 @@ $('.actions a[role="menuitem"][href="#next"]').addClass("btn primary-solid-btn")
 $('.actions a[role="menuitem"][href="#previous"]').addClass("btn outline-btn");
 $('.actions a[role="menuitem"][href="#finish"]').addClass("btn primary-solid-btn");
 $('.icon-tab [role="menuitem"]').addClass("glow");
+
+
+
+//$(document).on('submit', '#exam-form-wizard', function (e) {
+//    e.preventDefault();
+
+//    console.log('prevented');
+
+//    const data = new FormData(e.target);
+
+//    const formJSON = Object.fromEntries(data.entries());
+
+//    console.log(JSON.stringify(formJSON, null, 2));
+//});
+
 
 //jQuery.extend(jQuery.validator.messages, {
 //    required: "وارد کردن این فیلد الزامی است.",
