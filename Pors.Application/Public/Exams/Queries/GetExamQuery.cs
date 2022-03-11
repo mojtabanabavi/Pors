@@ -18,14 +18,16 @@ namespace Pors.Application.Public.Exams.Queries
     public class GetExamQuery : IRequest<GetExamQueryResponse>
     {
         public int Id { get; set; }
+        public string AttemptId { get; set; }
 
         public GetExamQuery()
         {
         }
 
-        public GetExamQuery(int id)
+        public GetExamQuery(int id, string attemptId)
         {
             Id = id;
+            AttemptId = attemptId;
         }
     }
 
@@ -36,6 +38,7 @@ namespace Pors.Application.Public.Exams.Queries
     public class GetExamQueryResponse : IMapFrom<Exam>
     {
         public int Id { get; set; }
+        public string AttemptId { get; set; }
         public string Title { get; set; }
         public List<ExamQuestionDto> Questions { get; set; }
     }
@@ -87,7 +90,12 @@ namespace Pors.Application.Public.Exams.Queries
                 throw new NotFoundException(nameof(Exam), request.Id);
             }
 
-            return _mapper.Map<GetExamQueryResponse>(entity);
+            var result = new GetExamQueryResponse()
+            {
+                AttemptId = request.AttemptId,
+            };
+
+            return _mapper.Map(entity, result);
         }
     }
 

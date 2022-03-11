@@ -26,13 +26,13 @@ namespace Pors.Website.Controllers
         {
             var attemptId = await Mediator.Send(new CreateExamAttemptCommand(id));
 
-            return RedirectToAction(nameof(Start), new { Id = id , attempt = attemptId});
+            return RedirectToAction(nameof(Start), new { ExamId = id, AttemptId = attemptId });
         }
 
-        [HttpGet("start/{id}/{attempt}")]
-        public async Task<IActionResult> Start(int id, string attempt)
+        [HttpGet("start/{examId}/{attemptId}")]
+        public async Task<IActionResult> Start(int examId, string attemptId)
         {
-            var result = await Mediator.Send(new GetExamQuery(id));
+            var result = await Mediator.Send(new GetExamQuery(examId, attemptId));
 
             return View(result);
         }
