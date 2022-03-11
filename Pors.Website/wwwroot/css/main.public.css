@@ -46,3 +46,8 @@
     height: 1rem;
     cursor: pointer;
 }
+
+.single-blog-card .card-text{
+    font-size: 0.9rem;
+    text-align: justify;
+}

@@ -43,7 +43,7 @@ namespace Pors.Application.Management.Exams.Commands
 
             RuleFor(x => x.ShortDescription)
                 .NotEmpty()
-                .MaximumLength(50)
+                .MaximumLength(150)
                 .WithName("توضیحات");
         }
 

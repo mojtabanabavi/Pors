@@ -9,8 +9,11 @@ namespace Pors.Infrastructure.Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<AttemptAnswer> builder)
         {
-            builder
-                .HasKey(x => new { x.AttemptId, x.QuestionId, x.OptionId });
+            builder.Property(x => x.Id)
+                .UseIdentityColumn();
+
+            builder.Property(x => x.Description)
+                .HasMaxLength(1000);
 
             builder
                 .HasOne(x => x.Option)
