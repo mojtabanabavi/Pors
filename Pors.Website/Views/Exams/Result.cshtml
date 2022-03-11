@@ -1,0 +1,41 @@
+﻿@model GetExamAttemptAnswersQueryResponse
+@{
+    Layout = "_publicLayout";
+    ViewData["Title"] = $"نتایج {Model.ExamTitle}";
+}
+
+<section class="ptb-100 gray-light-bg">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-9 col-lg-8">
+                <div class="section-heading text-center mb-5 mb-sm-5 mb-md-3 mb-lg-5">
+                    <h2>@ViewData["Title"]</h2>
+                    <p>شناسه‌: @Model.AttemptId</p>
+                </div>
+            </div>
+        </div>
+        <section id="validation">
+            <div class="row justify-content-center">
+                <div class="col-12 col-lg-8">
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="card-body p-5">
+                                @foreach (var question in Model.Questions)
+                                {
+                                    <h5>@question.Title</h5>
+                                    <p>پاسخ شما: <span>@question.Answer.Title</span></p>
+                                    <p>توضیحات:</p>
+                                    <p>@question.Answer.Description</p>
+                                    @if (question.Answer.Image != null)
+                                    {
+                                        <img class="d-block my-2 w-100" src="~/@question.Answer.Image" alt="@question.Answer.Title" />
+                                    }
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</section>
