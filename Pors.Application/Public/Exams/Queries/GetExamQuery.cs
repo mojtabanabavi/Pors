@@ -18,6 +18,15 @@ namespace Pors.Application.Public.Exams.Queries
     public class GetExamQuery : IRequest<GetExamQueryResponse>
     {
         public int Id { get; set; }
+
+        public GetExamQuery()
+        {
+        }
+
+        public GetExamQuery(int id)
+        {
+            Id = id;
+        }
     }
 
     #endregion;

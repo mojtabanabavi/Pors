@@ -19,7 +19,7 @@ namespace Pors.Domain.Entities
         public DateTime CreatedAt { get; set; }
 
         public User User { get; set; }
-        public ICollection<ExamVisit> Visits { get; set; }
+        public ICollection<ExamAttempt> Attempts { get; set; }
         public ICollection<ExamQuestion> Questions { get; set; }
     }
 }

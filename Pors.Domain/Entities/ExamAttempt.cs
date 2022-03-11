@@ -6,9 +6,9 @@ using System.Collections.Generic;
 
 namespace Pors.Domain.Entities
 {
-    public class ExamVisit
+    public class ExamAttempt
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
         public int ExamId { get; set; }
         public string IpAddress { get; set; }
         public DateTime CreatedAt { get; set; }

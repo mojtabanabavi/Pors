@@ -25,7 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Public\ExamVisits\Queries\" />
+    <Folder Include="Public\ExamAttempts\Queries\" />
   </ItemGroup>
 
 </Project>

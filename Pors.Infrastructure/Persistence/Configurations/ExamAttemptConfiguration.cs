@@ -5,12 +5,12 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Pors.Infrastructure.Persistence.Configurations
 {
-    public class ExamVisitConfiguration : IEntityTypeConfiguration<ExamVisit>
+    public class ExamAttemptConfiguration : IEntityTypeConfiguration<ExamAttempt>
     {
-        public void Configure(EntityTypeBuilder<ExamVisit> builder)
+        public void Configure(EntityTypeBuilder<ExamAttempt> builder)
         {
             builder.Property(x => x.Id)
-                .UseIdentityColumn();
+                .HasDefaultValueSql("newid()");
 
             builder.Property(x => x.IpAddress)
                 .HasMaxLength(45)

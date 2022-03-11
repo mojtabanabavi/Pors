@@ -33,7 +33,7 @@
     <div id="logoAndNav" class="main-header-menu-wrap white-bg border-bottom">
         <div class="container">
             <nav class="mega-menu navbar navbar-expand-md header-nav">
-                <a class="navbar-brand" asp-action="index">
+                <a class="navbar-brand" asp-controller="home" asp-action="index">
                     <span>پُرس</span>
                 </a>
                 <button type="button" class="navbar-toggler btn" aria-expanded="false" aria-controls="navBar" data-toggle="collapse" data-target="#navBar">
@@ -44,13 +44,13 @@
                 <div id="navBar" class="collapse navbar-collapse">
                     <ul class="navbar-nav main-navbar-nav">
                         <li class="nav-item custom-nav-item">
-                            <a asp-action="index" class="nav-link custom-nav-link">صفحه‌ی اصلی</a>
+                            <a asp-controller="home" asp-action="index" class="nav-link custom-nav-link">صفحه‌ی اصلی</a>
                         </li>
                         <li class="nav-item custom-nav-item">
-                            <a asp-action="index" class="nav-link custom-nav-link disabled">درباره‌ی ما</a>
+                            <a asp-controller="" asp-action="index" class="nav-link custom-nav-link disabled">درباره‌ی ما</a>
                         </li>
                         <li class="nav-item custom-nav-item">
-                            <a asp-action="index" class="nav-link custom-nav-link disabled">‌تماس با ما</a>
+                            <a asp-controller="" asp-action="index" class="nav-link custom-nav-link disabled">‌تماس با ما</a>
                         </li>
                         <li class="nav-item hs-has-sub-menu custom-nav-item disabled">
                             <a id="pagesMegaMenu" class="nav-link custom-nav-link main-link-toggle" href="javascript:void(0)">سایر صفحات</a>

@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using Pors.Application.Public.Exams.Queries;
-using Pors.Application.Public.ExamVisits.Commands;
+using Pors.Application.Public.ExamAttempts.Commands;
 
 namespace Pors.Website.Controllers
 {
@@ -22,17 +22,23 @@ namespace Pors.Website.Controllers
     public class ExamsController : BaseController
     {
         [HttpGet]
-        public async Task<IActionResult> Start(GetExamQuery request)
+        public async Task<IActionResult> Attempt(int id)
         {
-            await Mediator.Send(new CreateExamVisitCommand(request.Id));
+            var attemptId = await Mediator.Send(new CreateExamAttemptCommand(id));
 
-            var result = await Mediator.Send(request);
+            return RedirectToAction(nameof(Start), new { Id = id , attempt = attemptId});
+        }
+
+        [HttpGet("start/{id}/{attempt}")]
+        public async Task<IActionResult> Start(int id, string attempt)
+        {
+            var result = await Mediator.Send(new GetExamQuery(id));
 
             return View(result);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Answer(answer a)
+        public IActionResult Answer(answer a)
         {
 
 

@@ -56,11 +56,11 @@
                                     </ul>
                                 </div>
                                 <h3 class="h5 card-title">
-                                    <a asp-controller="exams" asp-action="start" asp-route-id="@exam.Id">@exam.Title</a>
+                                    <a asp-controller="exams" asp-action="attempt" asp-route-id="@exam.Id">@exam.Title</a>
                                 </h3>
                                 <p class="card-text">@exam.ShortDescription</p>
                                 <div class="text-center">
-                                    <a asp-controller="exams" asp-action="start" asp-route-id="@exam.Id" class="btn outline-btn">شرکت در آزمون</a>
+                                    <a asp-controller="exams" asp-action="attempt" asp-route-id="@exam.Id" class="btn outline-btn">شرکت در آزمون</a>
                                 </div>
                             </div>
                         </div>
