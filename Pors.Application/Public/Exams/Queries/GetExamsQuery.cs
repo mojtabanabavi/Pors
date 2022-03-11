@@ -10,6 +10,7 @@ using Pors.Application.Common.Models;
 using AutoMapper.QueryableExtensions;
 using Pors.Application.Common.Mappings;
 using Pors.Application.Common.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace Pors.Application.Public.Exams.Queries
 {
@@ -38,11 +39,13 @@ namespace Pors.Application.Public.Exams.Queries
         public string ShortDescription { get; set; }
         public string Image { get; set; }
         public string Status { get; set; }
+        public int VisitCount { get; set; }
         public string CreatedAt { get; set; }
 
         public void Mapping(Profile profile)
         {
             profile.CreateMap<Exam, GetExamsQueryResponse>()
+                .ForMember(x => x.VisitCount, option => option.MapFrom(y => y.Attempts.Count()))
                 .ForMember(x => x.Status, option => option.MapFrom(y => y.Status.GetDescription()));
         }
     }
@@ -68,7 +71,8 @@ namespace Pors.Application.Public.Exams.Queries
 
         public async Task<PagingResult<GetExamsQueryResponse>> Handle(GetExamsQuery request, CancellationToken cancellationToken)
         {
-            IQueryable<Exam> query = _dbContext.Exams;
+            IQueryable<Exam> query = _dbContext.Exams
+                .Include(x => x.Attempts);
 
             var result = await query
                 .ProjectTo<GetExamsQueryResponse>(_mapper.ConfigurationProvider)
