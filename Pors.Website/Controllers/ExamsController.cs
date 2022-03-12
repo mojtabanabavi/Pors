@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
 using Pors.Application.Public.Exams.Queries;
 using Pors.Application.Public.ExamAttempts.Queries;
 using Pors.Application.Public.ExamAttempts.Commands;
@@ -42,6 +41,14 @@ namespace Pors.Website.Controllers
             var result = await Mediator.Send(request);
 
             return View(result);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Comment(UpdateAnswerCommentCommand request)
+        {
+            var result = await Mediator.Send(request);
+
+            return Ok();
         }
     }
 }

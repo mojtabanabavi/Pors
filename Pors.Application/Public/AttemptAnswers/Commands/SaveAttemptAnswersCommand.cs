@@ -1,7 +1,6 @@
 ﻿using System;
 using MediatR;
 using AutoMapper;
-using System.Linq;
 using System.Threading;
 using Pors.Domain.Entities;
 using System.Threading.Tasks;

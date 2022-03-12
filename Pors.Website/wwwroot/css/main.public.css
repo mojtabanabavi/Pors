@@ -47,7 +47,32 @@
     cursor: pointer;
 }
 
-.single-blog-card .card-text{
+.single-blog-card .card-text {
     font-size: 0.9rem;
     text-align: justify;
 }
+
+.exam-comment-form label {
+    font-size: 88%;
+    padding-bottom: .25rem;
+}
+
+.btn-sm, .btn-group-sm > .btn {
+    font-size: 0.875rem !important;
+    padding: 0.25rem 0.5rem !important;
+}
+
+[data-action="loading"] {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+    [data-action="loading"] .spinner-wrapper {
+        display: flex;
+        align-items: center;
+        margin-left: 0.4rem;
+    }
+
+        [data-action="loading"] .spinner-wrapper i {
+        }
