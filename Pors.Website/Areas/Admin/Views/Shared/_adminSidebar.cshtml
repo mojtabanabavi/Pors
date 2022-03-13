@@ -73,12 +73,12 @@
                 <li class="nav-item">
                     <a class="nav-link @Html.IsActive("role", "index,create")" href="#navbar-rols" data-toggle="collapse">
                         <i class="ni ni-key-25 text-green"></i>
-                        <span>نقش ها</span>
+                        <span>نقش‌ها</span>
                     </a>
                     <div class="collapse" id="navbar-rols">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a asp-controller="role" asp-action="index" class="nav-link @Html.IsActive("role", "index")">لیست نقش ها</a>
+                                <a asp-controller="role" asp-action="index" class="nav-link @Html.IsActive("role", "index")">لیست نقش‌ها</a>
                             </li>
                             <li class="nav-item">
                                 <a asp-controller="role" asp-action="create" class="nav-link @Html.IsActive("role", "create")">ایجاد نقش</a>
@@ -100,14 +100,17 @@
                     </div>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link @Html.IsActive("exam", "index,create")" href="#navbar-exams" data-toggle="collapse">
+                    <a class="nav-link @Html.IsActive("exam,attempt", "index,create")" href="#navbar-exams" data-toggle="collapse">
                         <i class="ni ni-paper-diploma text-primary"></i>
-                        <span>آزمون ها</span>
+                        <span>آزمون‌ها</span>
                     </a>
                     <div class="collapse" id="navbar-exams">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a asp-controller="exam" asp-action="index" class="nav-link @Html.IsActive("exam", "index")">لیست آزمون ها</a>
+                                <a asp-controller="exam" asp-action="index" class="nav-link @Html.IsActive("exam", "index")">لیست آزمون‌ها</a>
+                            </li>
+                            <li class="nav-item">
+                                <a asp-controller="attempt" asp-action="index" asp-route-id="" class="nav-link @Html.IsActive("attempt", "index")">لیست شرکت‌کنندگان</a>
                             </li>
                             <li class="nav-item">
                                 <a asp-controller="exam" asp-action="create" class="nav-link @Html.IsActive("exam", "create")">ایجاد آزمون</a>
@@ -134,25 +137,25 @@
                 <li class="nav-item">
                     <a class="nav-link @Html.IsActive("option", "index")" href="#navbar-options" data-toggle="collapse">
                         <i class="ni ni-active-40 text-info"></i>
-                        <span>گزینه ها</span>
+                        <span>گزینه‌ها</span>
                     </a>
                     <div class="collapse" id="navbar-options">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a asp-controller="option" asp-action="index" class="nav-link @Html.IsActive("option", "index")">لیست گزینه ها</a>
+                                <a asp-controller="option" asp-action="index" class="nav-link @Html.IsActive("option", "index")">لیست گزینه‌ها</a>
                             </li>
                         </ul>
                     </div>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link disabled @Html.IsActive("answer", "index")" href="#navbar-answers" data-toggle="collapse">
-                        <i class="ni ni-planet text-default"></i>
-                        <span>پاسخ ها</span>
+                    <a class="nav-link @Html.IsActive("answer", "index")" href="#navbar-answers" data-toggle="collapse">
+                        <i class="ni ni-planet text-primary"></i>
+                        <span>پاسخ‌ها</span>
                     </a>
                     <div class="collapse" id="navbar-answers">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a asp-controller="answer" asp-action="index" class="nav-link @Html.IsActive("answer", "index")">لیست پاسخ ها</a>
+                                <a asp-controller="answer" asp-action="index" class="nav-link @Html.IsActive("answer", "index")">لیست پاسخ‌ها</a>
                             </li>
                         </ul>
                     </div>

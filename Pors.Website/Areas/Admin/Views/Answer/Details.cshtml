@@ -1,0 +1,26 @@
+﻿@model GetAnswerQueryResponse
+
+@{
+    Layout = "_adminLayout";
+    ViewData["Title"] = "جزئیات پاسخ";
+}
+
+<div class="row">
+    <div class="col">
+        <div class="card bg-secondary shadow">
+            <div class="card-header bg-bg-white border-0">
+                <h3 class="mb-0">@ViewData["Title"]</h3>
+            </div>
+            <div class="card-body">
+                <p>شناسه‌ی سوال: @Model.Id</p>
+                <p>شناسه‌ی شرکت کننده: @Model.AttemptId</p>
+                <p>شناسه‌ی پاسخ: @Model.OptionId</p>
+                <p>وضعیت درستی: @Model.IsCorrect</p>
+                <p>توضیحات: @Model.Description</p>
+            </div>
+            <div class="card-footer d-flex justify-content-end">
+                <a asp-action="index" class="btn btn-warning mr-2">بازگشت</a>
+            </div>
+        </div>
+    </div>
+</div>

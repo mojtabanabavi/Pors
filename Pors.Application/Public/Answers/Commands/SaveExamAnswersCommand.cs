@@ -69,11 +69,14 @@ namespace Pors.Application.Public.Answers.Commands
 
             foreach (var answer in request.Answers)
             {
-                answers.Add(new AttemptAnswer
+                if (answer.OptionId != default(int))
                 {
-                    OptionId = answer.OptionId,
-                    AttemptId = request.AttemptId,
-                });
+                    answers.Add(new AttemptAnswer
+                    {
+                        OptionId = answer.OptionId,
+                        AttemptId = request.AttemptId,
+                    });
+                }
             }
 
             _dbContext.AttemptAnswers.AddRange(answers);
