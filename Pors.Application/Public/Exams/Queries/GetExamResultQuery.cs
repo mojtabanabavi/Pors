@@ -11,19 +11,19 @@ using Pors.Application.Common.Mappings;
 using Pors.Application.Common.Interfaces;
 using Pors.Application.Common.Exceptions;
 
-namespace Pors.Application.Public.ExamAttempts.Queries
+namespace Pors.Application.Public.Exams.Queries
 {
     #region query
 
-    public class GetExamAttemptAnswersQuery : IRequest<GetExamAttemptAnswersQueryResponse>
+    public class GetExamResultQuery : IRequest<GetExamResultQueryResponse>
     {
         public string AttemptId { get; set; }
 
-        public GetExamAttemptAnswersQuery()
+        public GetExamResultQuery()
         {
         }
 
-        public GetExamAttemptAnswersQuery(string attemptId)
+        public GetExamResultQuery(string attemptId)
         {
             AttemptId = attemptId;
         }
@@ -33,22 +33,22 @@ namespace Pors.Application.Public.ExamAttempts.Queries
 
     #region response
 
-    public class GetExamAttemptAnswersQueryResponse : IMapFrom<ExamAttempt>
+    public class GetExamResultQueryResponse : IMapFrom<ExamAttempt>
     {
         public string ExamTitle { get; set; }
         public string AttemptId { get; set; }
-        public List<ExamAnswerDto> Answers { get; set; }
+        public List<ExamAnswerResultDto> Answers { get; set; }
 
         public void Mapping(Profile profile)
         {
-            profile.CreateMap<ExamAttempt, GetExamAttemptAnswersQueryResponse>()
+            profile.CreateMap<ExamAttempt, GetExamResultQueryResponse>()
                 .ForMember(x => x.AttemptId, option => option.MapFrom(y => y.Id))
                 .ForMember(x => x.Answers, option => option.MapFrom(y => y.Answers))
                 .ForMember(x => x.ExamTitle, option => option.MapFrom(y => y.Exam.Title));
         }
     }
 
-    public class ExamAnswerDto : IMapFrom<AttemptAnswer>
+    public class ExamAnswerResultDto : IMapFrom<AttemptAnswer>
     {
         public int Id { get; set; }
         public string QuestionTitle { get; set; }
@@ -60,7 +60,7 @@ namespace Pors.Application.Public.ExamAttempts.Queries
 
         public void Mapping(Profile profile)
         {
-            profile.CreateMap<AttemptAnswer, ExamAnswerDto>()
+            profile.CreateMap<AttemptAnswer, ExamAnswerResultDto>()
                 .ForMember(x => x.AnswerTitle, option => option.MapFrom(y => y.Option.Title))
                 .ForMember(x => x.AnswerImage, option => option.MapFrom(y => y.Option.Image))
                 .ForMember(x => x.CommentIsCorrect, option => option.MapFrom(y => y.IsCorrect))
@@ -78,18 +78,18 @@ namespace Pors.Application.Public.ExamAttempts.Queries
 
     #region handler
 
-    public class GetExamAttemptAnswersQueryHandler : IRequestHandler<GetExamAttemptAnswersQuery, GetExamAttemptAnswersQueryResponse>
+    public class GetExamResultQueryHandler : IRequestHandler<GetExamResultQuery, GetExamResultQueryResponse>
     {
         private readonly IMapper _mapper;
         private readonly ISqlDbContext _dbContext;
 
-        public GetExamAttemptAnswersQueryHandler(ISqlDbContext dbContext, IMapper mapper)
+        public GetExamResultQueryHandler(ISqlDbContext dbContext, IMapper mapper)
         {
             _mapper = mapper;
             _dbContext = dbContext;
         }
 
-        public async Task<GetExamAttemptAnswersQueryResponse> Handle(GetExamAttemptAnswersQuery request, CancellationToken cancellationToken)
+        public async Task<GetExamResultQueryResponse> Handle(GetExamResultQuery request, CancellationToken cancellationToken)
         {
             var attemptWithAnswer = await _dbContext.ExamAttempts
                 .Where(x => x.Id == request.AttemptId)
@@ -104,7 +104,7 @@ namespace Pors.Application.Public.ExamAttempts.Queries
                 throw new NotFoundException(nameof(Exam), request.AttemptId);
             }
 
-            return _mapper.Map<GetExamAttemptAnswersQueryResponse>(attemptWithAnswer);
+            return _mapper.Map<GetExamResultQueryResponse>(attemptWithAnswer);
         }
     }
 

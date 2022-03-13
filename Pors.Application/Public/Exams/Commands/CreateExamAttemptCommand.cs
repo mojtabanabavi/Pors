@@ -1,12 +1,11 @@
 ﻿using System;
 using MediatR;
-using System.Linq;
 using System.Threading;
 using Pors.Domain.Entities;
 using System.Threading.Tasks;
 using Pors.Application.Common.Interfaces;
 
-namespace Pors.Application.Public.ExamAttempts.Commands
+namespace Pors.Application.Public.Exams.Commands
 {
     #region command
 

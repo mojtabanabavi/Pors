@@ -1,12 +1,13 @@
 ﻿using System;
 using MediatR;
 using System.Threading;
+using FluentValidation;
 using Pors.Domain.Entities;
 using System.Threading.Tasks;
 using Pors.Application.Common.Interfaces;
 using Pors.Application.Common.Exceptions;
 
-namespace Pors.Application.Public.AttemptAnswers.Commands
+namespace Pors.Application.Public.Answers.Commands
 {
     #region command
 
@@ -20,6 +21,16 @@ namespace Pors.Application.Public.AttemptAnswers.Commands
     #endregion;
 
     #region validator
+
+    public class UpdateAnswerCommentCommandValidator : AbstractValidator<UpdateAnswerCommentCommand>
+    {
+        public UpdateAnswerCommentCommandValidator()
+        {
+            RuleFor(x => x.Description)
+                .MaximumLength(1000)
+                .WithName("توضیحات");
+        }
+    }
 
     #endregion;
 

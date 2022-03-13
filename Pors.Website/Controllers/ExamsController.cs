@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Pors.Application.Public.Exams.Queries;
-using Pors.Application.Public.ExamAttempts.Queries;
-using Pors.Application.Public.ExamAttempts.Commands;
-using Pors.Application.Public.AttemptAnswers.Commands;
+using Pors.Application.Public.Exams.Commands;
+using Pors.Application.Public.Answers.Commands;
 
 namespace Pors.Website.Controllers
 {
@@ -28,7 +26,7 @@ namespace Pors.Website.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Answer(SaveAttemptAnswersCommand request)
+        public async Task<IActionResult> Answer(SaveExamAnswersCommand request)
         {
             var attemptId = await Mediator.Send(request);
 
@@ -36,7 +34,7 @@ namespace Pors.Website.Controllers
         }
 
         [HttpGet("exams/result/{attemptId}")]
-        public async Task<IActionResult> Result(GetExamAttemptAnswersQuery request)
+        public async Task<IActionResult> Result(GetExamResultQuery request)
         {
             var result = await Mediator.Send(request);
 
