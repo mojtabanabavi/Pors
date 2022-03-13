@@ -18,20 +18,12 @@ namespace Pors.Infrastructure.Persistence.Configurations
             builder
                 .HasOne(x => x.Option)
                 .WithMany(x => x.Answers)
-                .HasForeignKey(x => x.OptionId)
-                .OnDelete(DeleteBehavior.NoAction);
-
-            builder
-                .HasOne(x => x.Question)
-                .WithMany(x => x.Answers)
-                .HasForeignKey(x => x.QuestionId)
-                .OnDelete(DeleteBehavior.NoAction);
+                .HasForeignKey(x => x.OptionId);
 
             builder
                 .HasOne(x => x.Attempt)
                 .WithMany(x => x.Answers)
-                .HasForeignKey(x => x.AttemptId)
-                .OnDelete(DeleteBehavior.NoAction);
+                .HasForeignKey(x => x.AttemptId);
         }
     }
 }

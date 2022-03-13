@@ -73,7 +73,6 @@ namespace Pors.Application.Public.Answers.Commands
                 {
                     OptionId = answer.OptionId,
                     AttemptId = request.AttemptId,
-                    QuestionId = answer.QuestionId,
                 });
             }
 

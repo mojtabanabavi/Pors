@@ -64,8 +64,8 @@ namespace Pors.Application.Public.Exams.Queries
                 .ForMember(x => x.AnswerTitle, option => option.MapFrom(y => y.Option.Title))
                 .ForMember(x => x.AnswerImage, option => option.MapFrom(y => y.Option.Image))
                 .ForMember(x => x.CommentIsCorrect, option => option.MapFrom(y => y.IsCorrect))
-                .ForMember(x => x.QuestionTitle, option => option.MapFrom(y => y.Question.Title))
                 .ForMember(x => x.CommentDescription, option => option.MapFrom(y => y.Description))
+                .ForMember(x => x.QuestionTitle, option => option.MapFrom(y => y.Option.Question.Title))
                 .ForMember(x => x.AnswerDescription, option => option.MapFrom(y => y.Option.Description));
         }
     }
