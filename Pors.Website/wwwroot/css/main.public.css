@@ -76,3 +76,11 @@
 
         [data-action="loading"] .spinner-wrapper i {
         }
+
+.hero-home {
+    background: url('../img/defaults/herohome.jpg') no-repeat center center fixed;
+}
+
+.hero-comment {
+    background: url('../img/defaults/herocomment.jpg') no-repeat center center fixed;
+}

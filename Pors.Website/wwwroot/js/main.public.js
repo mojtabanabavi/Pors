@@ -1,13 +1,63 @@
-﻿// Mega Menu //
+﻿// Hide Header on Scroll //
 // -----------------------------
-function HideSpinner(target) {
-    $('.mega-menu').HSMegaMenu({
-        event: 'hover',
-        pageContainer: $('.container'),
-        breakpoint: 767.98,
-        hideTimeOut: 0,
-    });
-};
+
+$(window).on('scroll', function () {
+    // checks if window is scrolled more than 500px, adds/removes solid class
+    if ($(this).scrollTop() > 100) {
+        $('.main-header-menu-wrap').addClass('affix')
+    } else {
+        $('.main-header-menu-wrap').removeClass('affix')
+    }
+});
+
+// Scroll To Top //
+// -----------------------------
+
+$(window).on('scroll', function () {
+    if ($(window).scrollTop() > $(window).height()) {
+        $('.scroll-to-target').addClass('open')
+    } else {
+        $('.scroll-to-target').removeClass('open')
+    }
+    if ($('.scroll-to-target').length) {
+        $('.scroll-to-target').on('click', function () {
+            var target = $(this).attr('data-target')
+            var new_time = new Date()
+            if (!this.old_time || new_time - this.old_time > 1000) {
+                // animate
+                $('html, body').animate(
+                    {
+                        scrollTop: $(target).offset().top,
+                    },
+                    500
+                )
+                this.old_time = new_time
+            }
+        })
+    }
+});
+
+// Wow Animate //
+// -----------------------------
+
+function wowAnimation() {
+    new WOW({
+        offset: 100,
+        mobile: true,
+    }).init()
+}
+
+wowAnimation()
+
+// Mega Menu //
+// -----------------------------
+
+$('.mega-menu').HSMegaMenu({
+    event: 'hover',
+    pageContainer: $('.container'),
+    breakpoint: 767.98,
+    hideTimeOut: 0,
+});
 
 // Loading Button //
 // -----------------------------
@@ -39,6 +89,7 @@ $(function () {
 
 // Exam Form Wizard //
 // -----------------------------
+
 $(function () {
     var examFormWizard = $(".exam-form-wizard");
 

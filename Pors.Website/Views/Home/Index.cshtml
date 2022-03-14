@@ -4,41 +4,67 @@
 
     @inject MediatR.ISender MediatR
 
-    var paginatedExams = await MediatR.Send(new GetExamsQuery(1, 10));
+    var newestExams = await MediatR.Send(new GetExamsQuery(SortTypes.Newest, 1, 4));
+    var mostVisitedExams = await MediatR.Send(new GetExamsQuery(SortTypes.MostVisited, 1, 4));
+}
+
+@section styles{
+    <link rel="stylesheet" href="~/lib/owl-carousel/css/owl.carousel.min.css" />
+    <link rel="stylesheet" href="~/lib/owl-carousel/css/owl.theme.default.min.css" />
+}
+
+@section scripts{
+    <script src="~/lib/owl-carousel/js/owl.carousel.min.js"></script>
 }
 
 <!-- hero -->
-<section class="py-5 gradient-bg">
+<section class="hero-home ptb-100 gradient-overlay">
     <div class="container">
-        <div class="hero-content-wrap text-white text-center py-5">
-            <h1 class="text-white">پُرس، سامانه‌ی پرسش و پاسخ</h1>
-            <p class="lead">
-                لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با
-                .تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای
-            </p>
+        <div class="row justify-content-center">
+            <div class="col-md-12 col-lg-8">
+                <div class="hero-content-wrap text-white text-center position-relative z-index">
+                    <h1 class="text-white">پُرس، سامانه‌ی پرسش و پاسخ</h1>
+                    <p class="lead">
+                        ورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با
+                        استفاده از طراحان گرافیک است.
+                    </p>
+                    <div class="domain-search-wrap">
+                        <form asp-controller="" asp-action="" class="domain-search-form w-75 d-block mx-auto">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="جستجوی آزمون" required>
+                                <div class="input-group-append">
+                                    <button class="btn search-btn btn-hover d-flex align-items-center" type="submit">
+                                        <span class="ti-search ml-2"></span> جستجو
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </section>
 
-<!-- hot exams -->
-<section class="our-services ptb-100 gray-light-bg">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-9 col-lg-8">
-                <div class="section-heading text-center mb-5 mb-sm-5 mb-md-3 mb-lg-5">
-                    <h2>محبوب ترین آزمون‌ها</h2>
-                    <p class="lead">
-                        لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با
-                        استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و
-                        مجله در ستون و سطرآنچنان که لازم است
-                    </p>
+<!-- newest exams -->
+@if (newestExams.Items.Any())
+{
+    <section class="our-services ptb-100 gray-light-bg">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-9 col-lg-8">
+                    <div class="section-heading text-center mb-5 mb-sm-5 mb-md-3 mb-lg-5">
+                        <h2>جدیدترین آزمون‌ها</h2>
+                        <p class="lead">
+                            لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با
+                            استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و
+                            مجله در ستون و سطرآنچنان که لازم است
+                        </p>
+                    </div>
                 </div>
             </div>
-        </div>
-        @if (paginatedExams.Items.Any())
-        {
             <div class="row">
-                @foreach (var exam in paginatedExams.Items)
+                @foreach (var exam in newestExams.Items)
                 {
                     <div class="col-md-4">
                         <div class="single-blog-card card border-0 shadow-sm">
@@ -67,6 +93,198 @@
                     </div>
                 }
             </div>
-        }
+            <div class="mt-5">
+                <h5 class="mb-1 d-flex align-items-center justify-content-center">
+                    <span class="ti-loop color-primary mr-3 icon-sm"></span>
+                    <a asp-controller="" asp-action="" class="ml-2">مشاهده‌ی بیشتر</a>
+                </h5>
+            </div>
+        </div>
+    </section>
+}
+
+<!-- another section -->
+<section class="hero-comment ptb-100 gradient-overlay">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-9 col-lg-8">
+                <div class="call-to-action-content text-white text-center">
+                    <h2 class="text-white">نظر شما برای ما ارزشمند است</h2>
+                    <p>با ثبت تجربه و نظر خود ما را در افزایش رضایت خود یاری کنید</p>
+                    <div class="action-btns mt-5">
+                        <a href="#" class="btn solid-white-btn mr-3">ثبت نظر</a>
+                        <a href="#" class="btn outline-white-btn">درباره‌ی ما</a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </section>
+
+<!-- most visited exams -->
+@if (mostVisitedExams.Items.Any())
+{
+    <section class="our-services ptb-100 gray-light-bg">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-9 col-lg-8">
+                    <div class="section-heading text-center mb-5 mb-sm-5 mb-md-3 mb-lg-5">
+                        <h2>پر بازدیدترین آزمون‌ها</h2>
+                        <p class="lead">
+                            لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با
+                            استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و
+                            مجله در ستون و سطرآنچنان که لازم است
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                @foreach (var exam in mostVisitedExams.Items)
+                {
+                    <div class="col-md-4">
+                        <div class="single-blog-card card border-0 shadow-sm">
+                            <span class="category position-absolute badge badge-pill badge-primary">
+                                بدون دسته‌بندی
+                            </span>
+                            <img src="~/@exam.Image" class="card-img-top position-relative" alt="@exam.Title" />
+                            <div class="card-body">
+                                <div class="post-meta mb-2">
+                                    <ul class="list-inline meta-list d-flex justify-content-between">
+                                        <li class="d-inline">@exam.CreatedAt</li>
+                                        <li class="list-inline-item">
+                                            <span>@exam.VisitCount</span> بازدید
+                                        </li>
+                                    </ul>
+                                </div>
+                                <h3 class="h5 card-title">
+                                    <a asp-controller="exams" asp-action="attempt" asp-route-id="@exam.Id">@exam.Title</a>
+                                </h3>
+                                <p class="card-text">@exam.ShortDescription</p>
+                                <div class="text-center">
+                                    <a asp-controller="exams" asp-action="attempt" asp-route-id="@exam.Id" class="btn outline-btn">شرکت در آزمون</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+            <div class="mt-5">
+                <h5 class="mb-1 d-flex align-items-center justify-content-center">
+                    <span class="ti-loop color-primary mr-3 icon-sm"></span>
+                    <a asp-controller="" asp-action="" class="ml-2">مشاهده‌ی بیشتر</a>
+                </h5>
+            </div>
+        </div>
+    </section>
+}
+
+
+
+<!-- faq -->
+<div id="faq" class="ptb-100 white-bg">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-9 col-lg-8">
+                <div class="section-heading text-center mb-5 mb-sm-5 mb-md-3 mb-lg-5">
+                    <h2>سوالات متداول</h2>
+                    <p class="lead">
+                        لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با
+                        استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و
+                        مجله در ستون و سطرآنچنان که لازم است
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 col-lg-12">
+                <div id="accordion-one" class="accordion accordion-faq">
+                    <div class="card mb-0">
+                        <a class="card-header collapsed" data-toggle="collapse" href="#collapseOne">
+                            <h6 class="mb-0 d-inline-block">میزبانی وب چیست؟</h6>
+                        </a>
+                        <div id="collapseOne" class="collapse" data-parent="#accordion-one">
+                            <div class="card-body">
+                                <p>
+                                    لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت
+                                    چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون
+                                    بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و
+                                    برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با
+                                    هدف بهبود ابزارهای کاربردی می باشد. کتابهای زیادی در شصت
+                                    و سه درصد گذشته، حال و آینده شناخت فراوان جامعه و
+                                    متخصصان را می طلبد تا با نرم افزارها شناخت بیشتری را
+                                    برای طراحان.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card mb-0">
+                        <a class="card-header collapsed" data-toggle="collapse" href="#collapseTwo">
+                            <h6 class="mb-0 d-inline-block">
+                                تفاوت پلن ها ی ما با Dream Host چیست؟
+                            </h6>
+                        </a>
+                        <div id="collapseTwo" class="collapse" data-parent="#accordion-one">
+                            <div class="card-body">
+                                <p>
+                                    لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت
+                                    چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون
+                                    بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و
+                                    برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با
+                                    هدف بهبود ابزارهای کاربردی می باشد. کتابهای زیادی در شصت
+                                    و سه درصد گذشته، حال و آینده شناخت فراوان جامعه و
+                                    متخصصان را می طلبد تا با نرم افزارها شناخت بیشتری را
+                                    برای طراحان.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card mb-0">
+                        <a class="card-header collapsed" data-toggle="collapse" href="#collapseThree">
+                            <h6 class="mb-0 d-inline-block">چگونه یک دامین بخرم؟</h6>
+                        </a>
+                        <div id="collapseThree" class="collapse" data-parent="#accordion-one">
+                            <div class="card-body">
+                                <p>
+                                    لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت
+                                    چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون
+                                    بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و
+                                    برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با
+                                    هدف بهبود ابزارهای کاربردی می باشد. کتابهای زیادی در شصت
+                                    و سه درصد گذشته، حال و آینده شناخت فراوان جامعه و
+                                    متخصصان را می طلبد تا با نرم افزارها شناخت بیشتری را
+                                    برای طراحان.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card mb-0">
+                        <a class="card-header collapsed" data-toggle="collapse" href="#collapseFour">
+                            <h6 class="mb-0 d-inline-block">ورد پرس چیست؟</h6>
+                        </a>
+                        <div id="collapseFour" class="collapse" data-parent="#accordion-one">
+                            <div class="card-body">
+                                <p>
+                                    لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت
+                                    چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون
+                                    بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و
+                                    برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با
+                                    هدف بهبود ابزارهای کاربردی می باشد. کتابهای زیادی در شصت
+                                    و سه درصد گذشته، حال و آینده شناخت فراوان جامعه و
+                                    متخصصان را می طلبد تا با نرم افزارها شناخت بیشتری را
+                                    برای طراحان.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="w-100 text-center mt-5">
+                <p class="">
+                    سوالات بیشتری دارید؟
+                    <a href="contact-us.html" class="page-scroll">با ما تماس بگیرید</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+<!--faq section end-->

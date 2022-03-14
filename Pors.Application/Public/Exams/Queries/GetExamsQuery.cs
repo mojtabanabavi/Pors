@@ -6,11 +6,12 @@ using Loby.Extensions;
 using System.Threading;
 using Pors.Domain.Entities;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using Pors.Application.Common.Enums;
 using Pors.Application.Common.Models;
 using AutoMapper.QueryableExtensions;
 using Pors.Application.Common.Mappings;
 using Pors.Application.Common.Interfaces;
-using Microsoft.EntityFrameworkCore;
 
 namespace Pors.Application.Public.Exams.Queries
 {
@@ -20,11 +21,17 @@ namespace Pors.Application.Public.Exams.Queries
     {
         public int Page { get; set; }
         public int PageSize { get; set; }
+        public SortTypes SortType { get; set; }
 
         public GetExamsQuery(int page = 1, int pageSize = 10)
         {
             Page = page;
             PageSize = pageSize;
+        }
+
+        public GetExamsQuery(SortTypes sortType, int page = 1, int pageSize = 10) : this(page, pageSize)
+        {
+            SortType = sortType;
         }
     }
 
@@ -73,6 +80,19 @@ namespace Pors.Application.Public.Exams.Queries
         {
             IQueryable<Exam> query = _dbContext.Exams
                 .Include(x => x.Attempts);
+
+            if (request.SortType == SortTypes.Newest)
+            {
+                query = query.OrderByDescending(x => x.CreatedAt);
+            }
+            else if (request.SortType == SortTypes.MostVisited)
+            {
+                var averageAttemptsCount = (int)_dbContext.ExamAttempts
+                        .GroupBy(x => x.ExamId)
+                        .Average(x => x.Count());
+
+                query = query.Where(x => x.Attempts.Count >= averageAttemptsCount);
+            }
 
             var result = await query
                 .ProjectTo<GetExamsQueryResponse>(_mapper.ConfigurationProvider)
