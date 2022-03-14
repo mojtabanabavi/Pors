@@ -1,11 +1,11 @@
 ﻿using System;
 using MediatR;
+using Loby.Extensions;
 using System.Threading;
 using Pors.Domain.Entities;
 using System.Threading.Tasks;
 using Pors.Application.Common.Interfaces;
 using Pors.Application.Common.Exceptions;
-using Loby.Extensions;
 
 namespace Pors.Application.Management.Exams.Commands
 {

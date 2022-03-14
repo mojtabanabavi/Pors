@@ -8,7 +8,6 @@ using System.Threading;
 using Pors.Domain.Entities;
 using System.Threading.Tasks;
 using System.Linq.Dynamic.Core;
-using Microsoft.EntityFrameworkCore;
 using Pors.Application.Common.Models;
 using AutoMapper.QueryableExtensions;
 using Pors.Application.Common.Mappings;

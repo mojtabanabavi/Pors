@@ -17,6 +17,7 @@ namespace Pors.Application.Common.Interfaces
         DbSet<QuestionOption> QuestionOptions { get; set; }
         DbSet<ExamAttempt> ExamAttempts { get; set; }
         DbSet<AttemptAnswer> AttemptAnswers { get; set; }
+        DbSet<Faq> Faqs { get; set; }
 
         Task<int> SaveChangesAsync();
     }

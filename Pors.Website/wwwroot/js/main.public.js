@@ -1,4 +1,10 @@
-﻿// Hide Header on Scroll //
+﻿// Loader //
+// -----------------------------
+$(window).ready(function () {
+    $('#preloader').delay(200).fadeOut('fade')
+});
+
+// Hide Header on Scroll //
 // -----------------------------
 
 $(window).on('scroll', function () {

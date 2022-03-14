@@ -136,7 +136,7 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link @Html.IsActive("option", "index")" href="#navbar-options" data-toggle="collapse">
-                        <i class="ni ni-active-40 text-info"></i>
+                        <i class="ni ni-active-40 text-green"></i>
                         <span>گزینه‌ها</span>
                     </a>
                     <div class="collapse" id="navbar-options">
@@ -156,6 +156,22 @@
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
                                 <a asp-controller="answer" asp-action="index" class="nav-link @Html.IsActive("answer", "index")">لیست پاسخ‌ها</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link @Html.IsActive("faq", "index,create")" href="#navbar-faqs" data-toggle="collapse">
+                        <i class="ni ni-hat-3 text-red"></i>
+                        <span>سوالات متداول</span>
+                    </a>
+                    <div class="collapse" id="navbar-faqs">
+                        <ul class="nav nav-sm flex-column">
+                            <li class="nav-item">
+                                <a asp-controller="faq" asp-action="index" class="nav-link @Html.IsActive("faq", "index")">لیست سوالات متداول</a>
+                            </li>
+                            <li class="nav-item">
+                                <a asp-controller="faq" asp-action="create" class="nav-link @Html.IsActive("faq", "create")">ایجاد سوال متداول</a>
                             </li>
                         </ul>
                     </div>

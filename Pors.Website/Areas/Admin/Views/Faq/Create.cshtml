@@ -1,0 +1,40 @@
+﻿@model CreateFaqCommand
+@{
+    Layout = "_adminLayout";
+    ViewData["Title"] = "ایجاد سوال متداول";
+}
+
+<form asp-action="create" method="post">
+    <div class="row">
+        <div class="col">
+            <div class="card bg-secondary shadow">
+                <div class="card-header bg-bg-white border-0">
+                    <h3 class="mb-0">@ViewData["Title"]</h3>
+                </div>
+                <div class="card-body">
+                    <div asp-validation-summary="ModelOnly" class="text-center mb-4"></div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <label asp-for="Question" class="form-control-label">عنوان سوال</label>
+                                <input asp-for="Question" class="form-control form-control-alternative" placeholder="عنوان سوال">
+                                <span asp-validation-for="Question"></span>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <label asp-for="Answer" class="form-control-label">پاسخ</label>
+                                <textarea rows="6" asp-for="Answer" class="form-control form-control-alternative" placeholder="پاسخ"></textarea>
+                                <span asp-validation-for="Answer"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer d-flex justify-content-end">
+                    <a asp-action="index" class="btn btn-warning mr-2">بازگشت</a>
+                    <button type="submit" class="btn btn-success">@ViewData["Title"]</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,95 @@
+﻿using System;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Pors.Application.Common.Models;
+using Pors.Application.Management.Faqs.Queries;
+using Pors.Application.Management.Faqs.Commands;
+
+namespace Pors.Website.Areas.Admin.Controllers
+{
+    public class FaqController : BaseController
+    {
+        #region api
+
+        [HttpPost]
+        public async Task<IActionResult> GetFaqs()
+        {
+            var query = DataTable.FetchRequest();
+
+            var request = new GetFaqsQuery(query);
+
+            var result = await Mediator.Send(request);
+
+            var jsonData = new DataTableResponse
+            {
+                Draw = query.Draw,
+                Data = result.Items,
+                RecordsTotal = result.TotalItems,
+                RecordsFiltered = result.TotalItems,
+            };
+
+            return Json(jsonData);
+        }
+
+        #endregion;
+
+        [HttpGet]
+        public IActionResult Index()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create(CreateFaqCommand request)
+        {
+            if (ModelState.IsValid)
+            {
+                var faqId = await Mediator.Send(request);
+
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View(request);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Update(GetFaqQuery request)
+        {
+            var result = await Mediator.Send(request);
+
+            return View(result);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Update(UpdateFaqCommand request)
+        {
+            if (ModelState.IsValid)
+            {
+                await Mediator.Send(request);
+
+                return RedirectToAction(nameof(Index));
+            }
+
+            var faq = await Mediator.Send(new GetFaqQuery(request.Id));
+
+            return View(faq);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Delete(DeleteFaqCommand request)
+        {
+            if (ModelState.IsValid)
+            {
+                await Mediator.Send(request);
+            }
+
+            return RedirectToAction(nameof(Index));
+        }
+    }
+}

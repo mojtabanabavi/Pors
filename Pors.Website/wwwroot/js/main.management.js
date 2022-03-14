@@ -567,7 +567,51 @@ $(function () {
             },
         ]
     };
+    let faqsDataTableOptions = {
+        'ajax': {
+            'url': '/admin/faq/GetFaqs',
+            'type': 'post',
+            'datatype': 'json',
+        },
+        'columns': [
+            {
+                'name': 'id',
+                'data': 'id',
+                'autoWidth': true,
+                'searchable': false
+            },
+            {
+                'name': 'question',
+                'data': 'question',
+                'autoWidth': true,
+                'searchable': true
+            },
+            {
+                'name': 'createdAt',
+                'data': 'createdAt',
+                'autoWidth': true,
+                'searchable': true
+            },
+            {
+                'orderable': false,
+                'render': function (data, type, row) {
+                    let content =
+                        `<div class="btn-group ">
+                          <button type="button" class="btn btn-sm btn-icon-only text-light dropdown-toggle" data-toggle="dropdown">
+                            <i class="fas fa-ellipsis-v"></i>
+                          </button>
+                          <div class="dropdown-menu">
+                            <a class="dropdown-item" href="/admin/faq/update/${row.id}">ویرایش</a>
+                            <a class="dropdown-item" href="/admin/faq/delete/${row.id}" data-delete-btn>حذف</a>
+                          </div>
+                      </div>
+                    </div>`;
 
+                    return content;
+                }
+            }
+        ]
+    };
     // Table Targets
     let targets = [
         {
@@ -597,6 +641,10 @@ $(function () {
         {
             target: $('#attempts-datatable'),
             options: attemptsDataTableOptions,
+        },
+        {
+            target: $('#faqs-datatable'),
+            options: faqsDataTableOptions,
         },
     ];
 
