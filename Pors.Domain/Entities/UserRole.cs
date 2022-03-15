@@ -11,5 +11,20 @@ namespace Pors.Domain.Entities
 
         public User User { get; set; }
         public Role Role { get; set; }
+
+        public UserRole()
+        {
+        }
+
+        public UserRole(int roleId)
+        {
+            RoleId = roleId;
+        }
+
+        public UserRole(int userId, int roleId)
+        {
+            UserId = userId;
+            RoleId = roleId;
+        }
     }
 }

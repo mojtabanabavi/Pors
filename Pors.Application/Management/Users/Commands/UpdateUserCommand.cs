@@ -8,6 +8,8 @@ using System.Threading;
 using Pors.Domain.Entities;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 using Pors.Application.Common.Interfaces;
 using Pors.Application.Common.Exceptions;
 
@@ -27,6 +29,7 @@ namespace Pors.Application.Management.Users.Commands
         public bool IsEmailConfirmed { get; set; }
         public bool IsPhoneNumberConfirmed { get; set; }
         public bool IsActive { get; set; }
+        public List<int> RoleIds { get; set; }
     }
 
     #endregion;
@@ -122,7 +125,9 @@ namespace Pors.Application.Management.Users.Commands
 
         public async Task<Unit> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
         {
-            var entity = await _dbContext.Users.FindAsync(request.Id);
+            var entity = await _dbContext.Users
+                .Include(x => x.UserRoles)
+                .FirstOrDefaultAsync(x => x.Id == request.Id);
 
             if (entity == null)
             {
@@ -142,11 +147,16 @@ namespace Pors.Application.Management.Users.Commands
                 entity.PasswordHash = PasswordHasher.Hash(request.Password);
             }
 
+            if (!request.RoleIds.IsNullOrEmpty())
+            {
+                entity.UserRoles = request.RoleIds
+                    .Select(roleId => new UserRole(roleId)).ToList();
+            }
+
             if (request.ProfilePicture != null)
             {
-                await _fileManager.DeleteFileAsync(entity.ProfilePicture);
-
-                entity.ProfilePicture = await _fileManager.CreateFileAsync(request.ProfilePicture);
+                entity.ProfilePicture = await _fileManager
+                    .UpdateFileAsync(request.ProfilePicture, entity.ProfilePicture);
             }
 
             await _dbContext.SaveChangesAsync();

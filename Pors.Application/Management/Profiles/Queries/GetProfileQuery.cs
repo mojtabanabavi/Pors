@@ -6,6 +6,9 @@ using Pors.Domain.Entities;
 using System.Threading.Tasks;
 using Pors.Application.Common.Mappings;
 using Pors.Application.Common.Interfaces;
+using System.Collections.Generic;
+using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace Pors.Application.Management.Profiles.Queries
 {
@@ -33,6 +36,7 @@ namespace Pors.Application.Management.Profiles.Queries
         public bool IsActive { get; set; }
         public string LastLoginDateTime { get; set; }
         public string RegisterDateTime { get; set; }
+        public List<string> Roles { get; set; }
         public string DisplayName
         {
             get
@@ -46,6 +50,12 @@ namespace Pors.Application.Management.Profiles.Queries
 
                 return fullName ?? PhoneNumber ?? Email;
             }
+        }
+
+        public void Mapping(Profile profile)
+        {
+            profile.CreateMap<User, GetProfileQueryResponse>()
+                .ForMember(x => x.Roles, option => option.MapFrom(y => y.UserRoles.Select(x => x.Role.Title)));
         }
     }
 
@@ -63,7 +73,7 @@ namespace Pors.Application.Management.Profiles.Queries
         private readonly ISqlDbContext _dbContext;
         private readonly ICurrentUserService _currentUser;
 
-        public GetProfileQueryHandler(ISqlDbContext dbContext,IMapper mapper, ICurrentUserService currentUser)
+        public GetProfileQueryHandler(ISqlDbContext dbContext, IMapper mapper, ICurrentUserService currentUser)
         {
             _mapper = mapper;
             _dbContext = dbContext;
@@ -74,7 +84,10 @@ namespace Pors.Application.Management.Profiles.Queries
         {
             var userId = Convert.ToInt32(_currentUser.UserId);
 
-            var user = await _dbContext.Users.FindAsync(userId);
+            var user = await _dbContext.Users
+                .Include(x => x.UserRoles)
+                .ThenInclude(x => x.Role)
+                .FirstOrDefaultAsync(x => x.Id == userId);
 
             var result = _mapper.Map<GetProfileQueryResponse>(user);
 

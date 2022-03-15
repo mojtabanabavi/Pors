@@ -8,6 +8,7 @@ using FluentValidation;
 using Pors.Domain.Entities;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using System.Collections.Generic;
 using Pors.Application.Common.Interfaces;
 
 namespace Pors.Application.Management.Users.Commands
@@ -25,6 +26,7 @@ namespace Pors.Application.Management.Users.Commands
         public bool IsEmailConfirmed { get; set; }
         public bool IsPhoneNumberConfirmed { get; set; }
         public bool IsActive { get; set; }
+        public List<int> RoleIds { get; set; }
     }
 
     #endregion;
@@ -116,6 +118,12 @@ namespace Pors.Application.Management.Users.Commands
                 PasswordHash = PasswordHasher.Hash(request.Password),
                 IsPhoneNumberConfirmed = request.IsPhoneNumberConfirmed,
             };
+
+            if (!request.RoleIds.IsNullOrEmpty())
+            {
+                entity.UserRoles = request.RoleIds
+                    .Select(roleId => new UserRole(roleId)).ToList();
+            }
 
             if (request.ProfilePicture != null)
             {

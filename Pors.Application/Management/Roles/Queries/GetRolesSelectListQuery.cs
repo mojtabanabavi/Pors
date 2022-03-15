@@ -9,11 +9,11 @@ using Microsoft.EntityFrameworkCore;
 using Pors.Application.Common.Models;
 using Pors.Application.Common.Interfaces;
 
-namespace Pors.Application.Management.Exams.Queries
+namespace Pors.Application.Management.Roles.Queries
 {
     #region query
 
-    public class GetExamsSelectListQuery : IRequest<GetExamsSelectListQueryResponse>
+    public class GetRolesSelectListQuery : IRequest<GetRolesSelectListQueryResponse>
     {
     }
 
@@ -21,11 +21,11 @@ namespace Pors.Application.Management.Exams.Queries
 
     #region response
 
-    public class GetExamsSelectListQueryResponse
+    public class GetRolesSelectListQueryResponse
     {
         public List<SelectListItem> Items { get; set; }
 
-        public GetExamsSelectListQueryResponse(List<SelectListItem> items)
+        public GetRolesSelectListQueryResponse(List<SelectListItem> items)
         {
             Items = items ?? new List<SelectListItem>();
         }
@@ -39,22 +39,22 @@ namespace Pors.Application.Management.Exams.Queries
 
     #region handler
 
-    public class GetExamsSelectListQueryHandler : IRequestHandler<GetExamsSelectListQuery, GetExamsSelectListQueryResponse>
+    public class GetRolesSelectListQueryHandler : IRequestHandler<GetRolesSelectListQuery, GetRolesSelectListQueryResponse>
     {
         private readonly ISqlDbContext _dbContext;
 
-        public GetExamsSelectListQueryHandler(ISqlDbContext dbContext)
+        public GetRolesSelectListQueryHandler(ISqlDbContext dbContext)
         {
             _dbContext = dbContext;
         }
 
-        public async Task<GetExamsSelectListQueryResponse> Handle(GetExamsSelectListQuery request, CancellationToken cancellationToken)
+        public async Task<GetRolesSelectListQueryResponse> Handle(GetRolesSelectListQuery request, CancellationToken cancellationToken)
         {
-            var result = await _dbContext.Exams
+            var result = await _dbContext.Roles
                 .Select(x => new SelectListItem(x.Title, x.Id.ToString()))
                 .ToListAsync();
 
-            return new GetExamsSelectListQueryResponse(result);
+            return new GetRolesSelectListQueryResponse(result);
         }
     }
 

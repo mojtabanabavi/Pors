@@ -2,6 +2,10 @@
 @{
     Layout = "_adminLayout";
     ViewData["Title"] = "ایجاد کاربر";
+
+    @inject MediatR.ISender Mediator
+
+    var rolesSelectList = await Mediator.Send(new GetRolesSelectListQuery());
 }
 
 <form asp-action="create" enctype="multipart/form-data" method="post">
@@ -13,6 +17,7 @@
                 </div>
                 <div class="card-body">
                     <div asp-validation-summary="ModelOnly" class="text-center mb-4"></div>
+                    <h6 class="heading-small text-muted mb-4">اطلاعات پایه</h6>
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="form-group">
@@ -49,6 +54,25 @@
                                 <span asp-validation-for="Password"></span>
                             </div>
                         </div>
+                    </div>
+                    <hr class="my-4" />
+                    <h6 class="heading-small text-muted mb-4">اختصاص نقش</h6>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            @foreach (var role in rolesSelectList.Items)
+                            {
+                                <div class="form-group">
+                                    <div class="custom-control custom-control-alternative custom-checkbox">
+                                        <input name="RoleIds" type="checkbox" value="@role.Value" id="role-@role.Value" class="custom-control-input">
+                                        <label for="role-@role.Value" class="custom-control-label">@role.Text</label>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                    <hr class="my-4" />
+                    <h6 class="heading-small text-muted mb-4">تایید اطلاعات و حساب</h6>
+                    <div class="row">
                         <div class="col-lg-12">
                             <div class="form-group">
                                 <div class="custom-control custom-control-alternative custom-checkbox">

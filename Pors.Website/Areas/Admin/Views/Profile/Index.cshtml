@@ -28,7 +28,7 @@
                     <div class="card-profile-stats mt-md-4"></div>
                     <div class="text-center">
                         <h3>@Model.DisplayName</h3>
-                        <div class="h5 font-weight-300">نقش (استاتیک)</div>
+                        <div class="h5 font-weight-300">@Model.Roles.Aggregate((sentence, next) => next + "، " + sentence)</div>
                         <hr class="my-4" />
                         <p>وضعیت حساب: @(Model.IsActive ? "فعال" : "غیرفعال")</p>
                         <p>تاریخ ثبت نام: @Model.RegisterDateTime</p>

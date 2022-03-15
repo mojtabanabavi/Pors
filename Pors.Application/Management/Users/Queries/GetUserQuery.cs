@@ -1,9 +1,12 @@
 ﻿using System;
 using MediatR;
 using AutoMapper;
+using System.Linq;
 using System.Threading;
 using Pors.Domain.Entities;
 using System.Threading.Tasks;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 using Pors.Application.Common.Mappings;
 using Pors.Application.Common.Interfaces;
 using Pors.Application.Common.Exceptions;
@@ -44,6 +47,13 @@ namespace Pors.Application.Management.Users.Queries
         public bool IsActive { get; set; }
         public string LastLoginDateTime { get; set; }
         public string RegisterDateTime { get; set; }
+        public List<int> RoleIds { get; set; }
+
+        public void Mapping(Profile profile)
+        {
+            profile.CreateMap<User, GetUserQueryResponse>()
+                .ForMember(x => x.RoleIds, option => option.MapFrom(y => y.UserRoles.Select(x => x.RoleId)));
+        }
     }
 
     #endregion;
@@ -67,7 +77,9 @@ namespace Pors.Application.Management.Users.Queries
 
         public async Task<GetUserQueryResponse> Handle(GetUserQuery request, CancellationToken cancellationToken)
         {
-            var entity = await _dbContext.Users.FindAsync(request.Id);
+            var entity = await _dbContext.Users
+                .Include(x => x.UserRoles)
+                .FirstOrDefaultAsync(x => x.Id == request.Id);
 
             if (entity == null)
             {
