@@ -51,11 +51,11 @@ namespace Pors.Website.Services
                 {
                     currentController = new ControllerInfo
                     {
-                        Name = descriptor.ControllerName,
                         Actions = new List<ActionInfo>(),
+                        Name = descriptor.ControllerName.ToLower(),
                         Attributes = GetAttributes(controllerTypeInfo),
                         IsSecured = IsSecured(controllerTypeInfo, actionMethodInfo),
-                        AreaName = controllerTypeInfo.GetCustomAttribute<AreaAttribute>()?.RouteValue,
+                        AreaName = controllerTypeInfo.GetCustomAttribute<AreaAttribute>()?.RouteValue.ToLower(),
                         DisplayName = controllerTypeInfo.GetCustomAttribute<DisplayNameAttribute>()?.DisplayName ?? descriptor.ControllerName,
                     };
 
@@ -66,8 +66,8 @@ namespace Pors.Website.Services
 
                 var currentAction = new ActionInfo
                 {
-                    Name = descriptor.ActionName,
                     ControllerId = currentController.Id,
+                    Name = descriptor.ActionName.ToLower(),
                     Attributes = GetAttributes(actionMethodInfo),
                     IsSecured = IsSecured(controllerTypeInfo, actionMethodInfo),
                     DisplayName = actionMethodInfo.GetCustomAttribute<DisplayNameAttribute>()?.DisplayName ?? descriptor.ActionName,

@@ -10,11 +10,25 @@ namespace Pors.Domain.Entities
     {
         public int Id { get; set; }
         public int RoleId { get; set; }
-        public string Controller { get; set; }
         public string Action { get; set; }
-        public string DisplayName { get; set; }
+        public string Controller { get; set; }
         public DateTime CreatedAt { get; set; }
 
         public Role Role { get; set; }
+
+        public RolePermission()
+        {
+        }
+
+        public RolePermission(string controller, string action)
+        {
+            Action = action;
+            Controller = controller;
+        }
+
+        public RolePermission(int roleId, string controller, string action) : this(controller, action)
+        {
+            RoleId = roleId;
+        }
     }
 }

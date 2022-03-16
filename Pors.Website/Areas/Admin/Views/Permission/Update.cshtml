@@ -1,51 +1,92 @@
-﻿@{
+﻿@model GetRolePermissionsQueryResponse
+@{
     Layout = "_adminLayout";
     ViewData["Title"] = "ویرایش دسترسی";
 
+    @inject MediatR.ISender Mediator
     @inject IControllerDiscoveryService controllerDiscoveryService
 
+    SelectList rolesSelectList = null;
     var securedControllers = controllerDiscoveryService.DiscoverSecuredControllers();
+
+    if (Model == null)
+    {
+        var rolesSelectListItems = await Mediator.Send(new GetRolesSelectListQuery());
+
+        rolesSelectList = new SelectList(rolesSelectListItems.Items, "Value", "Text");
+    }
 }
+
 <div class="row">
     <div class="col">
-        <div class="card bg-secondary shadow">
-            <div class="card-header bg-bg-white border-0">
-                <h3 class="mb-0">@ViewData["Title"]</h3>
-            </div>
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-6 col-lg-3">
-                        <div class="nav flex-column nav-pills" role="tablist" aria-orientation="vertical">
-                            @for (int i = 0; i < securedControllers.Count; i++)
-                            {
-                                <a class="nav-link rounded-0 @(i==0?"active":"")" data-toggle="pill" role="tab" href="#@securedControllers[i].Name">@securedControllers[i].DisplayName</a>
-                            }
+        @if (Model == null)
+        {
+            <form asp-action="update" method="get">
+                <div class="card bg-secondary shadow">
+                    <div class="card-header bg-bg-white border-0">
+                        <h3 class="mb-0">@ViewData["Title"]</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label asp-for="Id" class="form-control-label">عنوان نقش</label>
+                            <select asp-for="Id" asp-items="@rolesSelectList" class="form-control form-control-alternative" required></select>
+                            <span asp-validation-for="Id"></span>
                         </div>
                     </div>
-                    <div class="col-6 col-lg-9">
-                        <div class="tab-content">
-                            @for (int i = 0; i < securedControllers.Count; i++)
-                            {
-                                <div id="@securedControllers[i].Name" role="tabpanel" class="tab-pane fade show @(i==0?"active":"")">
-                                    @foreach (var action in securedControllers[i].Actions)
+                    <div class="card-footer d-flex justify-content-end">
+                        <button type="submit" class="btn btn-success">انتخاب نقش</button>
+                    </div>
+                </div>
+            </form>
+        }
+        else
+        {
+            <form asp-action="update" method="post">
+                <div class="card bg-secondary shadow">
+                    <div class="card-header bg-bg-white border-0">
+                        <h3 class="mb-0">@ViewData["Title"]</h3>
+                    </div>
+                    <div class="card-body">
+                        <input asp-for="Id" type="hidden" name="RoleId" />
+                        <div asp-validation-summary="All" class="text-center mb-4"></div>
+                        <div class="row">
+                            <div class="col-6 col-lg-3">
+                                <div class="nav flex-column nav-pills" role="tablist" aria-orientation="vertical">
+                                    @for (int i = 0; i < securedControllers.Count; i++)
                                     {
-                                        <div class="form-group">
-                                            <div class="custom-control custom-control-alternative custom-checkbox">
-                                                <input name="actionIds" type="checkbox" value="@action.Id" id="action-@action.Id" class="custom-control-input">
-                                                <label for="action-@action.Id" class="custom-control-label">@action.DisplayName</label>
-                                            </div>
+                                        <a class="nav-link rounded-0 @(i==0?"active":"")" data-toggle="pill" role="tab" href="#@securedControllers[i].Name">@securedControllers[i].DisplayName</a>
+                                    }
+                                </div>
+                            </div>
+                            <div class="col-6 col-lg-9">
+                                <div class="tab-content">
+                                    @for (int i = 0; i < securedControllers.Count; i++)
+                                    {
+                                        <div id="@securedControllers[i].Name" role="tabpanel" class="tab-pane fade show @(i==0?"active":"")">
+                                            @foreach (var action in securedControllers[i].Actions)
+                                            {
+                                                var isChecked = Model.Permissions
+                                                    .Any(x => x.Action == action.Name && x.Controller == securedControllers[i].Name);
+
+                                                <div class="form-group">
+                                                    <div class="custom-control custom-control-alternative custom-checkbox">
+                                                        <input name="permissionIds" type="checkbox" value="@action.Id" id="action-@action.Id" class="custom-control-input" @(isChecked ? "checked" : "")>
+                                                        <label for="action-@action.Id" class="custom-control-label">@action.DisplayName</label>
+                                                    </div>
+                                                </div>
+                                            }
                                         </div>
                                     }
                                 </div>
-                            }
+                            </div>
                         </div>
                     </div>
+                    <div class="card-footer d-flex justify-content-end">
+                        <a asp-controller="role" asp-action="index" class="btn btn-warning mr-2">بازگشت</a>
+                        <button type="submit" class="btn btn-success">@ViewData["Title"]</button>
+                    </div>
                 </div>
-            </div>
-            <div class="card-footer d-flex justify-content-end">
-                <a asp-controller="role" asp-action="index" class="btn btn-warning mr-2">بازگشت</a>
-                <button type="submit" class="btn btn-success">@ViewData["Title"]</button>
-            </div>
-        </div>
+            </form>
+        }
     </div>
 </div>

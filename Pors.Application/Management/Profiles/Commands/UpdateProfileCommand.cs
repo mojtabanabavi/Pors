@@ -28,7 +28,7 @@ namespace Pors.Application.Management.Profiles.Commands
 
     #endregion;
 
-    #region validation
+    #region validator
 
     public class UpdateProfileCommandValidator : AbstractValidator<UpdateProfileCommand>
     {

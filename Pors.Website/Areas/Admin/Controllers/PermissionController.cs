@@ -3,17 +3,40 @@ using System.Linq;
 using System.ComponentModel;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
+using Pors.Application.Management.Permissions.Queries;
+using Pors.Application.Management.Permissions.Commands;
 
 namespace Pors.Website.Areas.Admin.Controllers
 {
     [DisplayName("مدیریت دسترسی")]
     public class PermissionController : BaseController
     {
+        [HttpGet]
         [DisplayName("ویرایش دسترسی")]
-        public IActionResult Update(int id)
+        public async Task<IActionResult> Update(GetRolePermissionsQuery request)
         {
-            return View();
+            if(request.Id == default(int))
+            {
+                return View();
+            }
+
+            var result = await Mediator.Send(request);
+
+            return View(result);
+        }
+
+        [HttpPost]
+        [DisplayName("ویرایش دسترسی")]
+        public async Task<IActionResult> Update(UpdatePermissionsCommand request)
+        {
+            if (ModelState.IsValid)
+            {
+                await Mediator.Send(request);
+            }
+
+            var permissions = await Mediator.Send(new GetRolePermissionsQuery(request.RoleId));
+
+            return View(permissions);
         }
     }
 }
