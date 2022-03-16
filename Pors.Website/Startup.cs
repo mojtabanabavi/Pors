@@ -56,7 +56,7 @@ namespace Pors.Website
 
             services.AddScoped<IDataTableService, DataTableService>();
             services.AddSingleton<ICurrentUserService, CurrentUserService>();
-            services.AddScoped<IActionDiscoveryService, ActionDiscoveryService>();
+            services.AddScoped<IControllerDiscoveryService, ControllerDiscoveryService>();
             services.Configure<EmailNotificationService.Settings>(Configuration.GetSection("Notifications:Email"));
         }
 

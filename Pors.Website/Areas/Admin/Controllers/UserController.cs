@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Pors.Application.Common.Models;
@@ -7,9 +8,11 @@ using Pors.Application.Management.Users.Commands;
 
 namespace Pors.Website.Areas.Admin.Controllers
 {
+    [DisplayName("مدیریت کاربران")]
     public class UserController : BaseController
     {
         [HttpPost]
+        [DisplayName("دریافت لیست کاربران")]
         public async Task<IActionResult> GetUsers()
         {
             var query = DataTable.FetchRequest();
@@ -30,18 +33,21 @@ namespace Pors.Website.Areas.Admin.Controllers
         }
 
         [HttpGet]
+        [DisplayName("لیست کاربران")]
         public IActionResult Index()
         {
             return View();
         }
 
         [HttpGet]
+        [DisplayName("ایجاد کاربر")]
         public IActionResult Create()
         {
             return View();
         }
 
         [HttpPost]
+        [DisplayName("ایجاد کاربر")]
         public async Task<IActionResult> Create(CreateUserCommand request)
         {
             if (ModelState.IsValid)
@@ -55,6 +61,7 @@ namespace Pors.Website.Areas.Admin.Controllers
         }
 
         [HttpGet]
+        [DisplayName("ویرایش کاربر")]
         public async Task<IActionResult> Update(GetUserQuery request)
         {
             var result = await Mediator.Send(request);
@@ -63,6 +70,7 @@ namespace Pors.Website.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [DisplayName("ویرایش کاربر")]
         public async Task<IActionResult> Update(UpdateUserCommand request)
         {
             if (ModelState.IsValid)
@@ -78,6 +86,7 @@ namespace Pors.Website.Areas.Admin.Controllers
         }
 
         [HttpGet]
+        [DisplayName("حذف کاربر")]
         public async Task<IActionResult> Delete(DeleteUserCommand request)
         {
             if (ModelState.IsValid)

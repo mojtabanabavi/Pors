@@ -7,8 +7,9 @@ using Pors.Application.Common.Models;
 
 namespace Pors.Application.Common.Interfaces
 {
-    public interface IActionDiscoveryService
+    public interface IControllerDiscoveryService
     {
-        List<ActionDiscoveryResult> DiscoverActions();
+        List<ControllerInfo> DiscoverControllers();
+        List<ControllerInfo> DiscoverSecuredControllers();
     }
 }

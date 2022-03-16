@@ -301,6 +301,7 @@ $(function () {
                             <i class="fas fa-ellipsis-v"></i>
                           </button>
                           <div class="dropdown-menu">
+                            <a class="dropdown-item" href="/admin/permission/update/${row.id}">مدیریت دسترسی</a>
                             <a class="dropdown-item" href="/admin/role/update/${row.id}">ویرایش</a>
                             <a class="dropdown-item" href="/admin/role/delete/${row.id}" data-delete-btn>حذف</a>
                           </div>

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Pors.Application.Common.Models;
@@ -6,9 +7,11 @@ using Pors.Application.Management.Answers.Queries;
 
 namespace Pors.Website.Areas.Admin.Controllers
 {
+    [DisplayName("مدیریت پاسخ‌ها")]
     public class AnswerController : BaseController
     {
         [HttpPost]
+        [DisplayName("دریافت لیست پاسخ‌ها")]
         public async Task<IActionResult> GetAnswers(int questionId)
         {
             var query = DataTable.FetchRequest();
@@ -29,12 +32,14 @@ namespace Pors.Website.Areas.Admin.Controllers
         }
 
         [HttpGet]
+        [DisplayName("لیست پاسخ‌ها")]
         public IActionResult Index(int id)
         {
             return View(id);
         }
 
         [HttpGet]
+        [DisplayName("جزئیات پاسخ")]
         public async Task<IActionResult> Details(GetAnswerQuery request)
         {
             var result = await Mediator.Send(request);

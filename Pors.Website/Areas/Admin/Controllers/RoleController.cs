@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Pors.Application.Common.Models;
@@ -7,9 +8,11 @@ using Pors.Application.Management.Roles.Commands;
 
 namespace Pors.Website.Areas.Admin.Controllers
 {
+    [DisplayName("مدیریت نقش‌ها")]
     public class RoleController : BaseController
     {
         [HttpPost]
+        [DisplayName("دریافت لیست نقش‌ها")]
         public async Task<IActionResult> GetRoles()
         {
             var query = DataTable.FetchRequest();
@@ -30,18 +33,21 @@ namespace Pors.Website.Areas.Admin.Controllers
         }
 
         [HttpGet]
+        [DisplayName("لیست نقش‌ها")]
         public IActionResult Index()
         {
             return View();
         }
 
         [HttpGet]
+        [DisplayName("ایجاد نقش")]
         public IActionResult Create()
         {
             return View();
         }
 
         [HttpPost]
+        [DisplayName("ایجاد نقش")]
         public async Task<IActionResult> Create(CreateRoleCommand request)
         {
             if (ModelState.IsValid)
@@ -55,6 +61,7 @@ namespace Pors.Website.Areas.Admin.Controllers
         }
 
         [HttpGet]
+        [DisplayName("ویرایش نقش")]
         public async Task<IActionResult> Update(GetRoleQuery request)
         {
             var result = await Mediator.Send(request);
@@ -63,6 +70,7 @@ namespace Pors.Website.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [DisplayName("ویرایش نقش")]
         public async Task<IActionResult> Update(UpdateRoleCommand request)
         {
             if (ModelState.IsValid)
@@ -78,6 +86,7 @@ namespace Pors.Website.Areas.Admin.Controllers
         }
 
         [HttpGet]
+        [DisplayName("حذف نقش")]
         public async Task<IActionResult> Delete(DeleteRoleCommand request)
         {
             if (ModelState.IsValid)

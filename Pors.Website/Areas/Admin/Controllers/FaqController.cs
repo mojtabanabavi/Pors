@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Pors.Application.Common.Models;
@@ -7,11 +8,13 @@ using Pors.Application.Management.Faqs.Commands;
 
 namespace Pors.Website.Areas.Admin.Controllers
 {
+    [DisplayName("مدیریت سوالات متداول")]
     public class FaqController : BaseController
     {
         #region api
 
         [HttpPost]
+        [DisplayName("دریافت لیست سوالات متداول")]
         public async Task<IActionResult> GetFaqs()
         {
             var query = DataTable.FetchRequest();
@@ -34,18 +37,21 @@ namespace Pors.Website.Areas.Admin.Controllers
         #endregion;
 
         [HttpGet]
+        [DisplayName("لیست سوالات متداول")]
         public IActionResult Index()
         {
             return View();
         }
 
         [HttpGet]
+        [DisplayName("ایجاد سوال متداول")]
         public IActionResult Create()
         {
             return View();
         }
 
         [HttpPost]
+        [DisplayName("ایجاد سوال متداول")]
         public async Task<IActionResult> Create(CreateFaqCommand request)
         {
             if (ModelState.IsValid)
@@ -59,6 +65,7 @@ namespace Pors.Website.Areas.Admin.Controllers
         }
 
         [HttpGet]
+        [DisplayName("ویرایش سوال متداول")]
         public async Task<IActionResult> Update(GetFaqQuery request)
         {
             var result = await Mediator.Send(request);
@@ -67,6 +74,7 @@ namespace Pors.Website.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [DisplayName("ویرایش سوال متداول")]
         public async Task<IActionResult> Update(UpdateFaqCommand request)
         {
             if (ModelState.IsValid)
@@ -82,6 +90,7 @@ namespace Pors.Website.Areas.Admin.Controllers
         }
 
         [HttpGet]
+        [DisplayName("حذف سوال متداول")]
         public async Task<IActionResult> Delete(DeleteFaqCommand request)
         {
             if (ModelState.IsValid)

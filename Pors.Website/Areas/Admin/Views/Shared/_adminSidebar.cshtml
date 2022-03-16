@@ -87,14 +87,14 @@
                     </div>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link disabled @Html.IsActive("permission", "index")" href="#navbar-acess" data-toggle="collapse">
+                    <a class="nav-link @Html.IsActive("permission", "update")" href="#navbar-acess" data-toggle="collapse">
                         <i class="ni ni-app text-info"></i>
                         <span>سطوح دسترسی</span>
                     </a>
                     <div class="collapse" id="navbar-acess">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a asp-controller="permission" asp-action="index" class="nav-link @Html.IsActive("permission", "index")">لیست سطوح دسترسی</a>
+                                <a asp-controller="permission" asp-action="update" class="nav-link @Html.IsActive("permission", "update")">ویرایش سطوح دسترسی</a>
                             </li>
                         </ul>
                     </div>
