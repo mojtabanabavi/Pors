@@ -128,18 +128,21 @@ $(function () {
 // -----------------------------
 $(function () {
     function initDataTable(target, options) {
-        options.filter = true;
-        options.ordering = true;
-        options.processing = true;
-        options.serverSide = true;
-        options.orderMulti = false;
-        if (typeof dataTablesPersianLanguage !== 'undefined') {
-            options.language = dataTablesPersianLanguage;
+
+        if (typeof DataTable !== 'undefined') {
+            options.filter = true;
+            options.ordering = true;
+            options.processing = true;
+            options.serverSide = true;
+            options.orderMulti = false;
+            if (typeof dataTablesPersianLanguage !== 'undefined') {
+                options.language = dataTablesPersianLanguage;
+            }
+            let table = $(target).on('init.dt', function () {
+                $('div.dataTables_length select').removeClass('custom-select custom-select-sm')
+            }).DataTable(options);
+            return table;
         }
-        let table = $(target).on('init.dt', function () {
-            $('div.dataTables_length select').removeClass('custom-select custom-select-sm')
-        }).DataTable(options);
-        return table;
     }
 
     // Target Options
@@ -656,3 +659,72 @@ $(function () {
         }
     });
 });
+
+// Charts //
+// -----------------------------
+
+//$(function () {
+//    // Total Attempts Chart
+//    let TotalAttemptsChart = (function () {
+//        let $chart = $('#total-attempts-chart');
+//        function init($chart) {
+
+//            let options = {
+//                type: 'line',
+//                options: {
+//                    scales: {
+//                        yAxes: [{
+//                            gridLines: {
+//                                color: Charts.colors.gray[900],
+//                                zeroLineColor: Charts.colors.gray[900]
+//                            },
+//                        }]
+//                    },
+//                    tooltips: {
+//                        callbacks: {
+//                            label: function (item, data) {
+//                                let label = data.datasets[item.datasetIndex].label || '';
+//                                let yLabel = item.yLabel;
+//                                let content = '';
+
+//                                if (data.datasets.length > 1) {
+//                                    content += '<span class="popover-body-label mr-auto">' + label + '</span>';
+//                                }
+
+//                                content += `<span class="popover-body-value">${yLabel} شرکت کننده</span>`;
+//                                return content;
+//                            }
+//                        }
+//                    }
+//                },
+//                data: {
+//                    labels: [],
+//                    datasets: [{
+//                        label: 'attempters',
+//                        data: []
+//                    }]
+//                }
+//            };
+
+//            $.ajax({
+//                type: 'get',
+//                url: '/admin/report/getTotalAttemptsChartData',
+//            }).done(function (response) {
+
+//                options.data.labels = response.labels;
+//                options.data.datasets[0].data = response.data;
+
+//                let totalAttemptsChart = new Chart($chart, options);
+
+//                $chart.data('chart', totalAttemptsChart);
+
+//            }).fail(function (xhr, exception) {
+//                console.log(`${xhr},${exception}`);
+//            });
+//        };
+
+//        if ($chart.length) {
+//            init($chart);
+//        }
+//    })();
+//});
