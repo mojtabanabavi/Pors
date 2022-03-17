@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Pors.Website.Areas.Admin.Controllers
 {
     [DisplayName("داشبورد")]
-    public class HomeController : BaseController
+    public class DashboardController : BaseController
     {
         [HttpGet]
         [DisplayName("مشاهده‌ی گزارشات")]

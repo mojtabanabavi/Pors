@@ -59,7 +59,7 @@ namespace Pors.Website.Areas.Admin.Controllers
                     }
                     else
                     {
-                        return RedirectToAction("index", "home");
+                        return RedirectToAction("index", "dashboard");
                     }
                 }
                 else
