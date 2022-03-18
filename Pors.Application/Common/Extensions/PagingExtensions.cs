@@ -18,6 +18,7 @@ namespace Pors.Application.Common.Mappings
             {
                 Items = items,
                 CurrentPage = page,
+                PageSize = pageSize,
                 TotalItems = totalItems,
                 TotalPages = (int)Math.Ceiling(totalItems / (double)pageSize)
             };

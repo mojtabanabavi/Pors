@@ -17,11 +17,14 @@ namespace Pors.Application.Public.Exams.Queries
 {
     #region query
 
-    public class GetExamsQuery : IRequest<PagingResult<GetExamsQueryResponse>>
+    public class GetExamsQuery : PagingRequest, IRequest<PagingResult<GetExamsQueryResponse>>
     {
-        public int Page { get; set; }
-        public int PageSize { get; set; }
+        public string Title { get; set; }
         public SortTypes SortType { get; set; }
+
+        public GetExamsQuery() : this(1, 10)
+        {
+        }
 
         public GetExamsQuery(int page = 1, int pageSize = 10)
         {
@@ -80,6 +83,11 @@ namespace Pors.Application.Public.Exams.Queries
         {
             IQueryable<Exam> query = _dbContext.Exams
                 .Include(x => x.Attempts);
+
+            if (request.Title.HasValue())
+            {
+                query = query.Where(x => x.Title.Contains(request.Title));
+            }
 
             if (request.SortType == SortTypes.Newest)
             {

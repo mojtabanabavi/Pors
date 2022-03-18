@@ -10,6 +10,14 @@ namespace Pors.Website.Controllers
     public class ExamsController : BaseController
     {
         [HttpGet]
+        public async Task<IActionResult> Index(GetExamsQuery request)
+        {
+            var result = await Mediator.Send(request);
+
+            return View(result);
+        }
+
+        [HttpGet]
         public async Task<IActionResult> Attempt(int id)
         {
             var attemptId = await Mediator.Send(new CreateExamAttemptCommand(id));

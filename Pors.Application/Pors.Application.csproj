@@ -24,8 +24,4 @@
     <ProjectReference Include="..\Pors.Domain\Pors.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Common\NewFolder\" />
-  </ItemGroup>
-
 </Project>

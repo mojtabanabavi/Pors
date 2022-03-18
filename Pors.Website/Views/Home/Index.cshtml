@@ -30,9 +30,9 @@
                         استفاده از طراحان گرافیک است.
                     </p>
                     <div class="domain-search-wrap">
-                        <form asp-controller="" asp-action="" class="domain-search-form w-75 d-block mx-auto">
+                        <form asp-controller="exams" asp-action="index" method="get" class="domain-search-form w-75 d-block mx-auto">
                             <div class="input-group">
-                                <input type="text" class="form-control" placeholder="جستجوی آزمون" required>
+                                <input name="title" type="text" class="form-control" placeholder="جستجوی آزمون" required>
                                 <div class="input-group-append">
                                     <button class="btn search-btn btn-hover d-flex align-items-center" type="submit">
                                         <span class="ti-search ml-2"></span> جستجو
@@ -69,9 +69,9 @@
                     <div class="owl-carousel owl-theme exams-carousel custom-dot dot-bottom-center owl-loaded owl-drag">
                         <div class="owl-stage-outer">
                             <div class="owl-stage">
-                                <div class="owl-item">
-                                    @foreach (var exam in newestExams.Items)
-                                    {
+                                @foreach (var exam in newestExams.Items)
+                                {
+                                    <div class="owl-item">
                                         <div class="single-blog-card card border-0 shadow-sm">
                                             <span class="category position-absolute badge badge-pill badge-primary">
                                                 بدون دسته‌بندی
@@ -95,8 +95,8 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    }
-                                </div>
+                                    </div>
+                                }
                             </div>
                         </div>
                     </div>
@@ -105,7 +105,7 @@
             <div class="mt-5">
                 <h5 class="mb-1 d-flex align-items-center justify-content-center">
                     <span class="ti-loop color-primary mr-3 icon-sm"></span>
-                    <a asp-controller="" asp-action="" class="ml-2">مشاهده‌ی بیشتر</a>
+                    <a asp-controller="exams" asp-action="index" asp-route-sortType="1" class="ml-2">مشاهده‌ی بیشتر</a>
                 </h5>
             </div>
         </div>
@@ -152,9 +152,9 @@
                     <div class="owl-carousel owl-theme exams-carousel custom-dot dot-bottom-center owl-loaded owl-drag">
                         <div class="owl-stage-outer">
                             <div class="owl-stage">
-                                <div class="owl-item">
-                                    @foreach (var exam in mostVisitedExams.Items)
-                                    {
+                                @foreach (var exam in mostVisitedExams.Items)
+                                {
+                                    <div class="owl-item">
                                         <div class="single-blog-card card border-0 shadow-sm">
                                             <span class="category position-absolute badge badge-pill badge-primary">
                                                 بدون دسته‌بندی
@@ -178,8 +178,8 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    }
-                                </div>
+                                    </div>
+                                }
                             </div>
                         </div>
                     </div>
@@ -188,7 +188,7 @@
             <div class="mt-5">
                 <h5 class="mb-1 d-flex align-items-center justify-content-center">
                     <span class="ti-loop color-primary mr-3 icon-sm"></span>
-                    <a asp-controller="" asp-action="" class="ml-2">مشاهده‌ی بیشتر</a>
+                    <a asp-controller="exams" asp-action="index" asp-route-sortType="2" class="ml-2">مشاهده‌ی بیشتر</a>
                 </h5>
             </div>
         </div>
