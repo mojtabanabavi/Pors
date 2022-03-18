@@ -1,0 +1,60 @@
+﻿@model PagingResult<GetFaqsQueryResponse>
+@{
+    Layout = "_publicLayout";
+    ViewData["Title"] = "سوالات متداول";
+}
+
+<!-- page header -->
+<section class="page-header-section ptb-100 gradient-bg">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-7 col-lg-6">
+                <div class="page-header-content text-white">
+                    <h1 class="text-white mb-2">@ViewData["Title"]</h1>
+                    <p class="lead">
+                        لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با
+                        استفاده از طراحان گرافیک است.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- faq -->
+@if (Model.Items.Any())
+{
+    <div id="faq" class="ptb-100 white-bg">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 col-lg-12">
+                    <div id="accordion-one" class="accordion accordion-faq">
+                        @{
+                            int i = -1;
+                        }
+                        @foreach (var faq in Model.Items)
+                        {
+                            i++;
+                            <div class="card mb-0">
+                                <a class="card-header" data-toggle="collapse" href="#faq-@faq.Id">
+                                    <h6 class="mb-0 d-inline-block">@faq.Question</h6>
+                                </a>
+                                <div id="faq-@faq.Id" class="collapse @(i == 0 ? "show" : "")" data-parent="#accordion-one">
+                                    <div class="card-body">
+                                        <p>@faq.Answer</p>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+                @*<div class="w-100 text-center mt-5">
+                        <p class="">
+                            سوالات بیشتری دارید؟
+                            <a asp-controller="" asp-action="" class="page-scroll">با ما تماس بگیرید</a>
+                        </p>
+                    </div>*@
+            </div>
+        </div>
+    </div>
+}
