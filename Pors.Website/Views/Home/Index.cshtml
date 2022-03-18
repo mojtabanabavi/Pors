@@ -65,34 +65,42 @@
                 </div>
             </div>
             <div class="row">
-                @foreach (var exam in newestExams.Items)
-                {
-                    <div class="col-md-4">
-                        <div class="single-blog-card card border-0 shadow-sm">
-                            <span class="category position-absolute badge badge-pill badge-primary">
-                                بدون دسته‌بندی
-                            </span>
-                            <img src="~/@exam.Image" class="card-img-top position-relative" alt="@exam.Title" />
-                            <div class="card-body">
-                                <div class="post-meta mb-2">
-                                    <ul class="list-inline meta-list d-flex justify-content-between">
-                                        <li class="d-inline">@exam.CreatedAt</li>
-                                        <li class="list-inline-item">
-                                            <span>@exam.VisitCount</span> بازدید
-                                        </li>
-                                    </ul>
-                                </div>
-                                <h3 class="h5 card-title">
-                                    <a asp-controller="exams" asp-action="attempt" asp-route-id="@exam.Id">@exam.Title</a>
-                                </h3>
-                                <p class="card-text">@exam.ShortDescription</p>
-                                <div class="text-center">
-                                    <a asp-controller="exams" asp-action="attempt" asp-route-id="@exam.Id" class="btn outline-btn">شرکت در آزمون</a>
+                <div class="col-md-12 col-lg-12">
+                    <div class="owl-carousel owl-theme exams-carousel custom-dot dot-bottom-center owl-loaded owl-drag">
+                        <div class="owl-stage-outer">
+                            <div class="owl-stage">
+                                <div class="owl-item">
+                                    @foreach (var exam in newestExams.Items)
+                                    {
+                                        <div class="single-blog-card card border-0 shadow-sm">
+                                            <span class="category position-absolute badge badge-pill badge-primary">
+                                                بدون دسته‌بندی
+                                            </span>
+                                            <img src="~/@exam.Image" class="card-img-top position-relative" alt="@exam.Title" />
+                                            <div class="card-body">
+                                                <div class="post-meta mb-2">
+                                                    <ul class="list-inline meta-list d-flex justify-content-between">
+                                                        <li class="d-inline">@exam.CreatedAt</li>
+                                                        <li class="list-inline-item">
+                                                            <span>@exam.VisitCount</span> بازدید
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <h3 class="h5 card-title">
+                                                    <a asp-controller="exams" asp-action="attempt" asp-route-id="@exam.Id">@exam.Title</a>
+                                                </h3>
+                                                <p class="card-text">@exam.ShortDescription</p>
+                                                <div class="text-center">
+                                                    <a asp-controller="exams" asp-action="attempt" asp-route-id="@exam.Id" class="btn outline-btn">شرکت در آزمون</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
                                 </div>
                             </div>
                         </div>
                     </div>
-                }
+                </div>
             </div>
             <div class="mt-5">
                 <h5 class="mb-1 d-flex align-items-center justify-content-center">
@@ -140,34 +148,42 @@
                 </div>
             </div>
             <div class="row">
-                @foreach (var exam in mostVisitedExams.Items)
-                {
-                    <div class="col-md-4">
-                        <div class="single-blog-card card border-0 shadow-sm">
-                            <span class="category position-absolute badge badge-pill badge-primary">
-                                بدون دسته‌بندی
-                            </span>
-                            <img src="~/@exam.Image" class="card-img-top position-relative" alt="@exam.Title" />
-                            <div class="card-body">
-                                <div class="post-meta mb-2">
-                                    <ul class="list-inline meta-list d-flex justify-content-between">
-                                        <li class="d-inline">@exam.CreatedAt</li>
-                                        <li class="list-inline-item">
-                                            <span>@exam.VisitCount</span> بازدید
-                                        </li>
-                                    </ul>
-                                </div>
-                                <h3 class="h5 card-title">
-                                    <a asp-controller="exams" asp-action="attempt" asp-route-id="@exam.Id">@exam.Title</a>
-                                </h3>
-                                <p class="card-text">@exam.ShortDescription</p>
-                                <div class="text-center">
-                                    <a asp-controller="exams" asp-action="attempt" asp-route-id="@exam.Id" class="btn outline-btn">شرکت در آزمون</a>
+                <div class="col-md-12 col-lg-12">
+                    <div class="owl-carousel owl-theme exams-carousel custom-dot dot-bottom-center owl-loaded owl-drag">
+                        <div class="owl-stage-outer">
+                            <div class="owl-stage">
+                                <div class="owl-item">
+                                    @foreach (var exam in mostVisitedExams.Items)
+                                    {
+                                        <div class="single-blog-card card border-0 shadow-sm">
+                                            <span class="category position-absolute badge badge-pill badge-primary">
+                                                بدون دسته‌بندی
+                                            </span>
+                                            <img src="~/@exam.Image" class="card-img-top position-relative" alt="@exam.Title" />
+                                            <div class="card-body">
+                                                <div class="post-meta mb-2">
+                                                    <ul class="list-inline meta-list d-flex justify-content-between">
+                                                        <li class="d-inline">@exam.CreatedAt</li>
+                                                        <li class="list-inline-item">
+                                                            <span>@exam.VisitCount</span> بازدید
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <h3 class="h5 card-title">
+                                                    <a asp-controller="exams" asp-action="attempt" asp-route-id="@exam.Id">@exam.Title</a>
+                                                </h3>
+                                                <p class="card-text">@exam.ShortDescription</p>
+                                                <div class="text-center">
+                                                    <a asp-controller="exams" asp-action="attempt" asp-route-id="@exam.Id" class="btn outline-btn">شرکت در آزمون</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
                                 </div>
                             </div>
                         </div>
                     </div>
-                }
+                </div>
             </div>
             <div class="mt-5">
                 <h5 class="mb-1 d-flex align-items-center justify-content-center">
@@ -219,11 +235,11 @@
                     </div>
                 </div>
                 @*<div class="w-100 text-center mt-5">
-                    <p class="">
-                        سوالات بیشتری دارید؟
-                        <a asp-controller="" asp-action="" class="page-scroll">با ما تماس بگیرید</a>
-                    </p>
-                </div>*@
+                        <p class="">
+                            سوالات بیشتری دارید؟
+                            <a asp-controller="" asp-action="" class="page-scroll">با ما تماس بگیرید</a>
+                        </p>
+                    </div>*@
             </div>
         </div>
     </div>

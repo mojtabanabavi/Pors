@@ -199,3 +199,34 @@ $(function () {
         });
     });
 });
+
+// Exam Carousel //
+// -----------------------------
+
+$('.exams-carousel').owlCarousel({
+    loop: true,
+    margin: 15,
+    nav: false,
+    dots: true,
+    autoplay: true,
+    lazyLoad: true,
+    responsiveClass: true,
+    autoplayHoverPause: true,
+    responsive: {
+        0: {
+            items: 1,
+        },
+        500: {
+            items: 2,
+        },
+        600: {
+            items: 2,
+        },
+        800: {
+            items: 3,
+        },
+        1200: {
+            items: 4,
+        },
+    },
+});
