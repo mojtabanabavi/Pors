@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Pors.Application.Common.Models;
 using Pors.Application.Management.Exams.Queries;
 using Pors.Application.Management.Exams.Commands;
+using Pors.Application.Management.Reports.Queries;
 
 namespace Pors.Website.Areas.Admin.Controllers
 {
@@ -32,6 +33,14 @@ namespace Pors.Website.Areas.Admin.Controllers
             };
 
             return Json(jsonData);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> GetQuestionAnswersChartData(GetQuestionAnswersChartDataQuery request)
+        {
+            var result = await Mediator.Send(request);
+
+            return Json(result);
         }
 
         #endregion;
@@ -99,6 +108,15 @@ namespace Pors.Website.Areas.Admin.Controllers
             }
 
             return RedirectToAction(nameof(Index));
+        }
+
+        [HttpGet]
+        [DisplayName("مشاهده‌ی گزارش")]
+        public async Task<IActionResult> Report(GetExamReportQuery request)
+        {
+            var result = await Mediator.Send(request);
+
+            return View(result);
         }
     }
 }

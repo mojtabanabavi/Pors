@@ -50,6 +50,16 @@ $(function () {
     });
 });
 
+// Select2 //
+// -----------------------------
+//$('.select2').select2();
+
+$(".select2").select2({
+    dir: "rtl",
+    width: '100%',
+    theme: 'bootstrap4'
+});
+
 // Form Repeater //
 // -----------------------------
 $(function () {
@@ -194,6 +204,7 @@ $(function () {
                             <i class="fas fa-ellipsis-v"></i>
                           </button>
                           <div class="dropdown-menu">
+                            <a class="dropdown-item" href="/admin/exam/report/${row.id}">مشاهده‌ی گزارش</a>
                             <a class="dropdown-item" href="/admin/question/index/${row.id}">لیست ‌سوالات</a>
                             <a class="dropdown-item" href="/admin/attempt/index/${row.id}">لیست ‌شرکت‌کنندگان</a>
                             <a class="dropdown-item" href="/admin/exam/update/${row.id}">ویرایش</a>
@@ -663,68 +674,77 @@ $(function () {
 // Charts //
 // -----------------------------
 
-//$(function () {
-//    // Total Attempts Chart
-//    let TotalAttemptsChart = (function () {
-//        let $chart = $('#total-attempts-chart');
-//        function init($chart) {
+$(function () {
 
-//            let options = {
-//                type: 'line',
-//                options: {
-//                    scales: {
-//                        yAxes: [{
-//                            gridLines: {
-//                                color: Charts.colors.gray[900],
-//                                zeroLineColor: Charts.colors.gray[900]
-//                            },
-//                        }]
-//                    },
-//                    tooltips: {
-//                        callbacks: {
-//                            label: function (item, data) {
-//                                let label = data.datasets[item.datasetIndex].label || '';
-//                                let yLabel = item.yLabel;
-//                                let content = '';
+    if (typeof Chart != 'undefined') {
+        Chart.defaults.global.defaultFontFamily = 'yekan';
+    }
 
-//                                if (data.datasets.length > 1) {
-//                                    content += '<span class="popover-body-label mr-auto">' + label + '</span>';
-//                                }
+    let ExamAnswersChart = (function () {
+        let chart;
+        let chartTarget = $('#exam-answers-chart');
+        let questionIdTarget = $('.chart-question-select');
 
-//                                content += `<span class="popover-body-value">${yLabel} شرکت کننده</span>`;
-//                                return content;
-//                            }
-//                        }
-//                    }
-//                },
-//                data: {
-//                    labels: [],
-//                    datasets: [{
-//                        label: 'attempters',
-//                        data: []
-//                    }]
-//                }
-//            };
 
-//            $.ajax({
-//                type: 'get',
-//                url: '/admin/report/getTotalAttemptsChartData',
-//            }).done(function (response) {
+        function GetChartData() {
+            let data;
+            $.ajax({
+                async: false,
+                url: "/admin/exam/getQuestionAnswersChartData",
+                type: 'post',
+                datatype: 'json',
+                data: {
+                    QuestionId: questionIdTarget.val(),
+                },
+                success: function (result) {
+                    data = result;
+                }
+            });
+            return data;
+        }
 
-//                options.data.labels = response.labels;
-//                options.data.datasets[0].data = response.data;
+        function Init() {
+            var chartData = GetChartData();
+            chart = new Chart(chartTarget, {
+                type: 'bar',
+                data: {
+                    labels: chartData.labels,
+                    datasets: [{
+                        label: 'answers',
+                        data: chartData.dataSet,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true,
+                                callback: function (value) {
+                                    if (value % 1 === 0) {
+                                        return value;
+                                    }
+                                }
+                            }
+                        }]
+                    },
+                }
+            });
+        };
 
-//                let totalAttemptsChart = new Chart($chart, options);
+        function Update() {
+            var chartData = GetChartData();
+            chart.data.labels = chartData.labels;
+            chart.data.datasets[0].data = chartData.dataSet;
+            chart.update();
+        }
 
-//                $chart.data('chart', totalAttemptsChart);
+        if (chartTarget.length) {
+            Init();
+        }
 
-//            }).fail(function (xhr, exception) {
-//                console.log(`${xhr},${exception}`);
-//            });
-//        };
-
-//        if ($chart.length) {
-//            init($chart);
-//        }
-//    })();
-//});
+        $('.chart-question-select').on('change', function () {
+            Update();
+        });
+    })();
+});
