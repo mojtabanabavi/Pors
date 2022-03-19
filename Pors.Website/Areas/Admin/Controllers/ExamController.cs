@@ -43,6 +43,14 @@ namespace Pors.Website.Areas.Admin.Controllers
             return Json(result);
         }
 
+        public async Task<IActionResult> GetQuestionAnswersAccuracyChartData(GetQuestionAnswersAccuracyChartDataQuery request)
+        {
+            var result = await Mediator.Send(request);
+
+            return Json(result);
+        }
+
+
         #endregion;
 
         [HttpGet]

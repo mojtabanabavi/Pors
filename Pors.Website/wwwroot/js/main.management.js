@@ -52,13 +52,15 @@ $(function () {
 
 // Select2 //
 // -----------------------------
-//$('.select2').select2();
-
-$(".select2").select2({
-    dir: "rtl",
-    width: '100%',
-    theme: 'bootstrap4'
-});
+try {
+    $(".select2").select2({
+        dir: "rtl",
+        width: '100%',
+        theme: 'bootstrap4'
+    });
+}
+catch {
+}
 
 // Form Repeater //
 // -----------------------------
@@ -691,6 +693,73 @@ $(function () {
             $.ajax({
                 async: false,
                 url: "/admin/exam/getQuestionAnswersChartData",
+                type: 'post',
+                datatype: 'json',
+                data: {
+                    QuestionId: questionIdTarget.val(),
+                },
+                success: function (result) {
+                    data = result;
+                }
+            });
+            return data;
+        }
+
+        function Init() {
+            var chartData = GetChartData();
+            chart = new Chart(chartTarget, {
+                type: 'bar',
+                data: {
+                    labels: chartData.labels,
+                    datasets: [{
+                        label: 'answers',
+                        data: chartData.dataSet,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true,
+                                callback: function (value) {
+                                    if (value % 1 === 0) {
+                                        return value;
+                                    }
+                                }
+                            }
+                        }]
+                    },
+                }
+            });
+        };
+
+        function Update() {
+            var chartData = GetChartData();
+            chart.data.labels = chartData.labels;
+            chart.data.datasets[0].data = chartData.dataSet;
+            chart.update();
+        }
+
+        if (chartTarget.length) {
+            Init();
+        }
+
+        $('.chart-question-select').on('change', function () {
+            Update();
+        });
+    })();
+
+    let ExamAnswersAccuracyChart = (function () {
+        let chart;
+        let chartTarget = $('#exam-answers-accuracy-chart');
+        let questionIdTarget = $('.chart-question-select');
+
+        function GetChartData() {
+            let data;
+            $.ajax({
+                async: false,
+                url: "/admin/exam/getQuestionAnswersAccuracyChartData",
                 type: 'post',
                 datatype: 'json',
                 data: {
