@@ -104,7 +104,20 @@
                 </div>
 
                 <div class="d-flex justify-content-center">
-                    <partial name="_paging" model="@Model" />
+                    <paging total-records="@int.Parse(Model.TotalItems.ToString())"
+                            page-no="@Model.CurrentPage"
+                            page-size="@Model.PageSize"
+                            show-prev-next="true"
+                            show-total-pages="false"
+                            show-total-records="false"
+                            show-page-size-nav="false"
+                            show-first-numbered-page="false"
+                            show-last-numbered-page="false"
+                            query-string-value="@(Context.Request.QueryString.Value)"
+                            gap-size="2">
+                    </paging>
+
+                    @*<partial name="_paging" model="@Model" />*@
                 </div>
 
             </div>
