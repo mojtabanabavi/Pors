@@ -1,18 +1,19 @@
 ﻿using System;
 using MediatR;
-using AutoMapper;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using Pors.Application.Common.Models;
 using Pors.Application.Common.Interfaces;
+using Pors.Application.Common.Exceptions;
+using Pors.Domain.Entities;
 
 namespace Pors.Application.Management.Reports.Queries
 {
     #region query
 
-    public class GetQuestionAnswersChartDataQuery : IRequest<GetQuestionAnswersChartDataQueryResponse>
+    public class GetAnswersChartDataQuery : IRequest<GetAnswersChartDataQueryResponse>
     {
         public int QuestionId { get; set; }
     }
@@ -21,10 +22,8 @@ namespace Pors.Application.Management.Reports.Queries
 
     #region response
 
-    public class GetQuestionAnswersChartDataQueryResponse
+    public class GetAnswersChartDataQueryResponse : ChartData
     {
-        public List<int> DataSet { get; set; }
-        public List<string> Labels { get; set; }
     }
 
     #endregion;
@@ -35,18 +34,16 @@ namespace Pors.Application.Management.Reports.Queries
 
     #region handler
 
-    public class GetQuestionAnswersChartDataQueryHandler : IRequestHandler<GetQuestionAnswersChartDataQuery, GetQuestionAnswersChartDataQueryResponse>
+    public class GetAnswersChartDataQueryHandler : IRequestHandler<GetAnswersChartDataQuery, GetAnswersChartDataQueryResponse>
     {
-        private readonly IMapper _mapper;
         private readonly ISqlDbContext _dbContext;
 
-        public GetQuestionAnswersChartDataQueryHandler(ISqlDbContext dbContext, IMapper mapper)
+        public GetAnswersChartDataQueryHandler(ISqlDbContext dbContext)
         {
-            _mapper = mapper;
             _dbContext = dbContext;
         }
 
-        public async Task<GetQuestionAnswersChartDataQueryResponse> Handle(GetQuestionAnswersChartDataQuery request, CancellationToken cancellationToken)
+        public async Task<GetAnswersChartDataQueryResponse> Handle(GetAnswersChartDataQuery request, CancellationToken cancellationToken)
         {
             var report = await _dbContext.AttemptAnswers
                 .Where(x => x.Option.QuestionId == request.QuestionId)
@@ -58,7 +55,12 @@ namespace Pors.Application.Management.Reports.Queries
                 })
                 .ToListAsync();
 
-            var result = new GetQuestionAnswersChartDataQueryResponse
+            if (report == null)
+            {
+                throw new NotFoundException(nameof(ExamQuestion), request.QuestionId);
+            }
+
+            var result = new GetAnswersChartDataQueryResponse
             {
                 Labels = report.Select(x => x.Label).ToList(),
                 DataSet = report.Select(x => x.Count).ToList(),

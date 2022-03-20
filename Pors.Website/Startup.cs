@@ -41,12 +41,6 @@ namespace Pors.Website
             });
 
             services.AddAuthentication()
-                .AddCookie(AuthenticationSchemes.Public, options =>
-                {
-                    options.LoginPath = "/identity/login";
-                    options.LogoutPath = "/identity/logout";
-                    options.ExpireTimeSpan = TimeSpan.FromHours(1);
-                })
                 .AddCookie(AuthenticationSchemes.Management, options =>
                 {
                     options.LoginPath = "/admin/identity/login";

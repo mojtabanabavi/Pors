@@ -36,14 +36,14 @@ namespace Pors.Website.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> GetQuestionAnswersChartData(GetQuestionAnswersChartDataQuery request)
+        public async Task<IActionResult> GetQuestionAnswersChartData(GetAnswersChartDataQuery request)
         {
             var result = await Mediator.Send(request);
 
             return Json(result);
         }
 
-        public async Task<IActionResult> GetQuestionAnswersAccuracyChartData(GetQuestionAnswersAccuracyChartDataQuery request)
+        public async Task<IActionResult> GetQuestionAnswersAccuracyChartData(GetAnswersAccuracyChartDataQuery request)
         {
             var result = await Mediator.Send(request);
 
@@ -120,7 +120,7 @@ namespace Pors.Website.Areas.Admin.Controllers
 
         [HttpGet]
         [DisplayName("مشاهده‌ی گزارش")]
-        public async Task<IActionResult> Report(GetExamReportQuery request)
+        public async Task<IActionResult> Report(GetExamStatusReportQuery request)
         {
             var result = await Mediator.Send(request);
 

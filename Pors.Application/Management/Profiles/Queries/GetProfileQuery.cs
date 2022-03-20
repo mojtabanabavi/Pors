@@ -1,14 +1,14 @@
 ﻿using System;
 using MediatR;
 using AutoMapper;
+using System.Linq;
 using System.Threading;
 using Pors.Domain.Entities;
 using System.Threading.Tasks;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 using Pors.Application.Common.Mappings;
 using Pors.Application.Common.Interfaces;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.EntityFrameworkCore;
 
 namespace Pors.Application.Management.Profiles.Queries
 {

@@ -14,11 +14,8 @@ namespace Pors.Application.Public.Faqs.Queries
 {
     #region query
 
-    public class GetFaqsQuery : IRequest<PagingResult<GetFaqsQueryResponse>>
+    public class GetFaqsQuery : PagingRequest, IRequest<PagingResult<GetFaqsQueryResponse>>
     {
-        public int Page { get; set; }
-        public int PageSize { get; set; }
-
         public GetFaqsQuery(int page = 1, int pageSize = 10)
         {
             Page = page;

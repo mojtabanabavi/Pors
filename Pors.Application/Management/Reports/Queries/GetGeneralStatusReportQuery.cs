@@ -10,7 +10,7 @@ namespace Pors.Application.Management.Reports.Queries
 {
     #region query
 
-    public class GetStatusReportsQuery : IRequest<GetStatusReportsQueryResponse>
+    public class GetGeneralStatusReportQuery : IRequest<GetGeneralStatusReportQueryResponse>
     {
     }
 
@@ -18,7 +18,7 @@ namespace Pors.Application.Management.Reports.Queries
 
     #region response
 
-    public class GetStatusReportsQueryResponse
+    public class GetGeneralStatusReportQueryResponse
     {
         public StatusReportDto UsersStatus { get; set; }
         public StatusReportDto RolesStatus { get; set; }
@@ -41,20 +41,18 @@ namespace Pors.Application.Management.Reports.Queries
 
     #region handler
 
-    public class GetStatusReportsQueryHandler : IRequestHandler<GetStatusReportsQuery, GetStatusReportsQueryResponse>
+    public class GetGeneralStatusReportQueryHandler : IRequestHandler<GetGeneralStatusReportQuery, GetGeneralStatusReportQueryResponse>
     {
-        private readonly IMapper _mapper;
         private readonly ISqlDbContext _dbContext;
 
-        public GetStatusReportsQueryHandler(ISqlDbContext dbContext, IMapper mapper)
+        public GetGeneralStatusReportQueryHandler(ISqlDbContext dbContext)
         {
-            _mapper = mapper;
             _dbContext = dbContext;
         }
 
-        public async Task<GetStatusReportsQueryResponse> Handle(GetStatusReportsQuery request, CancellationToken cancellationToken)
+        public async Task<GetGeneralStatusReportQueryResponse> Handle(GetGeneralStatusReportQuery request, CancellationToken cancellationToken)
         {
-            var result = new GetStatusReportsQueryResponse
+            var result = new GetGeneralStatusReportQueryResponse
             {
                 UsersStatus = new StatusReportDto
                 {

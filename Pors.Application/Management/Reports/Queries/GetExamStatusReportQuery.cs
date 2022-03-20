@@ -1,6 +1,5 @@
 ﻿using System;
 using MediatR;
-using AutoMapper;
 using System.Linq;
 using Loby.Extensions;
 using FluentValidation;
@@ -8,7 +7,6 @@ using System.Threading;
 using Pors.Domain.Entities;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Pors.Application.Common.Mappings;
 using Pors.Application.Common.Interfaces;
 using Pors.Application.Common.Exceptions;
 
@@ -16,7 +14,7 @@ namespace Pors.Application.Management.Reports.Queries
 {
     #region query
 
-    public class GetExamReportQuery : IRequest<GetExamReportQueryResponse>
+    public class GetExamStatusReportQuery : IRequest<GetExamStatusReportQueryResponse>
     {
         public int Id { get; set; }
     }
@@ -25,7 +23,7 @@ namespace Pors.Application.Management.Reports.Queries
 
     #region response
 
-    public class GetExamReportQueryResponse : IMapFrom<Exam>
+    public class GetExamStatusReportQueryResponse
     {
         public int ExamId { get; set; }
         public int TotalOptionsCount { get; set; }
@@ -42,18 +40,16 @@ namespace Pors.Application.Management.Reports.Queries
 
     #region handler
 
-    public class GetExamReportQueryHandler : IRequestHandler<GetExamReportQuery, GetExamReportQueryResponse>
+    public class GetExamStatusReportQueryHandler : IRequestHandler<GetExamStatusReportQuery, GetExamStatusReportQueryResponse>
     {
-        private readonly IMapper _mapper;
         private readonly ISqlDbContext _dbContext;
 
-        public GetExamReportQueryHandler(ISqlDbContext dbContext, IMapper mapper)
+        public GetExamStatusReportQueryHandler(ISqlDbContext dbContext)
         {
-            _mapper = mapper;
             _dbContext = dbContext;
         }
 
-        public async Task<GetExamReportQueryResponse> Handle(GetExamReportQuery request, CancellationToken cancellationToken)
+        public async Task<GetExamStatusReportQueryResponse> Handle(GetExamStatusReportQuery request, CancellationToken cancellationToken)
         {
             var report = await _dbContext.Exams
                 .Where(x => x.Id == request.Id)
@@ -75,7 +71,7 @@ namespace Pors.Application.Management.Reports.Queries
                 throw new NotFoundException(nameof(Exam), request.Id);
             }
 
-            var result = new GetExamReportQueryResponse
+            var result = new GetExamStatusReportQueryResponse
             {
                 ExamId = request.Id,
                 TotalAnswersCount = report.TotalAnswersCount,

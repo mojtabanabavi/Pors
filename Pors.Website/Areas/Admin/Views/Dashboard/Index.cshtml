@@ -4,7 +4,7 @@
 
     @inject MediatR.ISender Mediator
 
-    var statusReports = await Mediator.Send(new GetStatusReportsQuery());
+    var statusReports = await Mediator.Send(new GetGeneralStatusReportQuery());
 }
 
 @section scripts{

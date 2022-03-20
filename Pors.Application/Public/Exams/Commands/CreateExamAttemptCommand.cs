@@ -40,11 +40,6 @@ namespace Pors.Application.Public.Exams.Commands
 
         public async Task<string> Handle(CreateExamAttemptCommand request, CancellationToken cancellationToken)
         {
-            //var isAlreadyVisited = _dbContext.ExamAttempts
-            //    .Any(x => x.ExamId == request.ExamId && x.IpAddress == _currentUser.IpAddress);
-
-            //if (!isAlreadyVisited)
-            //{
             var entity = new ExamAttempt
             {
                 ExamId = request.ExamId,
@@ -56,9 +51,6 @@ namespace Pors.Application.Public.Exams.Commands
             await _dbContext.SaveChangesAsync();
 
             return entity.Id;
-            //}
-
-            //return string.Empty;
         }
     }
 

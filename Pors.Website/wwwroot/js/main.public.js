@@ -1,7 +1,8 @@
 ﻿// Loader //
 // -----------------------------
+
 $(window).ready(function () {
-    $('#preloader').delay(200).fadeOut('fade')
+    $('#preloader').delay(200).fadeOut('fade');
 });
 
 // Hide Header on Scroll //
@@ -53,7 +54,7 @@ function wowAnimation() {
     }).init()
 }
 
-wowAnimation()
+wowAnimation();
 
 // Mega Menu //
 // -----------------------------

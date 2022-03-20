@@ -70,9 +70,6 @@ namespace Pors.Application.Management.Permissions.Queries
                 .Include(x => x.Permissions)
                 .FirstOrDefaultAsync();
 
-            _dbContext.RolePermissions
-            .Where(x => x.RoleId == request.Id);
-
             var result = _mapper.Map<GetRolePermissionsQueryResponse>(entity);
 
             return result;

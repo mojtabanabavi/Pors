@@ -1,4 +1,5 @@
-﻿using Loby.Tools;
+﻿using System;
+using Loby.Tools;
 using System.Linq;
 using Pors.Domain.Entities;
 using System.Threading.Tasks;
@@ -21,7 +22,14 @@ namespace Pors.Infrastructure.Persistence
 
         public async Task SeedDataAsync()
         {
-            await SeedDefaultUserAsync();
+            try
+            {
+                await SeedDefaultUserAsync();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError("An error occurred in the database seeding.", e);
+            }
         }
 
         public async Task SeedDefaultUserAsync()
