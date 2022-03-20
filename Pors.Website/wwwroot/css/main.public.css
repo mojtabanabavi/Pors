@@ -1,9 +1,15 @@
-﻿.card-text{
+﻿.card-text {
     direction: rtl;
 }
 
-.page-header-section {
+.page-header-section, .section-bg {
     background: url('../img/defaults/herohome.png') no-repeat center center fixed;
+}
+
+@media (max-width: 576px) {
+    .page-header-section, .section-bg {
+        background-position: inherit;
+    }
 }
 
 .navbar-brand {
@@ -86,15 +92,6 @@
         [data-action="loading"] .spinner-wrapper i {
         }
 
-.hero-home {
-    background: url('../img/defaults/herohome.png') no-repeat center center fixed;
-}
-
-.hero-comment {
-    background: url('../img/defaults/herocomment.jpg') no-repeat center center fixed;
-}
-
-
 /* Customize */
 
 .navbar-vertical .navbar {
@@ -125,73 +122,73 @@
     }
 }
 
-    .navbar-vertical .navbar-nav .nav-link {
-        font-size: .9rem
+.navbar-vertical .navbar-nav .nav-link {
+    font-size: .9rem
+}
+
+    .navbar-vertical .navbar-nav .nav-link.active {
+        position: relative
     }
 
-        .navbar-vertical .navbar-nav .nav-link.active {
-            position: relative
+        .navbar-vertical .navbar-nav .nav-link.active:before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: .25rem;
+            bottom: .25rem;
+            border-left: 2px solid #5e72e4
         }
 
-            .navbar-vertical .navbar-nav .nav-link.active:before {
-                content: "";
-                position: absolute;
-                left: 0;
-                top: .25rem;
-                bottom: .25rem;
-                border-left: 2px solid #5e72e4
-            }
-
-        .navbar-vertical .navbar-nav .nav-link > i {
-            min-width: 2.25rem;
-            font-size: .9375rem;
-            line-height: 1.5rem
-        }
-
-        .navbar-vertical .navbar-nav .nav-link .dropdown-menu {
-            border: none
-        }
-
-            .navbar-vertical .navbar-nav .nav-link .dropdown-menu .dropdown-menu {
-                margin-left: .75rem
-            }
-
-    .navbar-vertical .navbar-nav .nav-link {
-        display: -webkit-box;
-        display: -ms-flexbox;
-        display: flex;
-        -webkit-box-align: center;
-        -ms-flex-align: center;
-        align-items: center
+    .navbar-vertical .navbar-nav .nav-link > i {
+        min-width: 2.25rem;
+        font-size: .9375rem;
+        line-height: 1.5rem
     }
 
-        .navbar-vertical .navbar-nav .nav-link[data-toggle=collapse]:after {
-            display: inline-block;
-            font-style: normal;
-            font-variant: normal;
-            text-rendering: auto;
-            -webkit-font-smoothing: antialiased;
-            font-family: Font Awesome\ 5 Free;
-            font-weight: 700;
-            content: "\F105";
-            margin-right: auto;
-            color: #8898aa;
-            -webkit-transition: all .15s ease;
-            transition: all .15s ease
-        }
-
-        .navbar-vertical .navbar-nav .nav-link[data-toggle=collapse][aria-expanded=true]:after {
-            -webkit-transform: rotate(90deg);
-            transform: rotate(90deg)
-        }
-
-    .navbar-vertical .navbar-nav .nav .nav-link {
-        padding-left: 3.25rem
+    .navbar-vertical .navbar-nav .nav-link .dropdown-menu {
+        border: none
     }
 
-    .navbar-vertical .navbar-nav .nav .nav .nav-link {
-        padding-left: 3.75rem
+        .navbar-vertical .navbar-nav .nav-link .dropdown-menu .dropdown-menu {
+            margin-left: .75rem
+        }
+
+.navbar-vertical .navbar-nav .nav-link {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center
+}
+
+    .navbar-vertical .navbar-nav .nav-link[data-toggle=collapse]:after {
+        display: inline-block;
+        font-style: normal;
+        font-variant: normal;
+        text-rendering: auto;
+        -webkit-font-smoothing: antialiased;
+        font-family: Font Awesome\ 5 Free;
+        font-weight: 700;
+        content: "\F105";
+        margin-right: auto;
+        color: #8898aa;
+        -webkit-transition: all .15s ease;
+        transition: all .15s ease
     }
+
+    .navbar-vertical .navbar-nav .nav-link[data-toggle=collapse][aria-expanded=true]:after {
+        -webkit-transform: rotate(90deg);
+        transform: rotate(90deg)
+    }
+
+.navbar-vertical .navbar-nav .nav .nav-link {
+    padding-left: 3.25rem
+}
+
+.navbar-vertical .navbar-nav .nav .nav .nav-link {
+    padding-left: 3.75rem
+}
 
 .navbar-vertical .navbar-heading {
     padding-top: .25rem;
