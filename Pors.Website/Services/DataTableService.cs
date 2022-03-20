@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
-using System.Collections.Generic;
 using Pors.Application.Common.Models;
 using Pors.Application.Common.Interfaces;
 

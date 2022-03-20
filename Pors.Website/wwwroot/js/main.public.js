@@ -22,9 +22,9 @@ $(window).on('scroll', function () {
 
 $(window).on('scroll', function () {
     if ($(window).scrollTop() > $(window).height()) {
-        $('.scroll-to-target').addClass('open')
+        $('.scroll-to-target').addClass('open');
     } else {
-        $('.scroll-to-target').removeClass('open')
+        $('.scroll-to-target').removeClass('open');
     }
     if ($('.scroll-to-target').length) {
         $('.scroll-to-target').on('click', function () {
@@ -36,7 +36,7 @@ $(window).on('scroll', function () {
                     {
                         scrollTop: $(target).offset().top,
                     },
-                    500
+                    800
                 )
                 this.old_time = new_time
             }

@@ -16,8 +16,8 @@ namespace Pors.Website.Services
 
         public string IpAddress => GetIpAddress();
         public string DisplayName => GetClaimValue(ClaimTypes.Name);
-        public string UserId => GetClaimValue(ClaimTypes.NameIdentifier);
         public string ProfilePicture => GetClaimValue("ProfilePicture");
+        public string UserId => GetClaimValue(ClaimTypes.NameIdentifier);
 
         private string GetClaimValue(string claimType)
         {

@@ -1,19 +1,17 @@
 ﻿@model PagingResult<GetFaqsQueryResponse>
 @{
-    Layout = "_publicLayout";
     ViewData["Title"] = "سوالات متداول";
 }
 
 <!-- page header -->
-<section class="page-header-section ptb-100 gradient-bg">
+<section class="page-header-section ptb-100">
     <div class="container">
         <div class="row align-items-center">
             <div class="col-md-7 col-lg-6">
                 <div class="page-header-content text-white">
                     <h1 class="text-white mb-2">@ViewData["Title"]</h1>
                     <p class="lead">
-                        لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با
-                        استفاده از طراحان گرافیک است.
+                        در این صفحه، می‌توانید سوالات پرتکرار را برسی کنید
                     </p>
                 </div>
             </div>
@@ -24,9 +22,20 @@
 <!-- faq -->
 @if (Model.Items.Any())
 {
-    <div id="faq" class="ptb-100 white-bg">
+    <div id="faq" class="ptb-100 gray-light-bg">
         <div class="container">
             <div class="row">
+                @foreach (var faq in Model.Items)
+                {
+                    <div class="col-md-6">
+                        <div class="single-faq pt-4">
+                            <h5>@faq.Question</h5>
+                            <p>@faq.Answer</p>
+                        </div>
+                    </div>
+                }
+            </div>
+            @*<div class="row">
                 <div class="col-md-12 col-lg-12">
                     <div id="accordion-one" class="accordion accordion-faq">
                         @{
@@ -35,9 +44,9 @@
                         @foreach (var faq in Model.Items)
                         {
                             i++;
-                            <div class="card mb-0">
+                            <div class="card">
                                 <a class="card-header" data-toggle="collapse" href="#faq-@faq.Id">
-                                    <h6 class="mb-0 d-inline-block">@faq.Question</h6>
+                                    <h6 class="d-inline-block">@faq.Question</h6>
                                 </a>
                                 <div id="faq-@faq.Id" class="collapse @(i == 0 ? "show" : "")" data-parent="#accordion-one">
                                     <div class="card-body">
@@ -48,13 +57,7 @@
                         }
                     </div>
                 </div>
-                @*<div class="w-100 text-center mt-5">
-                        <p class="">
-                            سوالات بیشتری دارید؟
-                            <a asp-controller="" asp-action="" class="page-scroll">با ما تماس بگیرید</a>
-                        </p>
-                    </div>*@
-            </div>
+            </div>*@
         </div>
     </div>
 }

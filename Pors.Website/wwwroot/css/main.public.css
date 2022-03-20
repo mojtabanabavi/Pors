@@ -1,4 +1,12 @@
-﻿.navbar-brand {
+﻿.card-text{
+    direction: rtl;
+}
+
+.page-header-section {
+    background: url('../img/defaults/herohome.png') no-repeat center center fixed;
+}
+
+.navbar-brand {
     font-weight: 800;
     font-size: 1.6rem;
 }
@@ -79,7 +87,7 @@
         }
 
 .hero-home {
-    background: url('../img/defaults/herohome.jpg') no-repeat center center fixed;
+    background: url('../img/defaults/herohome.png') no-repeat center center fixed;
 }
 
 .hero-comment {

@@ -1,20 +1,30 @@
 ﻿@model PagingResult<GetExamsQueryResponse>
 @{
-    ViewData["Title"] = "لیست آزمون‌ها";
-    Layout = "~/Views/Shared/_publicLayout.cshtml";
+    var titleQuery = Context.Request.Query["title"];
+    var sortTypeQuery = Context.Request.Query["sortType"];
+    var queryString = Context.Request.QueryString.ToString();
+    ViewData["Title"] = queryString.HasValue() ? "نتایج جستجو" : "لیست آزمون‌ها";
 }
 
 <!-- page header -->
-<section class="page-header-section ptb-100 gradient-bg">
+<section class="page-header-section ptb-100">
     <div class="container">
         <div class="row align-items-center">
             <div class="col-md-7 col-lg-6">
                 <div class="page-header-content text-white">
                     <h1 class="text-white mb-2">@ViewData["Title"]</h1>
-                    <p class="lead">
-                        لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با
-                        استفاده از طراحان گرافیک است.
-                    </p>
+                    @if (queryString.HasValue())
+                    {
+                        <p class="lead">
+                            آزمون‌های زیر براساس فیلترهای شما بدست آمد
+                        </p>
+                    }
+                    else
+                    {
+                        <p class="lead">
+                            به راحتی با فیلترهای زیر آزمون موردنظر خود را بیابید
+                        </p>
+                    }
                 </div>
             </div>
         </div>
@@ -34,19 +44,19 @@
                                         <a class="nav-link custom-nav-link mb-2" href="#navbar-search" data-toggle="collapse" aria-expanded="true">جستجو</a>
                                         <div class="collapse show" id="navbar-search">
                                             <div class="search-box">
-                                                <input type="text" name="title" class="form-control" placeholder="نام آزمون">
+                                                <input type="text" name="title" class="form-control" placeholder="نام آزمون" value="@titleQuery">
                                             </div>
                                         </div>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link custom-nav-link mb-2" href="#navbar-sort" data-toggle="collapse" aria-expanded="false">مرتب‌سازی</a>
-                                        <div class="collapse" id="navbar-sort">
+                                        <a class="nav-link custom-nav-link mb-2" href="#navbar-sort" data-toggle="collapse" aria-expanded="true">مرتب‌سازی</a>
+                                        <div class="collapse show" id="navbar-sort">
                                             <div class="custom-control custom-radio">
-                                                <input type="radio" id="sort-newest" name="sortType" value="1" class="custom-control-input">
+                                                <input type="radio" id="sort-newest" name="sortType" value="1" class="custom-control-input" @(sortTypeQuery == "1" ? "checked" : "")>
                                                 <label class="custom-control-label" for="sort-newest">جدیدترین</label>
                                             </div>
                                             <div class="custom-control custom-radio mt-3">
-                                                <input type="radio" id="sort-visit" name="sortType" value="2" class="custom-control-input">
+                                                <input type="radio" id="sort-visit" name="sortType" value="2" class="custom-control-input" @(sortTypeQuery == "2" ? "checked" : "")>
                                                 <label class="custom-control-label" for="sort-visit">پربازدیدترین</label>
                                             </div>
                                         </div>

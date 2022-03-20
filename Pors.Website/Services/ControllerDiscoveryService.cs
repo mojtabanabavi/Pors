@@ -110,6 +110,8 @@ namespace Pors.Website.Services
             return _securedControllers.Distinct().ToList();
         }
 
+        #region utilities
+
         private List<Attribute> GetAttributes(MemberInfo actionMemberInfo)
         {
             var attributes = actionMemberInfo
@@ -159,5 +161,7 @@ namespace Pors.Website.Services
 
             return false;
         }
+
+        #endregion;
     }
 }

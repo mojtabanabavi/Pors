@@ -3,7 +3,6 @@
 
     @inject MediatR.ISender MediatR
 
-    var faqs = await MediatR.Send(new GetFaqsQuery(1, 5));
     var newestExams = await MediatR.Send(new GetExamsQuery(SortTypes.Newest, 1, 4));
     var mostVisitedExams = await MediatR.Send(new GetExamsQuery(SortTypes.MostVisited, 1, 4));
 }
@@ -18,15 +17,14 @@
 }
 
 <!-- hero -->
-<section class="hero-home ptb-100 gradient-overlay">
+<section class="hero-home hero-equal-height ptb-100">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-12 col-lg-8">
                 <div class="hero-content-wrap text-white text-center position-relative z-index">
                     <h1 class="text-white">پُرس، سامانه‌ی پرسش و پاسخ</h1>
-                    <p class="lead">
-                        ورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با
-                        استفاده از طراحان گرافیک است.
+                    <p class="lead mb-5">
+                        در آزمون‌ها شرکت کنید و درکنار دریافت پاسخ، نسبت به صحت و درستی‌ آن‌ها نظر دهید
                     </p>
                     <div class="domain-search-wrap">
                         <form asp-controller="exams" asp-action="index" method="get" class="domain-search-form w-75 d-block mx-auto">
@@ -34,7 +32,8 @@
                                 <input name="title" type="text" class="form-control" placeholder="جستجوی آزمون" required>
                                 <div class="input-group-append">
                                     <button class="btn search-btn btn-hover d-flex align-items-center" type="submit">
-                                        <span class="ti-search ml-2"></span> جستجو
+                                        <span>جستجو</span>
+                                        <span class="ti-search mr-2"></span>
                                     </button>
                                 </div>
                             </div>
@@ -55,11 +54,6 @@
                 <div class="col-md-9 col-lg-8">
                     <div class="section-heading text-center mb-5 mb-sm-5 mb-md-3 mb-lg-5">
                         <h2>جدیدترین آزمون‌ها</h2>
-                        <p class="lead">
-                            لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با
-                            استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و
-                            مجله در ستون و سطرآنچنان که لازم است
-                        </p>
                     </div>
                 </div>
             </div>
@@ -111,24 +105,6 @@
     </section>
 }
 
-<!-- another section -->
-<!--<section class="hero-comment ptb-100 gradient-overlay">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-9 col-lg-8">
-                <div class="call-to-action-content text-white text-center">
-                    <h2 class="text-white">نظر شما برای ما ارزشمند است</h2>
-                    <p>با ثبت تجربه و نظر خود ما را در افزایش رضایت خود یاری کنید</p>
-                    <div class="action-btns mt-5">
-                        <a href="#" class="btn solid-white-btn mr-3">ثبت نظر</a>
-                        <a href="#" class="btn outline-white-btn">درباره‌ی ما</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>-->
-
 <!-- most visited exams -->
 @if (mostVisitedExams.Items.Any())
 {
@@ -138,11 +114,6 @@
                 <div class="col-md-9 col-lg-8">
                     <div class="section-heading text-center mb-5 mb-sm-5 mb-md-3 mb-lg-5">
                         <h2>پر بازدیدترین آزمون‌ها</h2>
-                        <p class="lead">
-                            لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با
-                            استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و
-                            مجله در ستون و سطرآنچنان که لازم است
-                        </p>
                     </div>
                 </div>
             </div>
@@ -192,54 +163,4 @@
             </div>
         </div>
     </section>
-}
-
-<!-- faq -->
-@if (faqs.Items.Any())
-{
-    <div id="faq" class="ptb-100 white-bg">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-md-9 col-lg-8">
-                    <div class="section-heading text-center mb-5 mb-sm-5 mb-md-3 mb-lg-5">
-                        <h2>سوالات متداول</h2>
-                        <p class="lead">
-                            لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با
-                            استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و
-                            مجله در ستون و سطرآنچنان که لازم است
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12 col-lg-12">
-                    <div id="accordion-one" class="accordion accordion-faq">
-                        @{
-                            int i = -1;
-                        }
-                        @foreach (var faq in faqs.Items)
-                        {
-                            i++;
-                            <div class="card mb-0">
-                                <a class="card-header collapsed" data-toggle="collapse" href="#faq-@faq.Id">
-                                    <h6 class="mb-0 d-inline-block">@faq.Question</h6>
-                                </a>
-                                <div id="faq-@faq.Id" class="collapse @(i == 0 ? "show" : "")" data-parent="#accordion-one">
-                                    <div class="card-body">
-                                        <p>@faq.Answer</p>
-                                    </div>
-                                </div>
-                            </div>
-                        }
-                    </div>
-                </div>
-                @*<div class="w-100 text-center mt-5">
-                        <p class="">
-                            سوالات بیشتری دارید؟
-                            <a asp-controller="" asp-action="" class="page-scroll">با ما تماس بگیرید</a>
-                        </p>
-                    </div>*@
-            </div>
-        </div>
-    </div>
 }
