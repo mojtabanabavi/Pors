@@ -3,6 +3,7 @@ using Pors.Application;
 using Pors.Infrastructure;
 using System.Globalization;
 using Pors.Website.Services;
+using Pors.Website.Filters;
 using Pors.Website.Constants;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
@@ -32,8 +33,10 @@ namespace Pors.Website
             services.AddSession();
             services.AddHttpContextAccessor();
 
-            services.AddControllersWithViews()
-                .AddRazorRuntimeCompilation();
+            services.AddControllersWithViews(options =>
+            {
+                options.Filters.Add(new ExceptionHandlerAttribute());
+            }).AddRazorRuntimeCompilation();
 
             services.AddFluentValidation(options =>
             {
