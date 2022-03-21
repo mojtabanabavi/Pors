@@ -12,5 +12,12 @@ namespace Pors.Website.Areas.Admin.Controllers
         {
             return View();
         }
+
+        [HttpGet]
+        [Route("/admin/error")]
+        public IActionResult Error(int statusCode)
+        {
+            return View("_errorPage", statusCode);
+        }
     }
 }

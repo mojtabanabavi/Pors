@@ -63,6 +63,18 @@ namespace Pors.Website
             {
                 app.UseDeveloperExceptionPage();
             }
+            else
+            {
+                app.UseWhen(context => context.Request.Path.StartsWithSegments("/admin"), app =>
+                {
+                    app.UseStatusCodePagesWithReExecute("/admin/error", "?statusCode={0}");
+                });
+
+                app.UseWhen(context => !context.Request.Path.StartsWithSegments("/admin"), app =>
+                {
+                    app.UseStatusCodePagesWithReExecute("/error", "?statusCode={0}");
+                });
+            }
 
             app.UseSession();
             app.UseStaticFiles();

@@ -1,0 +1,19 @@
+﻿@model int
+@{ ViewData["Title"] = $"‌خطای {Model}"; }
+
+<div class="row">
+    <div class="col">
+        <div class="card bg-secondary shadow">
+            <div class="card-header bg-bg-white border-0">
+                <h3 class="mb-0">@ViewData["Title"]</h3>
+            </div>
+            <div class="card-body">
+                <div class="error-content text-center text-white">
+                    <h1 class="display-1">@Model</h1>
+                    <h3 class="mb-5">با عرض پوزش، مشکلی پیش آمد</h3>
+                    <a asp-controller="dashboard" asp-action="index" class="btn btn-primary">بازگشت به داشبورد</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

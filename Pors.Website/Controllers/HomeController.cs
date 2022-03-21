@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
 
 namespace Pors.Website.Controllers
 {
@@ -11,6 +8,20 @@ namespace Pors.Website.Controllers
         [HttpGet]
         public IActionResult Index()
         {
+            return View();
+        }
+
+        [HttpGet("/error")]
+        public IActionResult Error(int statusCode)
+        {
+            HttpContext.Response.StatusCode = statusCode;
+
+            switch (statusCode)
+            {
+                case 404: return View("_notFound");
+                case 500: return View("_serverError");
+            }
+
             return View();
         }
     }
