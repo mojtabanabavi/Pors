@@ -11,5 +11,6 @@ namespace Pors.Application.Common.Interfaces
     {
         List<ControllerInfo> DiscoverControllers();
         List<ControllerInfo> DiscoverSecuredControllers();
+        List<ControllerInfo> DiscoverSecuredControllers(string policy);
     }
 }

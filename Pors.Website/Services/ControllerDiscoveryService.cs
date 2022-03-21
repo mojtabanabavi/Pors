@@ -17,12 +17,13 @@ namespace Pors.Website.Services
     public class ControllerDiscoveryService : IControllerDiscoveryService
     {
         private List<ControllerInfo> _controllers;
-        private List<ControllerInfo> _securedControllers;
         private IActionDescriptorCollectionProvider _discoveryProvider;
 
         public ControllerDiscoveryService(IActionDescriptorCollectionProvider actionDescriptorCollectionProvider)
         {
             _discoveryProvider = actionDescriptorCollectionProvider;
+
+            DiscoverControllers();
         }
 
         public List<ControllerInfo> DiscoverControllers()
@@ -85,17 +86,7 @@ namespace Pors.Website.Services
 
         public List<ControllerInfo> DiscoverSecuredControllers()
         {
-            if (_securedControllers != null)
-            {
-                return _securedControllers;
-            }
-
-            if (_controllers == null)
-            {
-                _controllers = DiscoverControllers();
-            }
-
-            _securedControllers = new();
+            var _securedControllers = new List<ControllerInfo>();
 
             foreach (var controller in _controllers)
             {
@@ -107,7 +98,29 @@ namespace Pors.Website.Services
                 }
             }
 
-            return _securedControllers.Distinct().ToList();
+            return _securedControllers;
+        }
+
+        public List<ControllerInfo> DiscoverSecuredControllers(string policy)
+        {
+            var _securedByPolicyControllers = new List<ControllerInfo>();
+
+            foreach (var controller in _controllers)
+            {
+                if (controller.IsSecured)
+                {
+                    controller.Actions = controller.Actions
+                        .Where(x =>
+                                    x.IsSecured && (
+                                    x.Actions.OfType<AuthorizeAttribute>().FirstOrDefault()?.Policy == policy ||
+                                    controller.Attributes.OfType<AuthorizeAttribute>().FirstOrDefault()?.Policy == policy))
+                        .ToList();
+                }
+
+                _securedByPolicyControllers.Add(controller);
+            }
+
+            return _securedByPolicyControllers;
         }
 
         #region utilities
