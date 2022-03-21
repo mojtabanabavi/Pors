@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Pors.Website.Extensions;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
 using Pors.Application.Management.Profiles.Queries;
 using Pors.Application.Management.Profiles.Commands;
 

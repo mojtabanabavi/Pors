@@ -2,8 +2,10 @@
 using System.Linq;
 using System.ComponentModel;
 using System.Threading.Tasks;
+using Pors.Website.Constants;
 using Microsoft.AspNetCore.Mvc;
 using Pors.Application.Common.Models;
+using Microsoft.AspNetCore.Authorization;
 using Pors.Application.Management.Questions.Queries;
 using Pors.Application.Management.Questions.Commands;
 
@@ -12,8 +14,9 @@ namespace Pors.Website.Areas.Admin.Controllers
     [DisplayName("مدیریت سوالات")]
     public class QuestionController : BaseController
     {
+        #region api
+
         [HttpPost]
-        [DisplayName("دریافت لیست سوالات")]
         public async Task<IActionResult> GetQuestions(int examId)
         {
             var query = DataTable.FetchRequest();
@@ -33,8 +36,11 @@ namespace Pors.Website.Areas.Admin.Controllers
             return Json(jsonData);
         }
 
+        #endregion;
+
         [HttpGet]
         [DisplayName("لیست سوالات")]
+        [Authorize(Policy = PolicyNames.DynamicPermission)]
         public IActionResult Index(int id)
         {
             return View(id);
@@ -42,6 +48,7 @@ namespace Pors.Website.Areas.Admin.Controllers
 
         [HttpGet]
         [DisplayName("ایجاد سوال")]
+        [Authorize(Policy = PolicyNames.DynamicPermission)]
         public IActionResult Create()
         {
             return View();
@@ -63,6 +70,7 @@ namespace Pors.Website.Areas.Admin.Controllers
 
         [HttpGet]
         [DisplayName("ویرایش سوال")]
+        [Authorize(Policy = PolicyNames.DynamicPermission)]
         public async Task<IActionResult> Update(GetQuestionQuery request)
         {
             var result = await Mediator.Send(request);
@@ -88,6 +96,7 @@ namespace Pors.Website.Areas.Admin.Controllers
 
         [HttpGet]
         [DisplayName("حذف سوال")]
+        [Authorize(Policy = PolicyNames.DynamicPermission)]
         public async Task<IActionResult> Delete(DeleteQuestionCommand request)
         {
             if (ModelState.IsValid)

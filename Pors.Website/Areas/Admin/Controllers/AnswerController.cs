@@ -1,8 +1,10 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Threading.Tasks;
+using Pors.Website.Constants;
 using Microsoft.AspNetCore.Mvc;
 using Pors.Application.Common.Models;
+using Microsoft.AspNetCore.Authorization;
 using Pors.Application.Management.Answers.Queries;
 
 namespace Pors.Website.Areas.Admin.Controllers
@@ -10,8 +12,9 @@ namespace Pors.Website.Areas.Admin.Controllers
     [DisplayName("مدیریت پاسخ‌ها")]
     public class AnswerController : BaseController
     {
+        #region api
+
         [HttpPost]
-        [DisplayName("دریافت لیست پاسخ‌ها")]
         public async Task<IActionResult> GetAnswers(int questionId)
         {
             var query = DataTable.FetchRequest();
@@ -31,8 +34,11 @@ namespace Pors.Website.Areas.Admin.Controllers
             return Json(jsonData);
         }
 
+        #endregion;
+
         [HttpGet]
         [DisplayName("لیست پاسخ‌ها")]
+        [Authorize(Policy = PolicyNames.DynamicPermission)]
         public IActionResult Index(int id)
         {
             return View(id);
@@ -40,6 +46,7 @@ namespace Pors.Website.Areas.Admin.Controllers
 
         [HttpGet]
         [DisplayName("جزئیات پاسخ")]
+        [Authorize(Policy = PolicyNames.DynamicPermission)]
         public async Task<IActionResult> Details(GetAnswerQuery request)
         {
             var result = await Mediator.Send(request);

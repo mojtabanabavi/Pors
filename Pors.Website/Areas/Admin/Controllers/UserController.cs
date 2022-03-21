@@ -1,8 +1,10 @@
 ﻿using System;
 using System.ComponentModel;
+using Pors.Website.Constants;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Pors.Application.Common.Models;
+using Microsoft.AspNetCore.Authorization;
 using Pors.Application.Management.Users.Queries;
 using Pors.Application.Management.Users.Commands;
 
@@ -11,8 +13,9 @@ namespace Pors.Website.Areas.Admin.Controllers
     [DisplayName("مدیریت کاربران")]
     public class UserController : BaseController
     {
+        #region api
+
         [HttpPost]
-        [DisplayName("دریافت لیست کاربران")]
         public async Task<IActionResult> GetUsers()
         {
             var query = DataTable.FetchRequest();
@@ -32,8 +35,11 @@ namespace Pors.Website.Areas.Admin.Controllers
             return Json(jsonData);
         }
 
+        #endregion;
+
         [HttpGet]
         [DisplayName("لیست کاربران")]
+        [Authorize(Policy = PolicyNames.DynamicPermission)]
         public IActionResult Index()
         {
             return View();
@@ -41,6 +47,7 @@ namespace Pors.Website.Areas.Admin.Controllers
 
         [HttpGet]
         [DisplayName("ایجاد کاربر")]
+        [Authorize(Policy = PolicyNames.DynamicPermission)]
         public IActionResult Create()
         {
             return View();
@@ -62,6 +69,7 @@ namespace Pors.Website.Areas.Admin.Controllers
 
         [HttpGet]
         [DisplayName("ویرایش کاربر")]
+        [Authorize(Policy = PolicyNames.DynamicPermission)]
         public async Task<IActionResult> Update(GetUserQuery request)
         {
             var result = await Mediator.Send(request);
@@ -87,6 +95,7 @@ namespace Pors.Website.Areas.Admin.Controllers
 
         [HttpGet]
         [DisplayName("حذف کاربر")]
+        [Authorize(Policy = PolicyNames.DynamicPermission)]
         public async Task<IActionResult> Delete(DeleteUserCommand request)
         {
             if (ModelState.IsValid)

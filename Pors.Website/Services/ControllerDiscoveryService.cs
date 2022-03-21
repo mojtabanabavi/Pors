@@ -105,22 +105,18 @@ namespace Pors.Website.Services
         {
             var _securedByPolicyControllers = new List<ControllerInfo>();
 
-            foreach (var controller in _controllers)
+            foreach (var controller in _controllers.Where(x => x.IsSecured))
             {
-                if (controller.IsSecured)
-                {
-                    controller.Actions = controller.Actions
-                        .Where(x =>
-                                    x.IsSecured && (
-                                    x.Actions.OfType<AuthorizeAttribute>().FirstOrDefault()?.Policy == policy ||
-                                    controller.Attributes.OfType<AuthorizeAttribute>().FirstOrDefault()?.Policy == policy))
-                        .ToList();
-                }
+                controller.Actions = controller.Actions
+                    .Where(x =>
+                                x.Attributes.OfType<AuthorizeAttribute>().FirstOrDefault()?.Policy == policy ||
+                                controller.Attributes.OfType<AuthorizeAttribute>().FirstOrDefault()?.Policy == policy)
+                    .ToList();
 
                 _securedByPolicyControllers.Add(controller);
             }
 
-            return _securedByPolicyControllers;
+            return _securedByPolicyControllers.Where(x => x.Actions.Any()).ToList();
         }
 
         #region utilities

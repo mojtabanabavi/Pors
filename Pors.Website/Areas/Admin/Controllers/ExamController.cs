@@ -1,8 +1,10 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Threading.Tasks;
+using Pors.Website.Constants;
 using Microsoft.AspNetCore.Mvc;
 using Pors.Application.Common.Models;
+using Microsoft.AspNetCore.Authorization;
 using Pors.Application.Management.Exams.Queries;
 using Pors.Application.Management.Exams.Commands;
 using Pors.Application.Management.Reports.Queries;
@@ -15,7 +17,6 @@ namespace Pors.Website.Areas.Admin.Controllers
         #region api
 
         [HttpPost]
-        [DisplayName("دریافت لیست آزمون‌ها")]
         public async Task<IActionResult> GetExams()
         {
             var query = DataTable.FetchRequest();
@@ -55,6 +56,7 @@ namespace Pors.Website.Areas.Admin.Controllers
 
         [HttpGet]
         [DisplayName("لیست آزمون‌ها")]
+        [Authorize(Policy = PolicyNames.DynamicPermission)]
         public IActionResult Index()
         {
             return View();
@@ -62,6 +64,7 @@ namespace Pors.Website.Areas.Admin.Controllers
 
         [HttpGet]
         [DisplayName("ایجاد آزمون")]
+        [Authorize(Policy = PolicyNames.DynamicPermission)]
         public IActionResult Create()
         {
             return View();
@@ -83,6 +86,7 @@ namespace Pors.Website.Areas.Admin.Controllers
 
         [HttpGet]
         [DisplayName("ویرایش آزمون")]
+        [Authorize(Policy = PolicyNames.DynamicPermission)]
         public async Task<IActionResult> Update(GetExamQuery request)
         {
             var result = await Mediator.Send(request);
@@ -108,6 +112,7 @@ namespace Pors.Website.Areas.Admin.Controllers
 
         [HttpGet]
         [DisplayName("حذف آزمون")]
+        [Authorize(Policy = PolicyNames.DynamicPermission)]
         public async Task<IActionResult> Delete(DeleteExamCommand request)
         {
             if (ModelState.IsValid)
@@ -120,6 +125,7 @@ namespace Pors.Website.Areas.Admin.Controllers
 
         [HttpGet]
         [DisplayName("مشاهده‌ی گزارش")]
+        [Authorize(Policy = PolicyNames.DynamicPermission)]
         public async Task<IActionResult> Report(GetExamStatusReportQuery request)
         {
             var result = await Mediator.Send(request);

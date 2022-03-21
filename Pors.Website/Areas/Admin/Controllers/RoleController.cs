@@ -1,8 +1,10 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Threading.Tasks;
+using Pors.Website.Constants;
 using Microsoft.AspNetCore.Mvc;
 using Pors.Application.Common.Models;
+using Microsoft.AspNetCore.Authorization;
 using Pors.Application.Management.Roles.Queries;
 using Pors.Application.Management.Roles.Commands;
 
@@ -11,8 +13,9 @@ namespace Pors.Website.Areas.Admin.Controllers
     [DisplayName("مدیریت نقش‌ها")]
     public class RoleController : BaseController
     {
+        #region api
+
         [HttpPost]
-        [DisplayName("دریافت لیست نقش‌ها")]
         public async Task<IActionResult> GetRoles()
         {
             var query = DataTable.FetchRequest();
@@ -32,8 +35,11 @@ namespace Pors.Website.Areas.Admin.Controllers
             return Json(jsonData);
         }
 
+        #endregion;
+
         [HttpGet]
         [DisplayName("لیست نقش‌ها")]
+        [Authorize(Policy = PolicyNames.DynamicPermission)]
         public IActionResult Index()
         {
             return View();
@@ -41,6 +47,7 @@ namespace Pors.Website.Areas.Admin.Controllers
 
         [HttpGet]
         [DisplayName("ایجاد نقش")]
+        [Authorize(Policy = PolicyNames.DynamicPermission)]
         public IActionResult Create()
         {
             return View();
@@ -62,6 +69,7 @@ namespace Pors.Website.Areas.Admin.Controllers
 
         [HttpGet]
         [DisplayName("ویرایش نقش")]
+        [Authorize(Policy = PolicyNames.DynamicPermission)]
         public async Task<IActionResult> Update(GetRoleQuery request)
         {
             var result = await Mediator.Send(request);
@@ -87,6 +95,7 @@ namespace Pors.Website.Areas.Admin.Controllers
 
         [HttpGet]
         [DisplayName("حذف نقش")]
+        [Authorize(Policy = PolicyNames.DynamicPermission)]
         public async Task<IActionResult> Delete(DeleteRoleCommand request)
         {
             if (ModelState.IsValid)

@@ -2,8 +2,9 @@ using System;
 using Pors.Application;
 using Pors.Infrastructure;
 using System.Globalization;
-using Pors.Website.Services;
 using Pors.Website.Filters;
+using Pors.Website.Services;
+using Pors.Website.Policies;
 using Pors.Website.Constants;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
@@ -12,6 +13,7 @@ using Microsoft.Extensions.Hosting;
 using Pors.Infrastructure.Services;
 using Microsoft.Extensions.Configuration;
 using Pors.Application.Common.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Pors.Website
@@ -49,10 +51,20 @@ namespace Pors.Website
                     options.LoginPath = "/admin/identity/login";
                     options.LogoutPath = "/admin/identity/logout";
                     options.ExpireTimeSpan = TimeSpan.FromHours(1);
+                    options.AccessDeniedPath = "/admin/identity/accessDenied";
                 });
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy(PolicyNames.DynamicPermission, policy =>
+                {
+                    policy.Requirements.Add(new DynamicPermissionRequirement());
+                });
+            });
 
             services.AddScoped<IDataTableService, DataTableService>();
             services.AddSingleton<ICurrentUserService, CurrentUserService>();
+            services.AddScoped<IAuthorizationHandler, DynamicPermissionHandler>();
             services.AddScoped<IControllerDiscoveryService, ControllerDiscoveryService>();
             services.Configure<EmailNotificationService.Settings>(Configuration.GetSection("Notifications:Email"));
         }

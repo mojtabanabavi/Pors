@@ -6,7 +6,7 @@
     @inject IControllerDiscoveryService controllerDiscoveryService
 
     SelectList rolesSelectList = null;
-    var securedControllers = controllerDiscoveryService.DiscoverSecuredControllers();
+    var securedControllers = controllerDiscoveryService.DiscoverSecuredControllers(PolicyNames.DynamicPermission);
 
     if (Model == null)
     {

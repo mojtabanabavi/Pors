@@ -2,8 +2,10 @@
 using System.Linq;
 using System.ComponentModel;
 using System.Threading.Tasks;
+using Pors.Website.Constants;
 using Microsoft.AspNetCore.Mvc;
 using Pors.Application.Common.Models;
+using Microsoft.AspNetCore.Authorization;
 using Pors.Application.Management.Options.Queries;
 using Pors.Application.Management.Options.Commands;
 
@@ -12,8 +14,9 @@ namespace Pors.Website.Areas.Admin.Controllers
     [DisplayName("مدیریت گزینه‌ها")]
     public class OptionController : BaseController
     {
+        #region api
+
         [HttpPost]
-        [DisplayName("دریافت لیست گزینه‌ها")]
         public async Task<IActionResult> GetOptions(int questionId)
         {
             var query = DataTable.FetchRequest();
@@ -33,8 +36,11 @@ namespace Pors.Website.Areas.Admin.Controllers
             return Json(jsonData);
         }
 
+        #endregion;
+
         [HttpGet]
         [DisplayName("لیست گزینه‌ها")]
+        [Authorize(Policy = PolicyNames.DynamicPermission)]
         public IActionResult Index(int id)
         {
             return View(id);
@@ -42,6 +48,7 @@ namespace Pors.Website.Areas.Admin.Controllers
 
         [HttpGet]
         [DisplayName("ایجاد گزینه")]
+        [Authorize(Policy = PolicyNames.DynamicPermission)]
         public IActionResult Create(int id)
         {
             return View(new CreateOptionsCommand(id));
@@ -63,6 +70,7 @@ namespace Pors.Website.Areas.Admin.Controllers
 
         [HttpGet]
         [DisplayName("ویرایش گزینه")]
+        [Authorize(Policy = PolicyNames.DynamicPermission)]
         public async Task<IActionResult> Update(GetOptionQuery request)
         {
             var result = await Mediator.Send(request);
@@ -88,6 +96,7 @@ namespace Pors.Website.Areas.Admin.Controllers
 
         [HttpGet]
         [DisplayName("حذف گزینه")]
+        [Authorize(Policy = PolicyNames.DynamicPermission)]
         public async Task<IActionResult> Delete(DeleteOptionCommand request)
         {
             if (ModelState.IsValid)

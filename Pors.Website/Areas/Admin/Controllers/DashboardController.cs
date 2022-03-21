@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel;
+using Pors.Website.Constants;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Pors.Website.Areas.Admin.Controllers
 {
@@ -7,7 +9,8 @@ namespace Pors.Website.Areas.Admin.Controllers
     public class DashboardController : BaseController
     {
         [HttpGet]
-        [DisplayName("مشاهده‌ی گزارشات")]
+        [DisplayName("مشاهده")]
+        [Authorize(Policy = PolicyNames.DynamicPermission)]
         public IActionResult Index()
         {
             return View();

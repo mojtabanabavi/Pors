@@ -1,8 +1,10 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Threading.Tasks;
+using Pors.Website.Constants;
 using Microsoft.AspNetCore.Mvc;
 using Pors.Application.Common.Models;
+using Microsoft.AspNetCore.Authorization;
 using Pors.Application.Management.Faqs.Queries;
 using Pors.Application.Management.Faqs.Commands;
 
@@ -14,7 +16,6 @@ namespace Pors.Website.Areas.Admin.Controllers
         #region api
 
         [HttpPost]
-        [DisplayName("دریافت لیست سوالات متداول")]
         public async Task<IActionResult> GetFaqs()
         {
             var query = DataTable.FetchRequest();
@@ -38,6 +39,7 @@ namespace Pors.Website.Areas.Admin.Controllers
 
         [HttpGet]
         [DisplayName("لیست سوالات متداول")]
+        [Authorize(Policy = PolicyNames.DynamicPermission)]
         public IActionResult Index()
         {
             return View();
@@ -45,6 +47,7 @@ namespace Pors.Website.Areas.Admin.Controllers
 
         [HttpGet]
         [DisplayName("ایجاد سوال متداول")]
+        [Authorize(Policy = PolicyNames.DynamicPermission)]
         public IActionResult Create()
         {
             return View();
@@ -66,6 +69,7 @@ namespace Pors.Website.Areas.Admin.Controllers
 
         [HttpGet]
         [DisplayName("ویرایش سوال متداول")]
+        [Authorize(Policy = PolicyNames.DynamicPermission)]
         public async Task<IActionResult> Update(GetFaqQuery request)
         {
             var result = await Mediator.Send(request);
@@ -91,6 +95,7 @@ namespace Pors.Website.Areas.Admin.Controllers
 
         [HttpGet]
         [DisplayName("حذف سوال متداول")]
+        [Authorize(Policy = PolicyNames.DynamicPermission)]
         public async Task<IActionResult> Delete(DeleteFaqCommand request)
         {
             if (ModelState.IsValid)

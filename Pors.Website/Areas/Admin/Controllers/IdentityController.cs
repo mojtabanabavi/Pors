@@ -116,5 +116,11 @@ namespace Pors.Website.Areas.Admin.Controllers
 
             return View(request);
         }
+
+        [HttpGet]
+        public IActionResult AccessDenied()
+        {
+            return View("_errorPage", 403);
+        }
     }
 }

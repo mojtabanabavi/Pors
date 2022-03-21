@@ -23,4 +23,8 @@
     <ProjectReference Include="..\Pors.Application\Pors.Application.csproj" />
     <ProjectReference Include="..\Pors.Infrastructure\Pors.Infrastructure.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Policies\" />
+  </ItemGroup>
 </Project>
