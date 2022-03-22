@@ -93,11 +93,11 @@ namespace Pors.Application.Public.Exams.Queries
             {
                 query = query.OrderByDescending(x => x.CreatedAt);
             }
-            else if (request.SortType == SortTypes.MostVisited)
+            else if (request.SortType == SortTypes.MostVisited && _dbContext.ExamAttempts.Any())
             {
-                var averageAttemptsCount = (int)_dbContext.ExamAttempts
-                        .GroupBy(x => x.ExamId)
-                        .Average(x => x.Count());
+                var averageAttemptsCount = _dbContext.ExamAttempts
+                    .GroupBy(x => x.ExamId)
+                    .Average(x => x.Count());
 
                 query = query.Where(x => x.Attempts.Count >= averageAttemptsCount);
             }

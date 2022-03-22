@@ -2,12 +2,12 @@
 using MediatR;
 using System.Linq;
 using System.Threading;
+using Pors.Domain.Entities;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Pors.Application.Common.Models;
 using Pors.Application.Common.Interfaces;
 using Pors.Application.Common.Exceptions;
-using Pors.Domain.Entities;
 
 namespace Pors.Application.Management.Reports.Queries
 {

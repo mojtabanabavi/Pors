@@ -44,6 +44,7 @@ namespace Pors.Website.Areas.Admin.Controllers
             return Json(result);
         }
 
+        [HttpPost]
         public async Task<IActionResult> GetQuestionAnswersAccuracyChartData(GetAnswersAccuracyChartDataQuery request)
         {
             var result = await Mediator.Send(request);
@@ -51,6 +52,13 @@ namespace Pors.Website.Areas.Admin.Controllers
             return Json(result);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> GetGetExamVisitsChartData(GetExamVisitsChartDataQuery request)
+        {
+            var result = await Mediator.Send(request);
+
+            return Json(result);
+        }
 
         #endregion;
 

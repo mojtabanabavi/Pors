@@ -682,6 +682,73 @@ $(function () {
         Chart.defaults.global.defaultFontFamily = 'yekan';
     }
 
+    let ExamVisitsChart = (function () {
+        let chart;
+        let chartTarget = $('#exam-visits-chart');
+        let examIdTarget = $('.chart-exam-id');
+
+        function GetChartData() {
+            let data;
+            $.ajax({
+                async: false,
+                url: "/admin/exam/getGetExamVisitsChartData",
+                type: 'post',
+                datatype: 'json',
+                data: {
+                    ExamId: examIdTarget.val(),
+                },
+                success: function (result) {
+                    data = result;
+                }
+            });
+            return data;
+        }
+
+        function Init() {
+            var chartData = GetChartData();
+            chart = new Chart(chartTarget, {
+                type: 'line',
+                data: {
+                    labels: chartData.labels,
+                    datasets: [{
+                        label: 'visits',
+                        data: chartData.dataSet,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true,
+                                callback: function (value) {
+                                    if (value % 1 === 0) {
+                                        return value;
+                                    }
+                                }
+                            }
+                        }]
+                    },
+                }
+            });
+        };
+
+        function Update() {
+            var chartData = GetChartData();
+            chart.data.labels = chartData.labels;
+            chart.data.datasets[0].data = chartData.dataSet;
+            chart.update();
+        }
+
+        if (chartTarget.length) {
+            Init();
+        }
+
+        //$('.chart-question-select').on('change', function () {
+        //    Update();
+        //});
+    })();
+
     let ExamAnswersChart = (function () {
         let chart;
         let chartTarget = $('#exam-answers-chart');
