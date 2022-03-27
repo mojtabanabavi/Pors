@@ -9,32 +9,21 @@ namespace Pors.Infrastructure.Services
 {
     public class EmailNotificationService : INotificationService
     {
-        public class Settings
-        {
-            public int Port { get; set; }
-            public string Host { get; set; }
-            public string Username { get; set; }
-            public string Password { get; set; }
-        }
-
         private readonly Mailer _mailer;
-        private readonly Settings _settings;
 
-        public EmailNotificationService(IOptions<Settings> options)
+        public EmailNotificationService(IOptions<MailerSettings> options)
         {
-            _settings = options.Value;
-
-            _mailer = new Mailer(_settings.Host, _settings.Port, _settings.Username, _settings.Password);
+            _mailer = new Mailer(options.Value);
         }
 
         public async Task SendAsync(string recipient, string subject, string body)
         {
-           await _mailer.SendAsync(recipient, subject, body);
+            await _mailer.SendAsync(recipient, subject, body);
         }
 
         public async Task SendAsync(IEnumerable<string> recipients, string subject, string body)
         {
-           await _mailer.SendAsync(recipients, subject, body);
+            await _mailer.SendAsync(recipients, subject, body);
         }
     }
 }

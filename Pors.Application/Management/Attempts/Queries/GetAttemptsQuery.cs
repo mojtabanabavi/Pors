@@ -1,5 +1,6 @@
 ﻿using System;
 using MediatR;
+using Loby.Tools;
 using AutoMapper;
 using System.Linq;
 using Loby.Extensions;
@@ -7,7 +8,6 @@ using FluentValidation;
 using System.Threading;
 using Pors.Domain.Entities;
 using System.Threading.Tasks;
-using System.Linq.Dynamic.Core;
 using Pors.Application.Common.Models;
 using AutoMapper.QueryableExtensions;
 using Pors.Application.Common.Mappings;

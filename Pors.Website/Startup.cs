@@ -1,4 +1,5 @@
 using System;
+using Loby.Tools;
 using Pors.Application;
 using Pors.Infrastructure;
 using System.Globalization;
@@ -66,7 +67,7 @@ namespace Pors.Website
             services.AddSingleton<ICurrentUserService, CurrentUserService>();
             services.AddScoped<IAuthorizationHandler, DynamicPermissionHandler>();
             services.AddScoped<IControllerDiscoveryService, ControllerDiscoveryService>();
-            services.Configure<EmailNotificationService.Settings>(Configuration.GetSection("Notifications:Email"));
+            services.Configure<MailerSettings>(Configuration.GetSection("Notifications:Email"));
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

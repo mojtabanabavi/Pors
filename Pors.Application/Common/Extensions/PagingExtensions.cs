@@ -1,9 +1,8 @@
 ﻿using System;
-using AutoMapper;
+using Loby.Tools;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Pors.Application.Common.Models;
 
 namespace Pors.Application.Common.Mappings
 {

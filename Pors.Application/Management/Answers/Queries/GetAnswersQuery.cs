@@ -1,13 +1,13 @@
 ﻿using System;
 using MediatR;
 using AutoMapper;
+using Loby.Tools;
 using System.Linq;
 using Loby.Extensions;
 using FluentValidation;
 using System.Threading;
 using Pors.Domain.Entities;
 using System.Threading.Tasks;
-using System.Linq.Dynamic.Core;
 using Pors.Application.Common.Models;
 using AutoMapper.QueryableExtensions;
 using Pors.Application.Common.Mappings;

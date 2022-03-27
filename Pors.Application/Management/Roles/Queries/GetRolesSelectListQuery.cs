@@ -3,7 +3,6 @@ using MediatR;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Linq.Dynamic.Core;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Pors.Application.Common.Models;

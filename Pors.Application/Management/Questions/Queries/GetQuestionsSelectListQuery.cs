@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading;
 using Pors.Domain.Entities;
 using System.Threading.Tasks;
-using System.Linq.Dynamic.Core;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Pors.Application.Common.Models;
