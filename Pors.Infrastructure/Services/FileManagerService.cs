@@ -41,8 +41,9 @@ namespace Pors.Infrastructure.Services
 
         public async Task<string> UpdateFileAsync(IFormFile file, string path)
         {
-            path = path.HasValue() ?
-                Path.Combine(ROOT_PATH, path) : GenerateFilePath(file);
+            await DeleteFileAsync(path);
+
+            path = GenerateFilePath(file);
 
             try
             {
