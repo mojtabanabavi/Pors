@@ -6,7 +6,7 @@
 
     var examsSelectListItems = await Mediator.Send(new GetExamsSelectListQuery());
 
-    var examsSelectList = new SelectList(examsSelectListItems.Items, "Text", "Value");
+    var examsSelectList = new SelectList(examsSelectListItems.Items, "Value", "Text");
 }
 
 <form asp-action="create" method="post">
