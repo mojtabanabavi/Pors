@@ -62,10 +62,19 @@
     cursor: pointer;
 }
 
-.single-blog-card .card-text {
-    font-size: 0.9rem;
-    text-align: justify;
+.owl-carousel .owl-stage, .owl-carousel .owl-item {
+    display: flex;
 }
+
+.single-blog-card .card-body {
+    display: flex;
+    flex-direction: column;
+}
+
+    .single-blog-card .card-text {
+        font-size: 0.9rem;
+        text-align: justify;
+    }
 
 .exam-comment-form label {
     font-size: 88%;

@@ -26,5 +26,6 @@
 
   <ItemGroup>
     <Folder Include="Policies\" />
+    <Folder Include="wwwroot\uploads\" />
   </ItemGroup>
 </Project>

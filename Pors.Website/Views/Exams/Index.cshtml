@@ -76,7 +76,7 @@
                     {
                         @foreach (var exam in Model.Items)
                         {
-                            <div class="col-12 col-md-6 col-lg-4">
+                            <div class="col-12 col-md-6 col-lg-4 d-flex">
                                 <div class="single-blog-card card border-0 shadow-sm">
                                     <span class="category position-absolute badge badge-pill badge-primary">
                                         بدون دسته‌بندی
@@ -95,7 +95,7 @@
                                             <a asp-controller="exams" asp-action="attempt" asp-route-id="@exam.Id">@exam.Title</a>
                                         </h3>
                                         <p class="card-text">@exam.ShortDescription</p>
-                                        <div class="text-center">
+                                        <div class="text-center mt-auto">
                                             <a asp-controller="exams" asp-action="attempt" asp-route-id="@exam.Id" class="btn outline-btn">شرکت در آزمون</a>
                                         </div>
                                     </div>
