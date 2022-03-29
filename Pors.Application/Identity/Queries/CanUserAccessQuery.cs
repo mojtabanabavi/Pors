@@ -47,6 +47,11 @@ namespace Pors.Application.Identity.Queries
         {
             var userId = Convert.ToInt32(_currentUser.UserId);
 
+            if (userId == 1)
+            {
+                return true;
+            }
+
             var canAccess = await _dbContext.UserRoles
                 .Where(x => x.UserId == userId)
                 .AnyAsync(x => x.Role.Permissions.Any(x =>
