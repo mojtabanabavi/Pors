@@ -5,6 +5,7 @@ using Loby.Tools;
 using System.Linq;
 using Loby.Extensions;
 using System.Threading;
+using Pors.Domain.Enums;
 using Pors.Domain.Entities;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -83,6 +84,9 @@ namespace Pors.Application.Public.Exams.Queries
         public async Task<PagingResult<GetExamsQueryResponse>> Handle(GetExamsQuery request, CancellationToken cancellationToken)
         {
             IQueryable<Exam> query = _dbContext.Exams
+                .Where(x=> x.Status == ExamStatus.Active && 
+                           x.Questions.Any() &&
+                           x.Questions.Select(x=> x.Options).Any())
                 .Include(x => x.Attempts);
 
             if (request.Title.HasValue())
