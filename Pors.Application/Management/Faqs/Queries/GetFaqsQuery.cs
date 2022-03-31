@@ -8,6 +8,7 @@ using FluentValidation;
 using System.Threading;
 using Pors.Domain.Entities;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using Pors.Application.Common.Models;
 using AutoMapper.QueryableExtensions;
 using Pors.Application.Common.Mappings;
@@ -56,7 +57,8 @@ namespace Pors.Application.Management.Faqs.Queries
 
         public async Task<PagingResult<GetFaqsQueryResponse>> Handle(GetFaqsQuery request, CancellationToken cancellationToken)
         {
-            IQueryable<Faq> query = _dbContext.Faqs;
+            IQueryable<Faq> query = _dbContext.Faqs
+                .AsNoTracking();
 
             if (request.SortColumn.HasValue() && request.SortDirection.HasValue())
             {

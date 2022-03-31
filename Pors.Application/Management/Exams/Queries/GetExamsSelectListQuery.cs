@@ -50,6 +50,7 @@ namespace Pors.Application.Management.Exams.Queries
         public async Task<GetExamsSelectListQueryResponse> Handle(GetExamsSelectListQuery request, CancellationToken cancellationToken)
         {
             var result = await _dbContext.Exams
+                .AsNoTracking()
                 .Select(x => new SelectListItem(x.Title, x.Id.ToString()))
                 .ToListAsync();
 

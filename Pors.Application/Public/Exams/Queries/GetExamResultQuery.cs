@@ -93,6 +93,7 @@ namespace Pors.Application.Public.Exams.Queries
         public async Task<GetExamResultQueryResponse> Handle(GetExamResultQuery request, CancellationToken cancellationToken)
         {
             var attemptWithAnswer = await _dbContext.ExamAttempts
+                .AsNoTracking()
                 .Where(x => x.Id == request.AttemptId)
                 .Include(x => x.Exam)
                 .Include(x => x.Answers)

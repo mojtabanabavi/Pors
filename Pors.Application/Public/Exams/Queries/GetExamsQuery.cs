@@ -84,6 +84,7 @@ namespace Pors.Application.Public.Exams.Queries
         public async Task<PagingResult<GetExamsQueryResponse>> Handle(GetExamsQuery request, CancellationToken cancellationToken)
         {
             IQueryable<Exam> query = _dbContext.Exams
+                .AsNoTracking()
                 .Where(x=> x.Status == ExamStatus.Active && 
                            x.Questions.Any() &&
                            x.Questions.Select(x=> x.Options).Any())

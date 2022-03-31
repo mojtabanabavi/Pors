@@ -52,6 +52,7 @@ namespace Pors.Application.Management.Reports.Queries
         public async Task<GetExamStatusReportQueryResponse> Handle(GetExamStatusReportQuery request, CancellationToken cancellationToken)
         {
             var report = await _dbContext.Exams
+                .AsNoTracking()
                 .Where(x => x.Id == request.Id)
                 .Include(x => x.Attempts)
                 .ThenInclude(x => x.Answers)

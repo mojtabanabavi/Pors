@@ -85,9 +85,11 @@ namespace Pors.Application.Management.Profiles.Queries
             var userId = Convert.ToInt32(_currentUser.UserId);
 
             var user = await _dbContext.Users
+                .AsNoTracking()
+                .Where(x => x.Id == userId)
                 .Include(x => x.UserRoles)
                 .ThenInclude(x => x.Role)
-                .FirstOrDefaultAsync(x => x.Id == userId);
+                .SingleOrDefaultAsync();
 
             var result = _mapper.Map<GetProfileQueryResponse>(user);
 

@@ -8,6 +8,7 @@ using FluentValidation;
 using System.Threading;
 using Pors.Domain.Entities;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using Pors.Application.Common.Models;
 using AutoMapper.QueryableExtensions;
 using Pors.Application.Common.Mappings;
@@ -57,7 +58,8 @@ namespace Pors.Application.Management.Roles.Queries
 
         public async Task<PagingResult<GetRolesQueryResponse>> Handle(GetRolesQuery request, CancellationToken cancellationToken)
         {
-            IQueryable<Role> query = _dbContext.Roles;
+            IQueryable<Role> query = _dbContext.Roles
+                .AsNoTracking();
 
             if (request.SortColumn.HasValue() && request.SortDirection.HasValue())
             {

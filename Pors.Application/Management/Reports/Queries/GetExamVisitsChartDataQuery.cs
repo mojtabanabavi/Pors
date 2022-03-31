@@ -57,6 +57,7 @@ namespace Pors.Application.Management.Reports.Queries
         public async Task<GetExamVisitsChartDataQueryResponse> Handle(GetExamVisitsChartDataQuery request, CancellationToken cancellationToken)
         {
             var data = await _dbContext.ExamAttempts
+                .AsNoTracking()
                 .Where(x => x.ExamId == request.ExamId)
                 .GroupBy(x => x.CreatedAt.Month)
                 .Select(x => new

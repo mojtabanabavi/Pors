@@ -66,6 +66,7 @@ namespace Pors.Application.Management.Permissions.Queries
         public async Task<GetRolePermissionsQueryResponse> Handle(GetRolePermissionsQuery request, CancellationToken cancellationToken)
         {
             var entity = await _dbContext.Roles
+                .AsNoTracking()
                 .Where(x => x.Id == request.Id)
                 .Include(x => x.Permissions)
                 .FirstOrDefaultAsync();

@@ -50,6 +50,7 @@ namespace Pors.Application.Management.Roles.Queries
         public async Task<GetRolesSelectListQueryResponse> Handle(GetRolesSelectListQuery request, CancellationToken cancellationToken)
         {
             var result = await _dbContext.Roles
+                .AsNoTracking()
                 .Select(x => new SelectListItem(x.Title, x.Id.ToString()))
                 .ToListAsync();
 

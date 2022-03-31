@@ -66,7 +66,9 @@ namespace Pors.Application.Management.Exams.Queries
 
         public async Task<PagingResult<GetExamsQueryResponse>> Handle(GetExamsQuery request, CancellationToken cancellationToken)
         {
-            IQueryable<Exam> query = _dbContext.Exams.Include(x=> x.User);
+            IQueryable<Exam> query = _dbContext.Exams
+                .AsNoTracking()
+                .Include(x=> x.User);
 
             if (request.SortColumn.HasValue() && request.SortDirection.HasValue())
             {

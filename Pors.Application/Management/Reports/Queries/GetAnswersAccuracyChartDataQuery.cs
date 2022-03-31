@@ -1,6 +1,5 @@
 ﻿using System;
 using MediatR;
-using AutoMapper;
 using System.Linq;
 using System.Threading;
 using Pors.Domain.Enums;
@@ -47,6 +46,7 @@ namespace Pors.Application.Management.Reports.Queries
         public async Task<GetAnswersAccuracyChartDataQueryResponse> Handle(GetAnswersAccuracyChartDataQuery request, CancellationToken cancellationToken)
         {
             var data = await _dbContext.AttemptAnswers
+                .AsNoTracking()
                 .Where(x => x.Option.QuestionId == request.QuestionId)
                 .GroupBy(x => new { x.OptionId, x.Option.Title })
                 .Select(x => new

@@ -47,6 +47,7 @@ namespace Pors.Application.Management.Reports.Queries
         public async Task<GetAnswersChartDataQueryResponse> Handle(GetAnswersChartDataQuery request, CancellationToken cancellationToken)
         {
             var report = await _dbContext.AttemptAnswers
+                .AsNoTracking()
                 .Where(x => x.Option.QuestionId == request.QuestionId)
                 .GroupBy(x => new { x.OptionId, x.Option.Title })
                 .Select(x => new

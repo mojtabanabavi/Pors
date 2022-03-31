@@ -60,7 +60,8 @@ namespace Pors.Application.Management.Questions.Queries
 
         public async Task<GetQuestionsSelectListQueryResponse> Handle(GetQuestionsSelectListQuery request, CancellationToken cancellationToken)
         {
-            IQueryable<ExamQuestion> query = _dbContext.ExamQuestions;
+            IQueryable<ExamQuestion> query = _dbContext.ExamQuestions
+                .AsNoTracking();
 
             if (request.ExamId != default(int))
             {
