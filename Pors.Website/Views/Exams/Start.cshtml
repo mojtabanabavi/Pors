@@ -22,39 +22,49 @@
                 </div>
             </div>
         </div>
-        <section id="validation">
+        <section>
             <div class="row justify-content-center">
                 <div class="col-12 col-lg-8">
                     <div class="card">
                         <div class="card-content">
                             <div class="card-body">
-                                <form id="exam-form-wizard" asp-action="answer" method="post" class="exam-form-wizard">
-                                    <input type="hidden" asp-for="AttemptId" />
-                                    @for (int i = 0; i < Model.Questions.Count; i++)
-                                    {
-                                        <h6><i class="step-icon"></i></h6>
-                                    }
-                                    @for (int i = 0; i < Model.Questions.Count; i++)
-                                    {
-                                        <fieldset class="p-4">
-                                            <h5>@Model.Questions[i].Title <label class="answer-error"></label></h5>
-                                            <input type="hidden" name="answers[@i][questionId]" value="@Model.Questions[i].Id" />
-                                            @foreach (var option in Model.Questions[i].Options)
-                                            {
-                                                <div class="custom-control custom-radio mb-3">
-                                                    <input type="radio" name="answers[@i][optionId]" value="@option.Id" class="custom-control-input" id="option-@option.Id" required>
-                                                    <label class="custom-control-label" for="option-@option.Id">
-                                                        @option.Title
-                                                    </label>
-                                                    @if (option.Image != null)
-                                                    {
-                                                        <img class="d-block my-2 w-100" src="~/@option.Image" alt="@option.Title" />
-                                                    }
-                                                </div>
-                                            }
-                                        </fieldset>
-                                    }
-                                </form>
+                                @if (ViewContext.ModelState.IsValid)
+                                {
+                                    <form id="exam-form-wizard" asp-action="answer" method="post" class="exam-form-wizard">
+                                        <input type="hidden" asp-for="AttemptId" />
+                                        @for (int i = 0; i < Model.Questions.Count; i++)
+                                        {
+                                            <h6><i class="step-icon"></i></h6>
+                                        }
+                                        @for (int i = 0; i < Model.Questions.Count; i++)
+                                        {
+                                            <fieldset class="p-4">
+                                                <h5 class="exam-question-title">@Model.Questions[i].Title <label class="answer-error"></label></h5>
+                                                <input type="hidden" name="answers[@i][questionId]" value="@Model.Questions[i].Id" />
+                                                @foreach (var option in Model.Questions[i].Options)
+                                                {
+                                                    <div class="custom-control custom-radio mb-3">
+                                                        <input type="radio" name="answers[@i][optionId]" value="@option.Id" class="custom-control-input" id="option-@option.Id" required>
+                                                        <label class="custom-control-label" for="option-@option.Id">
+                                                            @option.Title
+                                                        </label>
+                                                        @if (option.Image != null)
+                                                        {
+                                                            <img class="d-block my-2 w-100" src="~/@option.Image" alt="@option.Title" />
+                                                        }
+                                                    </div>
+                                                }
+                                            </fieldset>
+                                        }
+                                    </form>
+                                }
+                                else
+                                {
+                                    <div class="text-center mt-auto py-5">
+                                        <div asp-validation-summary="ModelOnly" class="text-center mb-4"></div>
+                                        <a asp-controller="home" asp-action="index" class="btn outline-btn mt-3">بازگشت به صفحه‌ی اصلی</a>
+                                    </div>
+                                }
                             </div>
                         </div>
                     </div>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Pors.Website.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Pors.Application.Public.Exams.Queries;
 using Pors.Application.Public.Exams.Commands;
@@ -22,13 +23,13 @@ namespace Pors.Website.Controllers
         {
             var attemptId = await Mediator.Send(new CreateExamAttemptCommand(id));
 
-            return RedirectToAction(nameof(Start), new { ExamId = id, AttemptId = attemptId });
+            return RedirectToAction(nameof(Start), new { AttemptId = attemptId });
         }
 
-        [HttpGet("exams/start/{examId}/{attemptId}")]
-        public async Task<IActionResult> Start(int examId, string attemptId)
+        [HttpGet("exams/start/{attemptId}")]
+        public async Task<IActionResult> Start(string attemptId)
         {
-            var result = await Mediator.Send(new GetExamQuery(examId, attemptId));
+            var result = await Mediator.Send(new GetExamQuery(attemptId));
 
             return View(result);
         }
@@ -36,9 +37,20 @@ namespace Pors.Website.Controllers
         [HttpPost]
         public async Task<IActionResult> Answer(SaveExamAnswersCommand request)
         {
-            var attemptId = await Mediator.Send(request);
+            var result = await Mediator.Send(request);
 
-            return RedirectToAction(nameof(Result), new { AttemptId = attemptId });
+            if (result.IsSucceeded)
+            {
+                var attemptId = result.Data;
+
+                return RedirectToAction(nameof(Result), new { AttemptId = attemptId });
+            }
+
+            ModelState.AddErrors(result.Errors);
+
+            var exam = await Mediator.Send(new GetExamQuery(request.AttemptId));
+
+            return View(nameof(Start), exam);
         }
 
         [HttpGet("exams/result/{attemptId}")]

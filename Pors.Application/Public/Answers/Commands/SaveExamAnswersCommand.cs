@@ -1,17 +1,19 @@
 ﻿using System;
 using MediatR;
+using System.Linq;
 using System.Threading;
 using FluentValidation;
 using Pors.Domain.Entities;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using Pors.Application.Common.Models;
 using Pors.Application.Common.Interfaces;
 
 namespace Pors.Application.Public.Answers.Commands
 {
     #region command
 
-    public class SaveExamAnswersCommand : IRequest<string>
+    public class SaveExamAnswersCommand : IRequest<Result<string>>
     {
         public string AttemptId { get; set; }
         public List<AttemptAnswerItem> Answers { get; set; }
@@ -54,7 +56,7 @@ namespace Pors.Application.Public.Answers.Commands
 
     #region handler
 
-    public class SaveAttemptAnswersCommandCommandHandler : IRequestHandler<SaveExamAnswersCommand, string>
+    public class SaveAttemptAnswersCommandCommandHandler : IRequestHandler<SaveExamAnswersCommand, Result<string>>
     {
         private readonly ISqlDbContext _dbContext;
 
@@ -63,8 +65,17 @@ namespace Pors.Application.Public.Answers.Commands
             _dbContext = dbContext;
         }
 
-        public async Task<string> Handle(SaveExamAnswersCommand request, CancellationToken cancellationToken)
+        public async Task<Result<string>> Handle(SaveExamAnswersCommand request, CancellationToken cancellationToken)
         {
+            var isAlreadyAnswersSaved = _dbContext.AttemptAnswers
+                .Where(x => x.AttemptId == request.AttemptId)
+                .Any();
+
+            if (isAlreadyAnswersSaved)
+            {
+                return Result<string>.Failure("پاسخ‌های شما قبلا ثبت شده‌اند.");
+            }
+
             var answers = new List<AttemptAnswer>();
 
             foreach (var answer in request.Answers)
@@ -83,7 +94,7 @@ namespace Pors.Application.Public.Answers.Commands
 
             await _dbContext.SaveChangesAsync();
 
-            return request.AttemptId;
+            return Result<string>.Success(request.AttemptId);
         }
     }
 

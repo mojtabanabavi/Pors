@@ -17,16 +17,14 @@ namespace Pors.Application.Public.Exams.Queries
 
     public class GetExamQuery : IRequest<GetExamQueryResponse>
     {
-        public int Id { get; set; }
         public string AttemptId { get; set; }
 
         public GetExamQuery()
         {
         }
 
-        public GetExamQuery(int id, string attemptId)
+        public GetExamQuery(string attemptId)
         {
-            Id = id;
             AttemptId = attemptId;
         }
     }
@@ -79,15 +77,17 @@ namespace Pors.Application.Public.Exams.Queries
 
         public async Task<GetExamQueryResponse> Handle(GetExamQuery request, CancellationToken cancellationToken)
         {
-            var entity = await _dbContext.Exams
-                .Where(x => x.Id == request.Id)
-                .Include(x => x.Questions)
+            var entity = await _dbContext.ExamAttempts
+                .Where(x => x.Id == request.AttemptId)
+                .Include(x => x.Exam)
+                .ThenInclude(x => x.Questions)
                 .ThenInclude(x => x.Options)
+                .Select(x => x.Exam)
                 .SingleOrDefaultAsync();
 
             if (entity == null)
             {
-                throw new NotFoundException(nameof(Exam), request.Id);
+                throw new NotFoundException(nameof(ExamAttempt), request.AttemptId);
             }
 
             var result = new GetExamQueryResponse()
