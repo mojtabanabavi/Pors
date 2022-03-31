@@ -3,8 +3,8 @@
 
     @inject MediatR.ISender MediatR
 
-    var newestExams = await MediatR.Send(new GetExamsQuery(SortTypes.Newest, 1, 4));
-    var mostVisitedExams = await MediatR.Send(new GetExamsQuery(SortTypes.MostVisited, 1, 4));
+    var newestExams = await MediatR.Send(new GetExamsQuery(SortTypes.Newest, 1, 8));
+    var mostVisitedExams = await MediatR.Send(new GetExamsQuery(SortTypes.MostVisited, 1, 8));
 }
 
 @section styles{
@@ -52,7 +52,7 @@
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-md-9 col-lg-8">
-                    <div class="section-heading text-center mb-5 mb-sm-5 mb-md-3 mb-lg-5">
+                    <div class="section-heading text-center mb-5">
                         <h2>جدیدترین آزمون‌ها</h2>
                     </div>
                 </div>
@@ -112,7 +112,7 @@
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-md-9 col-lg-8">
-                    <div class="section-heading text-center mb-5 mb-sm-5 mb-md-3 mb-lg-5">
+                    <div class="section-heading text-center mb-5">
                         <h2>پر بازدیدترین آزمون‌ها</h2>
                     </div>
                 </div>

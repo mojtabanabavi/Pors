@@ -62,9 +62,18 @@
     cursor: pointer;
 }
 
-.owl-carousel .owl-stage, .owl-carousel .owl-item {
-    display: flex;
+
+.owl-carousel{
+    margin-bottom: 1.5rem;
 }
+
+    .owl-carousel .owl-dots{
+        margin-top: 1.8rem !important;
+    }
+
+    .owl-carousel .owl-stage, .owl-carousel .owl-item {
+        display: flex;
+    }
 
 .single-blog-card .card-body {
     display: flex;
