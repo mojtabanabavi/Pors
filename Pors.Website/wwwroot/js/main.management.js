@@ -708,13 +708,7 @@ $(function () {
             var chartData = GetChartData();
             chart = new Chart(chartTarget, {
                 type: 'line',
-                data: {
-                    labels: chartData.labels,
-                    datasets: [{
-                        label: 'visits',
-                        data: chartData.dataSet,
-                    }]
-                },
+                data: chartData,
                 options: {
                     responsive: true,
                     scales: {
@@ -776,13 +770,7 @@ $(function () {
             var chartData = GetChartData();
             chart = new Chart(chartTarget, {
                 type: 'bar',
-                data: {
-                    labels: chartData.labels,
-                    datasets: [{
-                        label: 'answers',
-                        data: chartData.dataSet,
-                    }]
-                },
+                data: chartData,
                 options: {
                     responsive: true,
                     scales: {
@@ -845,21 +833,29 @@ $(function () {
                 type: 'bar',
                 data: {
                     labels: chartData.labels,
-                    datasets: [{
-                        label: 'صحیح',
-                        data: chartData.dataSet,
-                        stack: '0',
-                    },
-                    {
-                        label: 'غلط',
-                        data: chartData.dataSet,
-                        stack: '0',
-                    },
-                    {
-                        label: 'نامشخص',
-                        data: chartData.dataSet,
-                        stack: '0',
-                    }]
+                    datasets: [
+                        {
+                            fill: true,
+                            data: chartData.datasets[0].data,
+                            stack: chartData.datasets[0].stack,
+                            label: chartData.datasets[0].label,
+                            backgroundColor: '#2dce89',
+                        },
+                        {
+                            fill: true,
+                            data: chartData.datasets[1].data,
+                            stack: chartData.datasets[1].stack,
+                            label: chartData.datasets[1].label,
+                            backgroundColor: '#f5365c',
+                        },
+                        {
+                            fill: true,
+                            data: chartData.datasets[2].data,
+                            stack: chartData.datasets[2].stack,
+                            label: chartData.datasets[2].label,
+                            backgroundColor: '#5e72e4',
+                        },
+                    ],
                 },
                 options: {
                     responsive: true,

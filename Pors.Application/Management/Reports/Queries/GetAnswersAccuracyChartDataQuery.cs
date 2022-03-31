@@ -23,7 +23,7 @@ namespace Pors.Application.Management.Reports.Queries
 
     #region response
 
-    public class GetAnswersAccuracyChartDataQueryResponse : ChartData
+    public class GetAnswersAccuracyChartDataQueryResponse : ChartJsData
     {
     }
 
@@ -46,20 +46,52 @@ namespace Pors.Application.Management.Reports.Queries
 
         public async Task<GetAnswersAccuracyChartDataQueryResponse> Handle(GetAnswersAccuracyChartDataQuery request, CancellationToken cancellationToken)
         {
-            var report = await _dbContext.AttemptAnswers
+            var data = await _dbContext.AttemptAnswers
                 .Where(x => x.Option.QuestionId == request.QuestionId)
                 .GroupBy(x => new { x.OptionId, x.Option.Title })
                 .Select(x => new
                 {
                     Label = x.Key.Title,
-                    Count = x.Where(x => x.Status == AnswerStatus.Correct).Count(),
+                    WrongCount = x.Where(x => x.Status == AnswerStatus.Wrong).Count(),
+                    CorrectCount = x.Where(x => x.Status == AnswerStatus.Correct).Count(),
+                    UnknownCount = x.Where(x => x.Status == AnswerStatus.Unknown).Count(),
                 })
                 .ToListAsync();
 
+            var correctCountDataSet = new ChartJsDataDataset()
+            {
+                Stack = "accuracy",
+                Label = "صحیح",
+            };
+
+            var wrongCountDataSet = new ChartJsDataDataset()
+            {
+                Stack = "accuracy",
+                Label = "غلط",
+            };
+
+            var unknownCountDataSet = new ChartJsDataDataset()
+            {
+                Stack = "accuracy",
+                Label = "نامشخص",
+            };
+
+            foreach (var group in data.GroupBy(x=> x.Label))
+            {
+                wrongCountDataSet.Data.Add(group.First().WrongCount);
+                correctCountDataSet.Data.Add(group.First().CorrectCount);
+                unknownCountDataSet.Data.Add(group.First().UnknownCount);
+            }
+
             var result = new GetAnswersAccuracyChartDataQueryResponse
             {
-                Labels = report.Select(x => x.Label).ToList(),
-                DataSet = report.Select(x => x.Count).ToList(),
+                DataSets = new List<ChartJsDataDataset>
+                {
+                    correctCountDataSet,
+                    wrongCountDataSet,
+                    unknownCountDataSet
+                },
+                Labels = data.Select(x => x.Label).ToList(),
             };
 
             return result;

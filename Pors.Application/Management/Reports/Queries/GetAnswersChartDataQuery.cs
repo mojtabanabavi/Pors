@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using Pors.Domain.Entities;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Pors.Application.Common.Models;
 using Pors.Application.Common.Interfaces;
@@ -22,7 +23,7 @@ namespace Pors.Application.Management.Reports.Queries
 
     #region response
 
-    public class GetAnswersChartDataQueryResponse : ChartData
+    public class GetAnswersChartDataQueryResponse : ChartJsData
     {
     }
 
@@ -63,7 +64,13 @@ namespace Pors.Application.Management.Reports.Queries
             var result = new GetAnswersChartDataQueryResponse
             {
                 Labels = report.Select(x => x.Label).ToList(),
-                DataSet = report.Select(x => x.Count).ToList(),
+                DataSets = new List<ChartJsDataDataset>
+                {
+                    new ChartJsDataDataset
+                    {
+                        Data = report.Select(x => x.Count).ToList(),
+                    }
+                },
             };
 
             return result;

@@ -5,6 +5,7 @@ using System.Threading;
 using Pors.Domain.Entities;
 using System.Globalization;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Pors.Application.Common.Models;
 using Pors.Application.Common.Interfaces;
@@ -23,8 +24,17 @@ namespace Pors.Application.Management.Reports.Queries
 
     #region response
 
-    public class GetExamVisitsChartDataQueryResponse : ChartData
+    public class GetExamVisitsChartDataQueryResponse : ChartJsData
     {
+        public GetExamVisitsChartDataQueryResponse()
+        {
+        }
+
+        public GetExamVisitsChartDataQueryResponse(ChartJsData data)
+        {
+            Labels = data.Labels;
+            DataSets = data.DataSets;
+        }
     }
 
     #endregion;
@@ -63,29 +73,31 @@ namespace Pors.Application.Management.Reports.Queries
 
             var persianCultureDateTime = new CultureInfo("fa-ir").DateTimeFormat;
 
-            var report = new ChartData()
+            var chartData = new ChartJsData()
             {
                 Labels = Enumerable.Repeat("", 12).ToList(),
-                DataSet = Enumerable.Repeat(0, 12).ToList(),
+                DataSets = new List<ChartJsDataDataset>()
+                {
+                    new ChartJsDataDataset
+                    {
+                        Data = Enumerable.Repeat(0, 12).ToList()
+                    }
+                },
             };
 
             for (int i = 1; i <= 12; i++)
             {
                 var monthIndex = data.FindIndex(x => x.Month == i);
 
-                report.Labels[i - 1] = persianCultureDateTime.GetMonthName(i);
+                chartData.Labels[i - 1] = persianCultureDateTime.GetMonthName(i);
 
                 if (monthIndex != -1)
                 {
-                    report.DataSet[monthIndex] = data[monthIndex].Count;
+                    chartData.DataSets[0].Data[monthIndex] = data[monthIndex].Count;
                 }
             }
 
-            var result = new GetExamVisitsChartDataQueryResponse
-            {
-                Labels = report.Labels,
-                DataSet = report.DataSet
-            };
+            var result = new GetExamVisitsChartDataQueryResponse(chartData);
 
             return result;
         }
