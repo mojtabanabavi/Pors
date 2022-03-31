@@ -31,13 +31,15 @@
                                 {
                                     @foreach (var answer in Model.Answers)
                                     {
-                                        <div class="d-flex flex-wrap justify-content-between align-items-center">
-                                            <h5>@answer.QuestionTitle</h5>
+                                        <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
+                                            <h5 class="exam-question-title">@answer.QuestionTitle</h5>
                                             <button class="btn btn-sm outline-btn bg-transparent mr-md-3 mb-3 mb-sm-0" data-toggle="collapse" data-target="#comment-@answer.Id">ثبت نظر</button>
                                         </div>
 
                                         <p>پاسخ شما: <span>@answer.AnswerTitle</span></p>
+                                        <p>صحت پاسخ از نظر شما: <span>@answer.CommentStatus.GetDescription()</span></p>
                                         <p class="text-justify">توضیحات: @answer.AnswerDescription</p>
+
                                         @if (answer.AnswerImage != null)
                                         {
                                             <img class="d-block my-2 w-100" src="~/@answer.AnswerImage" alt="@answer.AnswerTitle" />
@@ -50,18 +52,7 @@
                                                         <div class="col-12">
                                                             <div class="form-group">
                                                                 <label class="">آیا پاسخ از نظر شما صحیح است؟</label>
-                                                                <select name="IsCorrect" class="form-control has-value">
-                                                                    @if (answer.CommentIsCorrect)
-                                                                    {
-                                                                        <option value="true" selected>بله</option>
-                                                                        <option value="false">خیر</option>
-                                                                    }
-                                                                    else
-                                                                    {
-                                                                        <option value="true">بله</option>
-                                                                        <option value="false" selected>خیر</option>
-                                                                    }
-                                                                </select>
+                                                                <select name="CorrectStatus" class="form-control has-value" asp-items="@Pors.Website.Extensions.EnumExtensions.ToSelectList<AnswerStatus>(answer.CommentStatus.As<int>())"></select>
                                                             </div>
                                                         </div>
                                                         <div class="col-12">

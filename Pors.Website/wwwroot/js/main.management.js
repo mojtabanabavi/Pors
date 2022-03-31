@@ -846,8 +846,19 @@ $(function () {
                 data: {
                     labels: chartData.labels,
                     datasets: [{
-                        label: 'answers',
+                        label: 'صحیح',
                         data: chartData.dataSet,
+                        stack: '0',
+                    },
+                    {
+                        label: 'غلط',
+                        data: chartData.dataSet,
+                        stack: '0',
+                    },
+                    {
+                        label: 'نامشخص',
+                        data: chartData.dataSet,
+                        stack: '0',
                     }]
                 },
                 options: {

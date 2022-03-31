@@ -3,6 +3,7 @@ using MediatR;
 using AutoMapper;
 using System.Linq;
 using System.Threading;
+using Pors.Domain.Enums;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
@@ -51,7 +52,7 @@ namespace Pors.Application.Management.Reports.Queries
                 .Select(x => new
                 {
                     Label = x.Key.Title,
-                    Count = x.Where(x => x.IsCorrect).Count(),
+                    Count = x.Where(x => x.Status == AnswerStatus.Correct).Count(),
                 })
                 .ToListAsync();
 

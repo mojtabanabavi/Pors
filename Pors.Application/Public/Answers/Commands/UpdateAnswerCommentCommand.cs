@@ -2,6 +2,7 @@
 using MediatR;
 using System.Threading;
 using FluentValidation;
+using Pors.Domain.Enums;
 using Pors.Domain.Entities;
 using System.Threading.Tasks;
 using Pors.Application.Common.Interfaces;
@@ -14,7 +15,7 @@ namespace Pors.Application.Public.Answers.Commands
     public class UpdateAnswerCommentCommand : IRequest
     {
         public int Id { get; set; }
-        public bool IsCorrect { get; set; }
+        public AnswerStatus CorrectStatus { get; set; }
         public string Description { get; set; }
     }
 
@@ -54,7 +55,7 @@ namespace Pors.Application.Public.Answers.Commands
                 throw new NotFoundException(nameof(AttemptAnswer), request.Id);
             }
 
-            entity.IsCorrect = request.IsCorrect;
+            entity.Status = request.CorrectStatus;
             entity.Description = request.Description;
 
             await _dbContext.SaveChangesAsync();

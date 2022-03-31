@@ -9,14 +9,19 @@ namespace Pors.Website.Extensions
     {
         public static SelectList ToSelectList<T>()
         {
+            return ToSelectList<T>(null);
+        }
+
+        public static SelectList ToSelectList<T>(object selectedValue)
+        {
             var items = Enum.GetValues(typeof(T)).Cast<Enum>()
                   .Select(e => new SelectListItem
                   {
-                      Value = e.ToString(),
                       Text = e.GetDescription(),
+                      Value = (Convert.ToInt32(e)).ToString(),
                   }).ToList();
 
-            return new SelectList(items, "Value", "Text");
+            return new SelectList(items, "Value", "Text", selectedValue);
         }
     }
 }
