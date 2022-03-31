@@ -859,6 +859,18 @@ $(function () {
                 },
                 options: {
                     responsive: true,
+                    tooltips: {
+                        rtl: true,
+                    },
+                    legend: {
+                        rtl: true,
+                        display: true,
+                        position: 'bottom',
+                        labels: {
+                            padding: 40,
+                            fontColor: '#fff',
+                        },
+                    },
                     scales: {
                         yAxes: [{
                             ticks: {
