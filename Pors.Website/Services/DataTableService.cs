@@ -36,7 +36,6 @@ namespace Pors.Infrastructure.Services
             // search value from (search box) 
             var searchKey = form["search[value]"].FirstOrDefault();
 
-            start = start == "0" ? "1" : start;
             int skip = start != null ? Convert.ToInt32(start) : 1;
             int take = length != null ? Convert.ToInt32(length) : 15;
 
