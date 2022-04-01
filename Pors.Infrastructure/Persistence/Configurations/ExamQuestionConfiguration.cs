@@ -20,6 +20,10 @@ namespace Pors.Infrastructure.Persistence.Configurations
 
             builder.Property(x => x.CreatedAt)
                 .HasDefaultValueSql("getdate()");
+
+            // soft delete
+            builder.Property<bool>("IsDeleted");
+            builder.HasQueryFilter(m => EF.Property<bool>(m, "IsDeleted") == false);
         }
     }
 }

@@ -35,7 +35,7 @@ namespace Pors.Infrastructure.Persistence
 
         protected override void OnConfiguring(DbContextOptionsBuilder builder)
         {
-            builder.ConfigureWarnings(x => 
+            builder.ConfigureWarnings(x =>
                 x.Ignore(CoreEventId.RowLimitingOperationWithoutOrderByWarning));
 
             base.OnConfiguring(builder);
@@ -43,7 +43,22 @@ namespace Pors.Infrastructure.Persistence
 
         public async Task<int> SaveChangesAsync()
         {
+            ApplySoftDeletes();
+
             return await base.SaveChangesAsync();
+        }
+
+        private void ApplySoftDeletes()
+        {
+            foreach (var entry in ChangeTracker.Entries())
+            {
+                if (entry.State == EntityState.Deleted &&
+                    entry.CurrentValues.TryGetValue<bool>("IsDeleted", out _))
+                {
+                    entry.State = EntityState.Modified;
+                    entry.CurrentValues["IsDeleted"] = true;
+                }
+            }
         }
     }
 }
