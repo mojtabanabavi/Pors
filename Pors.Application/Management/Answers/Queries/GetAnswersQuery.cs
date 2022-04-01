@@ -6,6 +6,7 @@ using System.Linq;
 using Loby.Extensions;
 using FluentValidation;
 using System.Threading;
+using Pors.Domain.Enums;
 using Pors.Domain.Entities;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -13,7 +14,6 @@ using Pors.Application.Common.Models;
 using AutoMapper.QueryableExtensions;
 using Pors.Application.Common.Mappings;
 using Pors.Application.Common.Interfaces;
-using Pors.Domain.Enums;
 
 namespace Pors.Application.Management.Answers.Queries
 {
@@ -90,7 +90,7 @@ namespace Pors.Application.Management.Answers.Queries
 
             var result = await query
                 .ProjectTo<GetAnswersQueryResponse>(_mapper.ConfigurationProvider)
-                .ApplyPagingAsync(request.Page, request.PageSize);
+                .ApplyDataTablePagingAsync(request.Skip, request.Take);
 
             return result;
         }

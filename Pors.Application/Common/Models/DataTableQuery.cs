@@ -8,9 +8,9 @@ namespace Pors.Application.Common.Models
 {
     public class DataTableQuery
     {
-        public int Page { get; set; }
+        public int Skip { get; set; }
         public string Draw { get; set; }
-        public int PageSize { get; set; }
+        public int Take { get; set; }
         public string Search { get; set; }
         public string SortColumn { get; set; }
         public string SortDirection { get; set; }
@@ -21,10 +21,10 @@ namespace Pors.Application.Common.Models
 
         public DataTableQuery(DataTableQuery query)
         {
-            Page = query.Page;
+            Skip = query.Skip;
             Draw = query.Draw;
+            Take = query.Take;
             Search = query.Search;
-            PageSize = query.PageSize;
             SortColumn = query.SortColumn;
             SortDirection = query.SortDirection;
         }

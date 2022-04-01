@@ -37,14 +37,14 @@ namespace Pors.Infrastructure.Services
             var searchKey = form["search[value]"].FirstOrDefault();
 
             start = start == "0" ? "1" : start;
-            int page = start != null ? Convert.ToInt32(start) : 1;
-            int pageSize = length != null ? Convert.ToInt32(length) : 15;
+            int skip = start != null ? Convert.ToInt32(start) : 1;
+            int take = length != null ? Convert.ToInt32(length) : 15;
 
             var result = new DataTableQuery
             {
                 Draw = draw,
-                Page = page,
-                PageSize = pageSize,
+                Skip = skip,
+                Take = take,
                 SortColumn = sortColumn,
                 Search = searchKey.ToLower(),
                 SortDirection = sortDirection

@@ -82,7 +82,7 @@ namespace Pors.Application.Management.Attempts.Queries
 
             var result = await query
                 .ProjectTo<GetAttemptsQueryResponse>(_mapper.ConfigurationProvider)
-                .ApplyPagingAsync(request.Page, request.PageSize);
+                .ApplyDataTablePagingAsync(request.Skip, request.Take);
 
             return result;
         }

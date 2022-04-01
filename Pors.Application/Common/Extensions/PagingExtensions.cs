@@ -8,18 +8,21 @@ namespace Pors.Application.Common.Mappings
 {
     public static class PagingExtensions
     {
-        public static async Task<PagingResult<T>> ApplyPagingAsync<T>(this IQueryable<T> queryable, int page, int pageSize)
+        public async static Task<PagingResult<T>> ApplyPagingAsync<T>(this IQueryable<T> queryable, int page, int pageSize)
+        {
+            return await Task.Run(() => Paginator.ApplyPaging(queryable, page, pageSize));
+        }
+
+        public async static Task<PagingResult<T>> ApplyDataTablePagingAsync<T>(this IQueryable<T> queryable, int skip, int take)
         {
             int totalItems = await queryable.CountAsync();
-            var items = await queryable.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
+            var items = await queryable.Skip(skip).Take(take).ToListAsync();
 
             var result = new PagingResult<T>
             {
                 Items = items,
-                CurrentPage = page,
-                PageSize = pageSize,
                 TotalItems = totalItems,
-                TotalPages = (int)Math.Ceiling(totalItems / (double)pageSize)
+                TotalFilteredItems = items.Count,
             };
 
             return result;

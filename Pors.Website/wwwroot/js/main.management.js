@@ -143,6 +143,7 @@ $(function () {
 
         if (typeof DataTable !== 'undefined') {
             options.filter = true;
+            options.paging = true;
             options.ordering = true;
             options.processing = true;
             options.serverSide = true;

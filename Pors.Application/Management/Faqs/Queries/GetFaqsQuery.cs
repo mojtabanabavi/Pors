@@ -73,7 +73,7 @@ namespace Pors.Application.Management.Faqs.Queries
 
             var result = await query
                 .ProjectTo<GetFaqsQueryResponse>(_mapper.ConfigurationProvider)
-                .ApplyPagingAsync(request.Page, request.PageSize);
+                .ApplyDataTablePagingAsync(request.Skip, request.Take);
 
             return result;
         }

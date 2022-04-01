@@ -74,7 +74,7 @@ namespace Pors.Application.Management.Roles.Queries
 
             var result = await query
                 .ProjectTo<GetRolesQueryResponse>(_mapper.ConfigurationProvider)
-                .ApplyPagingAsync(request.Page, request.PageSize);
+                .ApplyDataTablePagingAsync(request.Skip, request.Take);
 
             return result;
         }

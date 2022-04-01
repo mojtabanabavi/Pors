@@ -80,7 +80,7 @@ namespace Pors.Application.Management.Users.Queries
 
             var result = await query
                 .ProjectTo<GetUsersQueryResponse>(_mapper.ConfigurationProvider)
-                .ApplyPagingAsync(request.Page, request.PageSize);
+                .ApplyDataTablePagingAsync(request.Skip, request.Take);
 
             return result;
         }
