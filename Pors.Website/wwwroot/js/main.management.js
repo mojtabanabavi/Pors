@@ -169,13 +169,11 @@ $(function () {
                 'name': 'id',
                 'data': 'id',
                 'autoWidth': true,
-                'searchable': false
             },
             {
                 'name': 'title',
                 'data': 'title',
                 'autoWidth': true,
-                'searchable': true
             },
             {
                 'name': 'status',
@@ -189,7 +187,8 @@ $(function () {
                 'name': 'createdBy',
                 'data': 'createdBy',
                 'autoWidth': true,
-                'searchable': false
+                'orderable': false,
+                'searchable': false,
             },
             {
                 'name': 'createdAt',
@@ -199,6 +198,7 @@ $(function () {
             },
             {
                 'orderable': false,
+                'searchable': false,
                 'render': function (data, type, row) {
                     let content =
                         `<div class="btn-group ">
@@ -234,7 +234,6 @@ $(function () {
                 'name': 'id',
                 'data': 'id',
                 'autoWidth': true,
-                'searchable': false
             },
             {
                 'name': 'examId',
@@ -246,7 +245,6 @@ $(function () {
                 'name': 'title',
                 'data': 'title',
                 'autoWidth': true,
-                'searchable': true
             },
             {
                 'name': 'createdAt',
@@ -256,6 +254,7 @@ $(function () {
             },
             {
                 'orderable': false,
+                'searchable': false,
                 'render': function (data, type, row) {
                     let content =
                         `<div class="btn-group ">
@@ -288,19 +287,18 @@ $(function () {
                 'name': 'id',
                 'data': 'id',
                 'autoWidth': true,
-                'searchable': false
             },
             {
                 'name': 'title',
                 'data': 'title',
                 'autoWidth': true,
-                'searchable': false
             },
             {
                 'name': 'description',
                 'data': 'description',
                 'autoWidth': true,
-                'searchable': true
+                'orderable': false,
+                'searchable': false,
             },
             {
                 'name': 'createdAt',
@@ -310,6 +308,7 @@ $(function () {
             },
             {
                 'orderable': false,
+                'searchable': false,
                 'render': function (data, type, row) {
                     let content =
                         `<div class="btn-group ">
@@ -340,25 +339,21 @@ $(function () {
                 'name': 'id',
                 'data': 'id',
                 'autoWidth': true,
-                'searchable': false
             },
             {
                 'name': 'firstName',
                 'data': 'firstName',
                 'autoWidth': true,
-                'searchable': true
             },
             {
                 'name': 'lastName',
                 'data': 'lastName',
                 'autoWidth': true,
-                'searchable': true
             },
             {
                 'name': 'email',
                 'data': 'email',
                 'autoWidth': true,
-                'searchable': true
             },
             {
                 'name': 'isActive',
@@ -383,6 +378,7 @@ $(function () {
             },
             {
                 'orderable': false,
+                'searchable': false,
                 'render': function (data, type, row) {
                     let content =
                         `<div class="btn-group ">
@@ -415,25 +411,23 @@ $(function () {
                 'name': 'id',
                 'data': 'id',
                 'autoWidth': true,
-                'searchable': false
             },
             {
                 'name': 'questionId',
                 'data': 'questionId',
                 'autoWidth': true,
-                'searchable': true
+                'searchable': false
             },
             {
                 'name': 'title',
                 'data': 'title',
                 'autoWidth': true,
-                'searchable': true
             },
             {
                 'name': 'image',
                 'data': 'image',
                 'autoWidth': true,
-                'searchable': true,
+                'searchable': false,
                 'render': function (data, type, row) {
                     let content = '';
 
@@ -453,6 +447,7 @@ $(function () {
             },
             {
                 'orderable': false,
+                'searchable': false,
                 'render': function (data, type, row) {
                     let content =
                         `<div class="btn-group ">
@@ -485,31 +480,32 @@ $(function () {
                 'name': 'id',
                 'data': 'id',
                 'autoWidth': true,
-                'searchable': false
             },
             {
                 'name': 'attemptId',
                 'data': 'attemptId',
                 'autoWidth': true,
-                'searchable': true
             },
             {
                 'name': 'optionId',
                 'data': 'optionId',
                 'autoWidth': true,
-                'searchable': true
+                'searchable': false
             },
             {
-                'name': 'isCorrect',
+                'name': 'status',
                 'autoWidth': true,
+                'orderable': true,
                 'searchable': false,
                 'render': function (data, type, row) {
                     let content = '';
 
-                    if (row.isActive)
-                        content += '<span class="badge badge-primary">بله</span>';
+                    if (row.status == 1)
+                        content += '<span class="badge badge-dark text-white">نامشخص</span>';
+                    else if (row.status == 2)
+                        content += '<span class="badge badge-primary">صحیح</span>';
                     else
-                        content += '<span class="badge badge-danger">خیر</span>';
+                        content += '<span class="badge badge-danger">غلط</span>';
 
                     return content;
                 }
@@ -517,6 +513,7 @@ $(function () {
             {
                 'name': 'hasDescription',
                 'autoWidth': true,
+                'orderable': false,
                 'searchable': false,
                 'render': function (data, type, row) {
                     let content = '';
@@ -531,6 +528,7 @@ $(function () {
             },
             {
                 'orderable': false,
+                'searchable': false,
                 'render': function (data, type, row) {
                     let content =
                         `<div class="btn-group ">
@@ -562,25 +560,23 @@ $(function () {
                 'name': 'id',
                 'data': 'id',
                 'autoWidth': true,
-                'searchable': false
             },
             {
                 'name': 'examId',
                 'data': 'examId',
                 'autoWidth': true,
-                'searchable': true
+                'searchable': false,
             },
             {
                 'name': 'ipAddress',
                 'data': 'ipAddress',
                 'autoWidth': true,
-                'searchable': true
             },
             {
                 'name': 'createdAt',
                 'data': 'createdAt',
                 'autoWidth': true,
-                'searchable': true
+                'searchable': false,
             },
         ]
     };
@@ -595,22 +591,21 @@ $(function () {
                 'name': 'id',
                 'data': 'id',
                 'autoWidth': true,
-                'searchable': false
             },
             {
                 'name': 'question',
                 'data': 'question',
                 'autoWidth': true,
-                'searchable': true
             },
             {
                 'name': 'createdAt',
                 'data': 'createdAt',
                 'autoWidth': true,
-                'searchable': true
+                'searchable': false,
             },
             {
                 'orderable': false,
+                'searchable': false,
                 'render': function (data, type, row) {
                     let content =
                         `<div class="btn-group ">

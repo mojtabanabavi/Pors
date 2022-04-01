@@ -13,6 +13,7 @@ using Pors.Application.Common.Models;
 using AutoMapper.QueryableExtensions;
 using Pors.Application.Common.Mappings;
 using Pors.Application.Common.Interfaces;
+using Pors.Domain.Enums;
 
 namespace Pors.Application.Management.Answers.Queries
 {
@@ -37,7 +38,7 @@ namespace Pors.Application.Management.Answers.Queries
         public int Id { get; set; }
         public string AttemptId { get; set; }
         public int OptionId { get; set; }
-        public bool IsCorrect { get; set; }
+        public AnswerStatus Status { get; set; }
         public bool HasDescription { get; set; }
 
         public void Mapping(Profile profile)
@@ -83,7 +84,8 @@ namespace Pors.Application.Management.Answers.Queries
 
             if (request.Search.HasValue())
             {
-                query = query.Where(x => x.AttemptId.Contains(request.Search));
+                query = query.Where(x => x.Id.ToString() == request.Search ||
+                                         x.AttemptId.Contains(request.Search));
             }
 
             var result = await query

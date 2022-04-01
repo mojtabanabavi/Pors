@@ -68,7 +68,8 @@ namespace Pors.Application.Management.Roles.Queries
 
             if (request.Search.HasValue())
             {
-                query = query.Where(x => x.Title.Contains(request.Search));
+                query = query.Where(x => x.Id.ToString() == request.Search ||
+                                         x.Title.Contains(request.Search));
             }
 
             var result = await query

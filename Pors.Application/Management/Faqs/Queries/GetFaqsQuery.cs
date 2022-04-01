@@ -67,7 +67,8 @@ namespace Pors.Application.Management.Faqs.Queries
 
             if (request.Search.HasValue())
             {
-                query = query.Where(x => x.Question.Contains(request.Search));
+                query = query.Where(x => x.Id.ToString() == request.Search ||
+                                         x.Question.Contains(request.Search));
             }
 
             var result = await query

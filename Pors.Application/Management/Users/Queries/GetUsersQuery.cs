@@ -71,6 +71,7 @@ namespace Pors.Application.Management.Users.Queries
             if (request.Search.HasValue())
             {
                 query = query.Where(x =>
+                    x.Id.ToString() == request.Search ||
                     x.FirstName.Contains(request.Search) ||
                     x.LastName.Contains(request.Search) ||
                     x.Email.Contains(request.Search)
