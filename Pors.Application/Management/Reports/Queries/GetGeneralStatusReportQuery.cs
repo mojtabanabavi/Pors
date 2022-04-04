@@ -26,6 +26,8 @@ namespace Pors.Application.Management.Reports.Queries
         public StatusReportDto QuestionsStatus { get; set; }
         public StatusReportDto OptionsStatus { get; set; }
         public StatusReportDto AnswersStatus { get; set; }
+        public StatusReportDto FaqsStatus { get; set; }
+        public StatusReportDto AttemptsStatus { get; set; }
     }
 
     public class StatusReportDto
@@ -77,6 +79,14 @@ namespace Pors.Application.Management.Reports.Queries
                 AnswersStatus = new StatusReportDto
                 {
                     TotalCount = await _dbContext.AttemptAnswers.CountAsync(),
+                },
+                FaqsStatus = new StatusReportDto
+                {
+                    TotalCount = await _dbContext.Faqs.CountAsync(),
+                },
+                AttemptsStatus = new StatusReportDto
+                {
+                    TotalCount = await _dbContext.ExamAttempts.CountAsync(),
                 },
             };
 
