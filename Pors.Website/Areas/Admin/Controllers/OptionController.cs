@@ -56,10 +56,19 @@ namespace Pors.Website.Areas.Admin.Controllers
 
         [HttpPost]
         [DisplayName("ایجاد گزینه")]
-        public async Task<IActionResult> Create(CreateOptionsCommand request)
+        public async Task<IActionResult> Create([FromForm] CreateOptionsCommand request)
         {
             if (ModelState.IsValid)
             {
+                if(Request.Form.Files != null)
+                {
+                    // Binding options file
+                    for (int i = 0; i < Request.Form.Files.Count; i++)
+                    {
+                        request.Items[i].Image = Request.Form.Files[$"items[{i}][image]"];
+                    }
+                }
+
                 var optionIds = await Mediator.Send(request);
 
                 return RedirectToAction(nameof(Index), new { id = request.Id });
