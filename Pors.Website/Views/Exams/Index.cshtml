@@ -79,8 +79,8 @@
                             <div class="col-12 col-md-6 col-lg-6 d-flex">
                                 <div class="single-blog-card card border-0 shadow-sm">
                                     @*<span class="category position-absolute badge badge-pill badge-primary">
-                                        بدون دسته‌بندی
-                                    </span>*@
+                                بدون دسته‌بندی
+                            </span>*@
                                     <img src="~/@exam.Image" class="card-img-top position-relative" alt="@exam.Title" />
                                     <div class="card-body">
                                         <div class="post-meta mb-2">
@@ -115,18 +115,14 @@
                 @if (Model.TotalPages != 1)
                 {
                     <div class="d-flex justify-content-center">
-                        <paging total-records="@int.Parse(Model.TotalItems.ToString())"
-                                page-no="@Model.CurrentPage"
-                                page-size="@Model.PageSize"
-                                show-prev-next="true"
-                                show-total-pages="false"
-                                show-total-records="false"
-                                show-page-size-nav="false"
-                                show-first-numbered-page="false"
-                                show-last-numbered-page="false"
-                                query-string-value="@(Context.Request.QueryString.Value)"
-                                gap-size="2">
-                        </paging>
+                        <pager current-page="@Model.CurrentPage"
+                               page-size="@Model.PageSize"
+                               total-items="@Model.TotalItems"
+                               max-pages="3"
+                               show-gaps="false"
+                               show-first-and-last-pages="true"
+                               show-previous-and-next-pages="false">
+                        </pager>
                     </div>
                 }
             </div>
