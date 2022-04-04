@@ -739,6 +739,53 @@ $(function () {
         //});
     })();
 
+    let ExamsVisitsChart = (function () {
+        let chart;
+        let chartTarget = $('#exams-visits-chart');
+
+        function GetChartData() {
+            let data;
+            $.ajax({
+                async: false,
+                url: "/admin/exam/getGetExamsVisitsChartData",
+                type: 'post',
+                datatype: 'json',
+                success: function (result) {
+                    data = result;
+                }
+            });
+            return data;
+        }
+
+        function Init() {
+            var chartData = GetChartData();
+            chart = new Chart(chartTarget, {
+                type: 'line',
+                data: chartData,
+                options: {
+                    responsive: true,
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true,
+                                callback: function (value) {
+                                    if (value % 1 === 0) {
+                                        return value;
+                                    }
+                                }
+                            }
+                        }]
+                    },
+                }
+            });
+        };
+
+        if (chartTarget.length) {
+            Init();
+        }
+
+    })();
+
     let ExamAnswersChart = (function () {
         let chart;
         let chartTarget = $('#exam-answers-chart');

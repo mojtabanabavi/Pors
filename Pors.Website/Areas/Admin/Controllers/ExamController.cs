@@ -60,6 +60,14 @@ namespace Pors.Website.Areas.Admin.Controllers
             return Json(result);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> GetGetExamsVisitsChartData()
+        {
+            var result = await Mediator.Send(new GetExamsVisitsChartDataQuery());
+
+            return Json(result);
+        }
+
         #endregion;
 
         [HttpGet]
