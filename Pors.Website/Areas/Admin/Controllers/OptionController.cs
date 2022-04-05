@@ -63,7 +63,7 @@ namespace Pors.Website.Areas.Admin.Controllers
                 if(Request.Form.Files != null)
                 {
                     // Binding options file
-                    for (int i = 0; i < Request.Form.Files.Count; i++)
+                    for (int i = 0; i < request.Items.Count; i++)
                     {
                         request.Items[i].Image = Request.Form.Files[$"items[{i}][image]"];
                     }
