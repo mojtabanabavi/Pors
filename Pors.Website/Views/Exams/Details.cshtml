@@ -14,7 +14,7 @@
                         </h3>
                         @if (Model.LongDescription.HasValue())
                         {
-                            <p class="card-text">@Model.LongDescription</p>
+                            <p class="card-text">@Html.Raw(Model.LongDescription)</p>
                         }
                         else
                         {

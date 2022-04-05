@@ -81,6 +81,30 @@ $(function () {
     }
 });
 
+// Ck Editor //
+// -----------------------------
+$(function () {
+    var targets = $(".ck-classic-editor");
+    if (targets.length) {
+        targets.each(function () {
+            let item = $(this)[0];
+            var itemHeight = $(item).attr('height');
+            ClassicEditor
+                .create(item, {
+                    language: 'fa',
+                })
+                .then(editor => {
+                    editor.editing.view.change(writer => {
+                        writer.setStyle('height', itemHeight, editor.editing.view.document.getRoot());
+                    });
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        });
+    }
+});
+
 // Confirm Delete Alert //
 // -----------------------------
 $(function () {

@@ -140,3 +140,7 @@ table {
 .dropdown-menu {
     min-width: 10rem;
 }
+
+.ck.ck-reset_all, .ck.ck-reset_all *{
+    font-family: 'yekan' !important;
+}

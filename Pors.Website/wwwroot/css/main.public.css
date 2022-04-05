@@ -18,8 +18,7 @@
     direction: rtl;
 }
 
-.exam-question-title
-{
+.exam-question-title {
     white-space: normal;
     text-align: justify;
 }
@@ -85,11 +84,11 @@
 }
 
 
-.owl-carousel{
+.owl-carousel {
     margin-bottom: 1.5rem;
 }
 
-    .owl-carousel .owl-dots{
+    .owl-carousel .owl-dots {
         margin-top: 1.8rem !important;
     }
 
@@ -102,10 +101,10 @@
     flex-direction: column;
 }
 
-    .single-blog-card .card-text {
-        font-size: 0.9rem;
-        text-align: justify;
-    }
+.single-blog-card .card-text {
+    font-size: 0.9rem;
+    text-align: justify;
+}
 
 .exam-comment-form label {
     font-size: 88%;
@@ -352,4 +351,26 @@
     .page-item.active .page-link:hover {
         background: transparent;
         color: #0073ec !important;
+    }
+
+table {
+    width: 100%;
+    margin-bottom: 1rem;
+    color: #212529;
+    border: 1px solid #dee2e6;
+}
+
+    table td, .table th {
+        padding: .75rem;
+        vertical-align: top;
+        border: 1px solid #dee2e6;
+    }
+
+    table thead th {
+        vertical-align: bottom;
+        border: 1px solid #dee2e6;
+    }
+
+    table tbody + tbody {
+        border: 1px solid #dee2e6;
     }
