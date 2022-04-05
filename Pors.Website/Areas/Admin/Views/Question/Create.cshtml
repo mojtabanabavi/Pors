@@ -1,12 +1,7 @@
 ﻿@model CreateQuestionCommand
 @{
     ViewData["Title"] = "ایجاد سوال";
-
-    @inject MediatR.ISender Mediator
-
-    var examsSelectListItems = await Mediator.Send(new GetExamsSelectListQuery());
-
-    var examsSelectList = new SelectList(examsSelectListItems.Items, "Value", "Text");
+    var examId = Convert.ToInt32(ViewContext.HttpContext.Request.RouteValues["id"]);
 }
 
 <form asp-action="create" method="post">
@@ -17,15 +12,28 @@
                     <h3 class="mb-0">@ViewData["Title"]</h3>
                 </div>
                 <div class="card-body">
+                    @if (examId != default(int))
+                    {
+                        <input type="hidden" name="ExamId" value="@examId" />
+                    }
                     <div asp-validation-summary="ModelOnly" class="text-center mb-4"></div>
                     <div class="row">
-                        <div class="col-lg-12">
-                            <div class="form-group">
-                                <label asp-for="ExamId" class="form-control-label">شناسه آزمون</label>
-                                <select asp-for="ExamId" asp-items="@examsSelectList" class="form-control form-control-alternative"></select>
-                                <span asp-validation-for="ExamId"></span>
+                        @if (examId == default(int))
+                        {
+                            @inject MediatR.ISender Mediator
+
+                            var examsSelectListItems = await Mediator.Send(new GetExamsSelectListQuery());
+
+                            var examsSelectList = new SelectList(examsSelectListItems.Items, "Value", "Text", examId);
+
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label asp-for="ExamId" class="form-control-label">عنوان آزمون</label>
+                                    <select asp-for="ExamId" asp-items="@examsSelectList" class="form-control form-control-alternative"></select>
+                                    <span asp-validation-for="ExamId"></span>
+                                </div>
                             </div>
-                        </div>
+                        }
                         <div class="col-lg-12">
                             <div class="form-group">
                                 <label asp-for="Title" class="form-control-label">عنوان سوال</label>
