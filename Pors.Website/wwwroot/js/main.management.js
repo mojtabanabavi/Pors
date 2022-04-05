@@ -747,20 +747,9 @@ $(function () {
             });
         };
 
-        function Update() {
-            var chartData = GetChartData();
-            chart.data.labels = chartData.labels;
-            chart.data.datasets[0].data = chartData.dataSet;
-            chart.update();
-        }
-
         if (chartTarget.length) {
             Init();
         }
-
-        //$('.chart-question-select').on('change', function () {
-        //    Update();
-        //});
     })();
 
     let ExamsVisitsChart = (function () {
@@ -815,7 +804,6 @@ $(function () {
         let chartTarget = $('#exam-answers-chart');
         let questionIdTarget = $('.chart-question-select');
 
-
         function GetChartData() {
             let data;
             $.ajax({
@@ -857,9 +845,7 @@ $(function () {
         };
 
         function Update() {
-            var chartData = GetChartData();
-            chart.data.labels = chartData.labels;
-            chart.data.datasets[0].data = chartData.dataSet;
+            chart.data = GetChartData();
             chart.update();
         }
 
@@ -956,8 +942,32 @@ $(function () {
 
         function Update() {
             var chartData = GetChartData();
-            chart.data.labels = chartData.labels;
-            chart.data.datasets[0].data = chartData.dataSet;
+            chart.data = {
+                labels: chartData.labels,
+                datasets: [
+                    {
+                        fill: true,
+                        data: chartData.datasets[0].data,
+                        stack: chartData.datasets[0].stack,
+                        label: chartData.datasets[0].label,
+                        backgroundColor: '#2dce89',
+                    },
+                    {
+                        fill: true,
+                        data: chartData.datasets[1].data,
+                        stack: chartData.datasets[1].stack,
+                        label: chartData.datasets[1].label,
+                        backgroundColor: '#f5365c',
+                    },
+                    {
+                        fill: true,
+                        data: chartData.datasets[2].data,
+                        stack: chartData.datasets[2].stack,
+                        label: chartData.datasets[2].label,
+                        backgroundColor: '#5e72e4',
+                    },
+                ],
+            },
             chart.update();
         }
 
