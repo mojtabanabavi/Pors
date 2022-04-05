@@ -14,16 +14,16 @@ using Pors.Application.Common.Exceptions;
 namespace Pors.Application.Public.Exams.Queries
 {
     #region query
-
-    public class GetExamQuery : IRequest<GetExamQueryResponse>
+    
+    public class GetExamForAttemptQuery : IRequest<GetExamForAttemptQueryResponse>
     {
         public string AttemptId { get; set; }
 
-        public GetExamQuery()
+        public GetExamForAttemptQuery()
         {
         }
 
-        public GetExamQuery(string attemptId)
+        public GetExamForAttemptQuery(string attemptId)
         {
             AttemptId = attemptId;
         }
@@ -33,7 +33,7 @@ namespace Pors.Application.Public.Exams.Queries
 
     #region response
 
-    public class GetExamQueryResponse : IMapFrom<Exam>
+    public class GetExamForAttemptQueryResponse : IMapFrom<Exam>
     {
         public int Id { get; set; }
         public string AttemptId { get; set; }
@@ -64,18 +64,18 @@ namespace Pors.Application.Public.Exams.Queries
 
     #region handler
 
-    public class GetExamQueryHandler : IRequestHandler<GetExamQuery, GetExamQueryResponse>
+    public class GetExamForAttemptQueryHandler : IRequestHandler<GetExamForAttemptQuery, GetExamForAttemptQueryResponse>
     {
         private readonly IMapper _mapper;
         private readonly ISqlDbContext _dbContext;
 
-        public GetExamQueryHandler(ISqlDbContext dbContext, IMapper mapper)
+        public GetExamForAttemptQueryHandler(ISqlDbContext dbContext, IMapper mapper)
         {
             _mapper = mapper;
             _dbContext = dbContext;
         }
 
-        public async Task<GetExamQueryResponse> Handle(GetExamQuery request, CancellationToken cancellationToken)
+        public async Task<GetExamForAttemptQueryResponse> Handle(GetExamForAttemptQuery request, CancellationToken cancellationToken)
         {
             var entity = await _dbContext.ExamAttempts
                 .Where(x => x.Id == request.AttemptId)
@@ -90,7 +90,7 @@ namespace Pors.Application.Public.Exams.Queries
                 throw new NotFoundException(nameof(ExamAttempt), request.AttemptId);
             }
 
-            var result = new GetExamQueryResponse()
+            var result = new GetExamForAttemptQueryResponse()
             {
                 AttemptId = request.AttemptId,
             };

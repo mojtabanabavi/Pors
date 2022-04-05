@@ -19,6 +19,14 @@ namespace Pors.Website.Controllers
         }
 
         [HttpGet]
+        public async Task<IActionResult> Details(GetExamDetailsQuery request)
+        {
+            var result = await Mediator.Send(request);
+
+            return View(result);
+        }
+
+        [HttpGet]
         public async Task<IActionResult> Attempt(int id)
         {
             var attemptId = await Mediator.Send(new CreateExamAttemptCommand(id));
@@ -29,7 +37,7 @@ namespace Pors.Website.Controllers
         [HttpGet("exams/start/{attemptId}")]
         public async Task<IActionResult> Start(string attemptId)
         {
-            var result = await Mediator.Send(new GetExamQuery(attemptId));
+            var result = await Mediator.Send(new GetExamForAttemptQuery(attemptId));
 
             return View(result);
         }
@@ -48,7 +56,7 @@ namespace Pors.Website.Controllers
 
             ModelState.AddErrors(result.Errors);
 
-            var exam = await Mediator.Send(new GetExamQuery(request.AttemptId));
+            var exam = await Mediator.Send(new GetExamForAttemptQuery(request.AttemptId));
 
             return View(nameof(Start), exam);
         }

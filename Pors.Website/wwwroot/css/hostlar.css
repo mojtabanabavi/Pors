@@ -447,12 +447,12 @@ a {
     border: 1px solid #0073ec;
     box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.15);
     background-image: linear-gradient(to bottom, #0073ec, #214eec);
-    color: #ffffff;
+    color: #ffffff !important;
 }
 
     .primary-solid-btn:hover {
         background: transparent;
-        color: #0073ec;
+        color: #0073ec !important;
     }
 
 .secondary-solid-btn {
@@ -4081,6 +4081,7 @@ section {
     font-size: 0.8125rem;
     padding: 0;
     margin: 0;
+    direction: rtl !important;
 }
 
     .post-meta a,

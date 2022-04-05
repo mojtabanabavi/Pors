@@ -1,0 +1,53 @@
+﻿@model GetExamDetailsQueryResponse
+@{
+    ViewData["Title"] = Model.Title;
+}
+<div class="ptb-100 gray-light-bg">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-lg-8">
+                <div class="single-blog-card card border-0 shadow-sm">
+                    <img src="~/@Model.Image" class="card-img-top position-relative" alt="@Model.Title" />
+                    <div class="card-body">
+                        <h3 class="h5 card-title">
+                            <a asp-controller="exams" asp-action="attempt" asp-route-id="@Model.Id">@Model.Title</a>
+                        </h3>
+                        @if (Model.LongDescription.HasValue())
+                        {
+                            <p class="card-text">@Model.LongDescription</p>
+                        }
+                        else
+                        {
+                            <p class="card-text">@Model.ShortDescription</p>
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-lg-4">
+                <div class="single-blog-card card border-0 shadow-sm">
+                    <div class="card-body">
+                        <div class="mb-4">
+                            <ul>
+                                <li>
+                                    <p class="text-dark font-weight-bold mb-3">توضیحات مختصر</p>
+                                </li>
+                                <li>
+                                    <p class="card-text">تعداد شرکت‌کنندگان: @Model.AttemptsCount</p>
+                                </li>
+                                <li>
+                                    <p class="card-text">تعداد سوالات: @Model.QuestionsCount</p>
+                                </li>
+                                <li>
+                                    <p class="card-text">تاریخ ایجاد: @Model.CreatedAt</p>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="text-center mt-auto">
+                            <a asp-controller="exams" asp-action="attempt" asp-route-id="@Model.Id" class="btn outline-btn">شرکت در آزمون</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -343,3 +343,13 @@
         max-height: 2.5rem
     }
 }
+
+.page-item.active .page-link {
+    color: #ffffff !important;
+    background: linear-gradient(to bottom, #0073ec, #214eec);
+}
+
+    .page-item.active .page-link:hover {
+        background: transparent;
+        color: #0073ec !important;
+    }

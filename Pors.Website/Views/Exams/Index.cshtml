@@ -62,7 +62,7 @@
                                         </div>
                                     </li>
                                     <li class="nav-item mt-4">
-                                        <button type="submit" class="btn btn-primary btn-block">اعمال</button>
+                                        <button type="submit" class="btn primary-solid-btn btn-block">اعمال</button>
                                     </li>
                                 </ul>
                             </div>
@@ -79,14 +79,14 @@
                             <div class="col-12 col-md-6 col-lg-6 d-flex">
                                 <div class="single-blog-card card border-0 shadow-sm">
                                     @*<span class="category position-absolute badge badge-pill badge-primary">
-                                بدون دسته‌بندی
-                            </span>*@
+                                            بدون دسته‌بندی
+                                        </span>*@
                                     <img src="~/@exam.Image" class="card-img-top position-relative" alt="@exam.Title" />
                                     <div class="card-body">
                                         <div class="post-meta mb-2">
                                             <ul class="list-inline meta-list d-flex justify-content-between">
-                                                <li class="d-inline">@exam.CreatedAt</li>
-                                                <li class="list-inline-item">
+                                                <li>@exam.CreatedAt</li>
+                                                <li>
                                                     <span>@exam.VisitCount</span> بازدید
                                                 </li>
                                             </ul>
@@ -96,7 +96,8 @@
                                         </h3>
                                         <p class="card-text">@exam.ShortDescription</p>
                                         <div class="text-center mt-auto">
-                                            <a asp-controller="exams" asp-action="attempt" asp-route-id="@exam.Id" class="btn outline-btn">شرکت در آزمون</a>
+                                            <a asp-controller="exams" asp-action="details" asp-route-id="@exam.Id" class="btn primary-solid-btn mb-3">اطلاعات بیشتر</a>
+                                            <a asp-controller="exams" asp-action="attempt" asp-route-id="@exam.Id" class="btn outline-btn mb-3">شرکت در آزمون</a>
                                         </div>
                                     </div>
                                 </div>

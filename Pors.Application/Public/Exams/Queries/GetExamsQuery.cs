@@ -24,17 +24,17 @@ namespace Pors.Application.Public.Exams.Queries
         public string Title { get; set; }
         public SortTypes SortType { get; set; }
 
-        public GetExamsQuery() : this(1, 10)
+        public GetExamsQuery() : this(1, 6)
         {
         }
 
-        public GetExamsQuery(int page = 1, int pageSize = 10)
+        public GetExamsQuery(int page = 1, int pageSize = 6)
         {
             Page = page;
             PageSize = pageSize;
         }
 
-        public GetExamsQuery(SortTypes sortType, int page = 1, int pageSize = 10) : this(page, pageSize)
+        public GetExamsQuery(SortTypes sortType, int page = 1, int pageSize = 6) : this(page, pageSize)
         {
             SortType = sortType;
         }
