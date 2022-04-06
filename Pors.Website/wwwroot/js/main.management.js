@@ -160,6 +160,17 @@ $(function () {
     });
 });
 
+// Select All Button //
+// -----------------------------
+$(function () {
+    $('#select-all-permissions').on('change', function () {
+        let $this = $(this);
+        let targets = $('input[name="permissionIds"]');
+        targets.prop('checked', $this.prop("checked"));
+    });
+});
+
+
 // Data Table //
 // -----------------------------
 $(function () {
