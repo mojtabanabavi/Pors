@@ -59,6 +59,7 @@ namespace Pors.Application.Public.Faqs.Queries
         public async Task<PagingResult<GetFaqsQueryResponse>> Handle(GetFaqsQuery request, CancellationToken cancellationToken)
         {
             IQueryable<Faq> query = _dbContext.Faqs
+                .OrderByDescending(x=> x.CreatedAt)
                 .AsNoTracking();
 
             var result = await query

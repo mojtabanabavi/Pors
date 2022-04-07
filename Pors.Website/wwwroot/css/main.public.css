@@ -374,3 +374,13 @@ table {
     table tbody + tbody {
         border: 1px solid #dee2e6;
     }
+
+.owl-carousel .owl-item img {
+    height: 192.66px;
+    max-height: 192.66px;
+}
+
+.single-blog-card img {
+    height: 192.66px;
+    max-height: 192.66px;
+}

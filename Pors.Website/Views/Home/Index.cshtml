@@ -3,6 +3,7 @@
 
     @inject MediatR.ISender MediatR
 
+    //var faqs = await MediatR.Send(new GetFaqsQuery(1, 8));
     var newestExams = await MediatR.Send(new GetExamsQuery(SortTypes.Newest, 1, 8));
     var mostVisitedExams = await MediatR.Send(new GetExamsQuery(SortTypes.MostVisited, 1, 8));
 }
@@ -166,3 +167,39 @@
         </div>
     </section>
 }
+
+<!-- faqs -->
+@*@if (faqs.Items.Any())
+{
+    <section class="our-services ptb-100 gray-light-bg">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-9 col-lg-8">
+                    <div class="section-heading text-center mb-5">
+                        <h2>سوالات متداول</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 col-lg-12">
+                    <div id="accordion-one" class="accordion accordion-faq">
+                        @foreach (var faq in faqs.Items)
+                        {
+                            <div class="card mb-0">
+                                <a class="card-header px-3 collapsed" data-toggle="collapse" href="#faq-@(faq.Id) ">
+                                    <h6 class="mb-0 d-inline-block">@faq.Question</h6>
+                                </a>
+                                <div id="faq-@(faq.Id)" class="collapse" data-parent="#accordion-one">
+                                    <div class="card-body px-3">
+                                        <p>@faq.Answer</p>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+}*@
+
