@@ -386,4 +386,7 @@ FodyWeavers.xsd
 # JetBrains Rider
 .idea/
 *.sln.iml
-/Pors.Website/wwwroot/uploads/1d7a917f-b1c6-4481-9d97-e475610a8946.jpg
+
+# Custom
+/Pors.Website/wwwroot/uploads/*
+
