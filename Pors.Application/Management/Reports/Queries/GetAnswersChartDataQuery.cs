@@ -25,6 +25,15 @@ namespace Pors.Application.Management.Reports.Queries
 
     public class GetAnswersChartDataQueryResponse : ChartJsData
     {
+        public GetAnswersChartDataQueryResponse()
+        {
+        }
+
+        public GetAnswersChartDataQueryResponse(ChartJsData data)
+        {
+            Labels = data.Labels;
+            DataSets = data.DataSets;
+        }
     }
 
     #endregion;
@@ -46,7 +55,7 @@ namespace Pors.Application.Management.Reports.Queries
 
         public async Task<GetAnswersChartDataQueryResponse> Handle(GetAnswersChartDataQuery request, CancellationToken cancellationToken)
         {
-            var report = await _dbContext.AttemptAnswers
+            var data = await _dbContext.AttemptAnswers
                 .AsNoTracking()
                 .Where(x => x.Option.QuestionId == request.QuestionId)
                 .GroupBy(x => new { x.OptionId, x.Option.Title })
@@ -57,24 +66,39 @@ namespace Pors.Application.Management.Reports.Queries
                 })
                 .ToListAsync();
 
-            if (report == null)
+            if (data == null)
             {
                 throw new NotFoundException(nameof(ExamQuestion), request.QuestionId);
             }
 
-            var result = new GetAnswersChartDataQueryResponse
+            var labels = await _dbContext.QuestionOptions
+                .Where(x => x.QuestionId == request.QuestionId)
+                .Select(x => x.Title)
+                .ToListAsync();
+
+            var chartData = new GetAnswersChartDataQueryResponse
             {
-                Labels = report.Select(x => x.Label).ToList(),
-                DataSets = new List<ChartJsDataDataset>
+                Labels = labels,
+                DataSets = new List<ChartJsDataDataset>()
                 {
                     new ChartJsDataDataset
                     {
-                        Data = report.Select(x => x.Count).ToList(),
+                        Data = Enumerable.Repeat(0, labels.Count).ToList()
                     }
                 },
             };
 
-            return result;
+            for (int i = 0; i < data.Count; i++)
+            {
+                var labelIndex = labels.FindIndex(x => x == data[i].Label);
+
+                if (labelIndex != -1)
+                {
+                    chartData.DataSets[0].Data[labelIndex] = data[i].Count;
+                }
+            }
+
+            return new GetAnswersChartDataQueryResponse(chartData);
         }
     }
 

@@ -58,29 +58,42 @@ namespace Pors.Application.Management.Reports.Queries
                 })
                 .ToListAsync();
 
+            var labels = await _dbContext.QuestionOptions
+                .Where(x => x.QuestionId == request.QuestionId)
+                .Select(x => x.Title)
+                .ToListAsync();
+
             var correctCountDataSet = new ChartJsDataDataset()
             {
-                Stack = "accuracy",
                 Label = "صحیح",
+                Stack = "accuracy",
+                Data = Enumerable.Repeat(0, labels.Count).ToList(),
             };
 
             var wrongCountDataSet = new ChartJsDataDataset()
             {
-                Stack = "accuracy",
                 Label = "غلط",
+                Stack = "accuracy",
+                Data = Enumerable.Repeat(0, labels.Count).ToList(),
             };
 
             var unknownCountDataSet = new ChartJsDataDataset()
             {
-                Stack = "accuracy",
                 Label = "نامشخص",
+                Stack = "accuracy",
+                Data = Enumerable.Repeat(0, labels.Count).ToList(),
             };
 
-            foreach (var group in data.GroupBy(x=> x.Label))
+            for (int i = 0; i < data.Count; i++)
             {
-                wrongCountDataSet.Data.Add(group.First().WrongCount);
-                correctCountDataSet.Data.Add(group.First().CorrectCount);
-                unknownCountDataSet.Data.Add(group.First().UnknownCount);
+                var labelIndex = labels.FindIndex(x => x == data[i].Label);
+
+                if (labelIndex != -1)
+                {
+                    wrongCountDataSet.Data[labelIndex] = data[i].WrongCount;
+                    correctCountDataSet.Data[labelIndex] = data[i].CorrectCount;
+                    unknownCountDataSet.Data[labelIndex] = data[i].UnknownCount;
+                }
             }
 
             var result = new GetAnswersAccuracyChartDataQueryResponse
@@ -91,7 +104,7 @@ namespace Pors.Application.Management.Reports.Queries
                     wrongCountDataSet,
                     unknownCountDataSet
                 },
-                Labels = data.Select(x => x.Label).ToList(),
+                Labels = labels,
             };
 
             return result;
