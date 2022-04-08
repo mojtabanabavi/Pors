@@ -163,71 +163,89 @@ $(function () {
     }
 });
 
-// Exam Answer Form //
+// Exam Rating //
 // -----------------------------
 
 $(function () {
-    $(document).on('submit', '.exam-comment-form', function (e) {
-        e.preventDefault();
+    var ratingTarget = $('.barrating');
+    if (ratingTarget.length) {
+        ratingTarget.barrating('show', {
+            theme: 'bars-pill',
+            showValues: true,
+            hoverState: false,
+            fastClicks: false,
+            allowEmpty: false,
+            deselectable: true,
+            showSelectedRating: false,
+            emptyValue: '-- no rating selected --',
+            onSelect: function (value, text, event) {
 
-        let form = $(this);
-        let url = form.attr('action');
-        let data = form.serialize();
-        let collapse = form.parents('.collapse');
-        let btn = form.find('button[type="submit"]');
-
-        $.ajax({
-            url: url,
-            data: data,
-            type: 'post',
-        }).done(function () {
-            Swal.fire({
-                timer: 1500,
-                type: 'success',
-                showConfirmButton: false,
-                title: 'نظر شما با موفقیت ثبت شد',
-            });
-            collapse.removeClass('show');
-        }).fail(function (xhr, exception) {
-            Swal.fire({
-                type: 'error',
-                title: 'خطا',
-                confirmButtonText: 'متوجه شدم',
-                text: 'خطایی در انجام عملیات اتفاق افتاد!',
-            });
-        }).always(function () {
-            HideSpinner(btn);
+                var answerId = $(event.target)
+                    .parents('.br-wrapper')
+                    .children('select')
+                    .data('answer-id');
+                
+                $.ajax({
+                    type: 'post',
+                    url: '/exams/comment',
+                    data: {
+                        Id: answerId,
+                        Status: value
+                    },
+                }).done(function () {
+                    Swal.fire({
+                        timer: 1500,
+                        type: 'success',
+                        showConfirmButton: false,
+                        title: 'نظر شما با موفقیت ثبت شد',
+                    });
+                }).fail(function (xhr, exception) {
+                    Swal.fire({
+                        type: 'error',
+                        title: 'خطا',
+                        confirmButtonText: 'متوجه شدم',
+                        text: 'خطایی در انجام عملیات اتفاق افتاد!',
+                    });
+                }).always(function () {
+                    
+                });
+            }
         });
-    });
+    }
 });
 
 // Exam Carousel //
 // -----------------------------
 
-$('.exams-carousel').owlCarousel({
-    loop: true,
-    margin: 15,
-    nav: false,
-    dots: true,
-    autoplay: true,
-    lazyLoad: true,
-    responsiveClass: true,
-    autoplayHoverPause: true,
-    responsive: {
-        0: {
-            items: 1,
-        },
-        500: {
-            items: 2,
-        },
-        600: {
-            items: 2,
-        },
-        800: {
-            items: 3,
-        },
-        1200: {
-            items: 3,
-        },
-    },
+$(function () {
+    var examCarouselTarget = $('.exams-carousel');
+    if (examCarouselTarget.length) {
+        examCarouselTarget.owlCarousel({
+            loop: true,
+            margin: 15,
+            nav: false,
+            dots: true,
+            autoplay: true,
+            lazyLoad: true,
+            responsiveClass: true,
+            autoplayHoverPause: true,
+            responsive: {
+                0: {
+                    items: 1,
+                },
+                500: {
+                    items: 2,
+                },
+                600: {
+                    items: 2,
+                },
+                800: {
+                    items: 3,
+                },
+                1200: {
+                    items: 3,
+                },
+            },
+        });
+    }
 });

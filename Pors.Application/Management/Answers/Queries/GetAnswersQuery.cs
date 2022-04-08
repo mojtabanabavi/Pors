@@ -39,13 +39,6 @@ namespace Pors.Application.Management.Answers.Queries
         public string AttemptId { get; set; }
         public int OptionId { get; set; }
         public AnswerStatus Status { get; set; }
-        public bool HasDescription { get; set; }
-
-        public void Mapping(Profile profile)
-        {
-            profile.CreateMap<AttemptAnswer, GetAnswersQueryResponse>()
-                .ForMember(x => x.HasDescription, option => option.MapFrom(y => y.Description != null));
-        }
     }
 
     #endregion;

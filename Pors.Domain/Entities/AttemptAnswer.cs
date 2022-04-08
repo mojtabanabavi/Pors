@@ -13,8 +13,6 @@ namespace Pors.Domain.Entities
         public string AttemptId { get; set; }
         public int OptionId { get; set; }
         public AnswerStatus Status { get; set; }
-        public string Description { get; set; }
-
         public QuestionOption Option { get; set; }
         public ExamAttempt Attempt { get; set; }
     }

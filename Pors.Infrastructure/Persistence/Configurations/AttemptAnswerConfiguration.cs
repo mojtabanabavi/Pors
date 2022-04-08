@@ -12,9 +12,6 @@ namespace Pors.Infrastructure.Persistence.Configurations
             builder.Property(x => x.Id)
                 .UseIdentityColumn();
 
-            builder.Property(x => x.Description)
-                .HasMaxLength(1000);
-
             builder
                 .HasOne(x => x.Option)
                 .WithMany(x => x.Answers)

@@ -386,3 +386,22 @@ table {
     height: 192.66px;
     max-height: 192.66px;
 }
+
+.br-theme-bars-pill .br-widget a {
+    color: inherit;
+    padding: 5px 8px;
+    font-size: 0.8rem;
+    background: inherit;
+    border: 1px solid #0073ec;
+}
+
+/*    .br-theme-bars-pill .br-widget a:first-child, .br-theme-bars-pill .br-widget a:last-child{
+        border-radius: 0;
+    }
+*/
+    .br-theme-bars-pill .br-widget a.br-active, .br-theme-bars-pill .br-widget a.br-selected.br-current {
+        color: #ffffff !important;
+        border: 1px solid #0073ec;
+        box-shadow: 0 2px 4px -1px rgba(0, 0, 0, .15);
+        background-image: linear-gradient(to bottom, #0073ec, #214eec);
+    }

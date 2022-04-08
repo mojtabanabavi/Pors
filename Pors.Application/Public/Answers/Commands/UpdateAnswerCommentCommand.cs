@@ -15,23 +15,12 @@ namespace Pors.Application.Public.Answers.Commands
     public class UpdateAnswerCommentCommand : IRequest
     {
         public int Id { get; set; }
-        public AnswerStatus CorrectStatus { get; set; }
-        public string Description { get; set; }
+        public AnswerStatus Status { get; set; }
     }
 
     #endregion;
 
     #region validator
-
-    public class UpdateAnswerCommentCommandValidator : AbstractValidator<UpdateAnswerCommentCommand>
-    {
-        public UpdateAnswerCommentCommandValidator()
-        {
-            RuleFor(x => x.Description)
-                .MaximumLength(1000)
-                .WithName("توضیحات");
-        }
-    }
 
     #endregion;
 
@@ -55,8 +44,7 @@ namespace Pors.Application.Public.Answers.Commands
                 throw new NotFoundException(nameof(AttemptAnswer), request.Id);
             }
 
-            entity.Status = request.CorrectStatus;
-            entity.Description = request.Description;
+            entity.Status = request.Status;
 
             await _dbContext.SaveChangesAsync();
 

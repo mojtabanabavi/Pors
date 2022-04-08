@@ -1,15 +1,15 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
+	
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>disable</Nullable>
+	  <TargetFramework>net5.0</TargetFramework>
+	  <ImplicitUsings>disable</ImplicitUsings>
+	  <Nullable>disable</Nullable>
   </PropertyGroup>
-
+	
   <ItemGroup>
     <None Remove="Common\Interfaces\INotificationService.cs~RF822a82.TMP" />
   </ItemGroup>
-
+	
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="10.3.6" />
@@ -18,9 +18,9 @@
     <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="5.0.14" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.14" />
   </ItemGroup>
-
+	
   <ItemGroup>
     <ProjectReference Include="..\Pors.Domain\Pors.Domain.csproj" />
   </ItemGroup>
-
+	
 </Project>

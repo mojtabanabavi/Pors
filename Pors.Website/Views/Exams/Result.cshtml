@@ -4,10 +4,12 @@
 }
 
 @section styles{
+    <link rel="stylesheet" href="~/lib/barrating/css/bars-pill.fa.css" />
     <link rel="stylesheet" href="~/lib/sweetalert2/css/sweetalert2.min.css" />
 }
 
 @section scripts{
+    <script src="~/lib/barrating/js/jquery.barrating.min.js"></script>
     <script src="~/lib/sweetalert2/js/sweetalert2.all.min.js"></script>
 }
 
@@ -31,43 +33,19 @@
                                 {
                                     @foreach (var answer in Model.Answers)
                                     {
-                                        <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
-                                            <h5 class="exam-question-title">@answer.QuestionTitle</h5>
-                                            <button class="btn btn-sm outline-btn bg-transparent mr-md-3 mb-3 mb-sm-0" data-toggle="collapse" data-target="#comment-@answer.Id">ثبت نظر</button>
+                                        <div class="d-flex flex-wrap justify-content-center justify-content-md-between align-items-center mb-3">
+                                            <h5 class="exam-question-title mb-3 mb-md-0">@answer.QuestionTitle</h5>
+                                            <div class="rating d-flex align-items-center my-2 my-md-0">
+                                                <select data-answer-id="@answer.Id" class="barrating">
+                                                    <option value="1" selected="@((int)answer.CommentStatus == 1)"> صحیح </option>
+                                                    <option value="0" selected="@((int)answer.CommentStatus == 0)"> نامشخص </option>
+                                                    <option value="2" selected="@((int)answer.CommentStatus == 2)"> غلط </option>
+                                                </select>
+                                            </div>
                                         </div>
 
                                         <p>پاسخ شما: <span>@answer.AnswerTitle</span></p>
-                                        <p>صحت پاسخ از نظر شما: <span>@answer.CommentStatus.GetDescription()</span></p>
-                                        <p class="text-justify">توضیحات: @answer.AnswerDescription</p>
-
-                                        @if (answer.AnswerImage != null)
-                                        {
-                                            <img class="d-block my-2 mb-5 w-100" src="~/@answer.AnswerImage" alt="@answer.AnswerTitle" />
-                                        }
-                                        <div id="comment-@answer.Id" role="tabpanel" class="collapse">
-                                            <div class="gray-light-bg border border-accent-primary mb-4 p-3">
-                                                <form class="exam-comment-form" asp-controller="exams" asp-action="comment" method="post">
-                                                    <input type="hidden" name="Id" value="@answer.Id" />
-                                                    <div class="row">
-                                                        <div class="col-12">
-                                                            <div class="form-group">
-                                                                <label class="">آیا پاسخ از نظر شما صحیح است؟</label>
-                                                                <select name="CorrectStatus" class="form-control has-value" asp-items="@Pors.Website.Extensions.EnumExtensions.ToSelectList<AnswerStatus>(answer.CommentStatus.As<int>())"></select>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-12">
-                                                            <div class="form-group">
-                                                                <label class="">توضیحات</label>
-                                                                <textarea name="Description" rows="4" class="form-control" placeholder="از نظر من...">@answer.CommentDescription</textarea>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-12 d-flex justify-content-end">
-                                                            <button type="submit" data-action="loading" class="btn btn-sm primary-solid-btn">ثبت</button>
-                                                        </div>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
+                                        <p class="text-justify">@answer.AnswerDescription</p>
                                     }
                                 }
                                 else

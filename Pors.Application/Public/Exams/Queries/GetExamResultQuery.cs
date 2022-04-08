@@ -54,18 +54,14 @@ namespace Pors.Application.Public.Exams.Queries
         public int Id { get; set; }
         public string QuestionTitle { get; set; }
         public string AnswerTitle { get; set; }
-        public string AnswerImage { get; set; }
         public string AnswerDescription { get; set; }
         public AnswerStatus CommentStatus { get; set; }
-        public string CommentDescription { get; set; }
 
         public void Mapping(Profile profile)
         {
             profile.CreateMap<AttemptAnswer, ExamAnswerResultDto>()
                 .ForMember(x => x.CommentStatus, option => option.MapFrom(y => y.Status))
                 .ForMember(x => x.AnswerTitle, option => option.MapFrom(y => y.Option.Title))
-                .ForMember(x => x.AnswerImage, option => option.MapFrom(y => y.Option.Image))
-                .ForMember(x => x.CommentDescription, option => option.MapFrom(y => y.Description))
                 .ForMember(x => x.QuestionTitle, option => option.MapFrom(y => y.Option.Question.Title))
                 .ForMember(x => x.AnswerDescription, option => option.MapFrom(y => y.Option.Description));
         }
