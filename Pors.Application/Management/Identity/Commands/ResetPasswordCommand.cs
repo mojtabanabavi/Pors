@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Pors.Application.Common.Interfaces;
 
-namespace Pors.Application.Identity.Commands
+namespace Pors.Application.Management.Identity.Commands
 {
     #region command
 

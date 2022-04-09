@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 using Pors.Website.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-using Pors.Application.Identity.Queries;
 using Microsoft.AspNetCore.Authorization;
-using Pors.Application.Identity.Commands;
 using Microsoft.AspNetCore.Authentication;
+using Pors.Application.Management.Identity.Queries;
+using Pors.Application.Management.Identity.Commands;
 
 namespace Pors.Website.Areas.Admin.Controllers
 {

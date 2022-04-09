@@ -4,12 +4,33 @@ using Pors.Website.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Pors.Application.Public.Exams.Queries;
 using Pors.Application.Public.Exams.Commands;
+using Pors.Application.Public.Reports.Queries;
 using Pors.Application.Public.Answers.Commands;
 
 namespace Pors.Website.Controllers
 {
     public class ExamsController : BaseController
     {
+        #region api
+
+        [HttpPost]
+        public async Task<IActionResult> GetQuestionAnswersChartData(GetAnswersChartDataQuery request)
+        {
+            var result = await Mediator.Send(request);
+
+            return Json(result);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> GetQuestionAnswersAccuracyChartData(GetAnswersAccuracyChartDataQuery request)
+        {
+            var result = await Mediator.Send(request);
+
+            return Json(result);
+        }
+
+        #endregion;
+
         [HttpGet]
         public async Task<IActionResult> Index(GetExamsQuery request)
         {

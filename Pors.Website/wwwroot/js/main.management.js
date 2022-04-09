@@ -1,5 +1,90 @@
-﻿// Sidebar Auto Collapse //
+﻿
+// Navbar //
 // -----------------------------
+
+'use strict';
+
+let Navbar = (function () {
+
+    // letiables
+
+    let $nav = $('.navbar-nav, .navbar-nav .nav');
+    let $collapse = $('.navbar .collapse');
+    let $dropdown = $('.navbar .dropdown');
+
+    // Methods
+
+    function accordion($this) {
+        $this.closest($nav).find($collapse).not($this).collapse('hide');
+    }
+
+    function closeDropdown($this) {
+        let $dropdownMenu = $this.find('.dropdown-menu');
+
+        $dropdownMenu.addClass('close');
+
+        setTimeout(function () {
+            $dropdownMenu.removeClass('close');
+        }, 200);
+    }
+
+
+    // Events
+
+    $collapse.on({
+        'show.bs.collapse': function () {
+            accordion($(this));
+        }
+    })
+
+    $dropdown.on({
+        'hide.bs.dropdown': function () {
+            closeDropdown($(this));
+        }
+    })
+
+})();
+
+let NavbarCollapse = (function () {
+
+    // letiables
+
+    let $nav = $('.navbar-nav'),
+        $collapse = $('.navbar .collapse');
+
+
+    // Methods
+
+    function hideNavbarCollapse($this) {
+        $this.addClass('collapsing-out');
+    }
+
+    function hiddenNavbarCollapse($this) {
+        $this.removeClass('collapsing-out');
+    }
+
+
+    // Events
+
+    if ($collapse.length) {
+        $collapse.on({
+            'hide.bs.collapse': function () {
+                hideNavbarCollapse($collapse);
+            }
+        })
+
+        $collapse.on({
+            'hidden.bs.collapse': function () {
+                hiddenNavbarCollapse($collapse);
+            }
+        })
+    }
+
+})();
+
+// Sidebar Auto Collapse //
+// -----------------------------
+
 $(function () {
     $('.nav-link[data-toggle="collapse"].active').each(function () {
         var $this = $(this);
@@ -10,6 +95,7 @@ $(function () {
 
 // Set Default Image //
 // -----------------------------
+
 $(function () {
     function SetDefaultImages() {
         $('img').each(function () {
@@ -26,6 +112,7 @@ $(function () {
 
 // Image Preview //
 // -----------------------------
+
 $(function () {
     function PreviewImage(input, output) {
         if (input.files && input.files[0]) {
@@ -52,6 +139,7 @@ $(function () {
 
 // Select2 //
 // -----------------------------
+
 try {
     $(".select2").select2({
         dir: "rtl",
@@ -64,6 +152,7 @@ catch {
 
 // Form Repeater //
 // -----------------------------
+
 $(function () {
     let repeaterTarget = $('.form-repeater');
 
@@ -83,6 +172,7 @@ $(function () {
 
 // Ck Editor //
 // -----------------------------
+
 $(function () {
     var targets = $(".ck-classic-editor");
     if (targets.length) {
@@ -107,6 +197,7 @@ $(function () {
 
 // Confirm Delete Alert //
 // -----------------------------
+
 $(function () {
     $(document).on('click', '[data-delete-btn]', function (e) {
         e.preventDefault();
@@ -162,6 +253,7 @@ $(function () {
 
 // Select All Button //
 // -----------------------------
+
 $(function () {
     $('#select-all-permissions').on('change', function () {
         let $this = $(this);
@@ -173,6 +265,7 @@ $(function () {
 
 // Data Table //
 // -----------------------------
+
 $(function () {
     function initDataTable(target, options) {
 
@@ -707,12 +800,207 @@ $(function () {
 // Charts //
 // -----------------------------
 
-$(function () {
+let Charts = (function () {
 
-    if (typeof Chart != 'undefined') {
-        Chart.defaults.global.defaultFontFamily = 'yekan';
+    let mode = 'light';
+
+    let fonts = {
+        base: 'yekan'
+    }
+    let colors = {
+        black: '#12263F',
+        white: '#FFFFFF',
+        transparent: 'transparent',
+        gray: {
+            100: '#f6f9fc',
+            200: '#e9ecef',
+            300: '#dee2e6',
+            400: '#ced4da',
+            500: '#adb5bd',
+            600: '#8898aa',
+            700: '#525f7f',
+            800: '#32325d',
+            900: '#212529'
+        },
+        theme: {
+            'info': '#11cdef',
+            'default': '#172b4d',
+            'primary': '#5e72e4',
+            'success': '#2dce89',
+            'danger': '#f5365c',
+            'warning': '#fb6340',
+            'secondary': '#f4f5f7',
+        },
+    };
+
+    // Chart.js global options
+    function chartOptions() {
+        let options = {
+            defaults: {
+                global: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    defaultColor: (mode == 'dark') ? colors.gray[700] : colors.gray[600],
+                    defaultFontColor: (mode == 'dark') ? colors.gray[700] : colors.gray[600],
+                    defaultFontFamily: fonts.base,
+                    defaultFontSize: 13,
+                    layout: {
+                        padding: 0
+                    },
+                    legend: {
+                        rtl: true,
+                        display: false,
+                        position: 'bottom',
+                        labels: {
+                            padding: 40,
+                            usePointStyle: true,
+                        }
+                    },
+                    elements: {
+                        point: {
+                            radius: 0,
+                            backgroundColor: colors.theme['primary']
+                        },
+                        line: {
+                            tension: .4,
+                            borderWidth: 4,
+                            borderColor: colors.theme['primary'],
+                            backgroundColor: colors.transparent,
+                            borderCapStyle: 'rounded'
+                        },
+                        rectangle: {
+                            backgroundColor: colors.theme['warning']
+                        },
+                        arc: {
+                            backgroundColor: colors.theme['primary'],
+                            borderColor: (mode == 'dark') ? colors.gray[800] : colors.white,
+                            borderWidth: 4
+                        }
+                    },
+                    tooltips: {
+                        rtl: true,
+                        enabled: true,
+                        mode: 'index',
+                        textDirection: 'rtl',
+                        callbacks: {
+                            title: function (item, data) {
+                                return data['labels'][item[0]['index']];
+                            },
+                            label: function (item, data) {
+                                let value = item.yLabel;
+                                let label = data.datasets[item.datasetIndex].label || '';
+
+                                if (label) {
+                                    return `${label}: ${value}`;
+                                }
+
+                                return value;
+                            },
+                        }
+                    }
+                },
+                doughnut: {
+                    cutoutPercentage: 83,
+                    tooltips: {
+                        callbacks: {
+                            title: function (item, data) {
+                                let title = data.labels[item[0].index];
+                                return title;
+                            },
+                            label: function (item, data) {
+                                let value = data.datasets[0].data[item.index];
+                                let content = '';
+
+                                content += '<span class="popover-body-value">' + value + '</span>';
+                                return content;
+                            }
+                        }
+                    },
+                    legendCallback: function (chart) {
+                        let data = chart.data;
+                        let content = '';
+
+                        data.labels.forEach(function (label, index) {
+                            let bgColor = data.datasets[0].backgroundColor[index];
+
+                            content += '<span class="chart-legend-item">';
+                            content += '<i class="chart-legend-indicator" style="background-color: ' + bgColor + '"></i>';
+                            content += label;
+                            content += '</span>';
+                        });
+
+                        return content;
+                    }
+                }
+            }
+        }
+
+        // yAxes
+        Chart.scaleService.updateScaleDefaults('linear', {
+            gridLines: {
+                borderDash: [2],
+                borderDashOffset: [2],
+                color: (mode == 'dark') ? colors.gray[900] : colors.gray[300],
+                drawBorder: false,
+                drawTicks: false,
+                lineWidth: 0,
+                zeroLineWidth: 0,
+                zeroLineColor: (mode == 'dark') ? colors.gray[900] : colors.gray[300],
+                zeroLineBorderDash: [2],
+                zeroLineBorderDashOffset: [2]
+            },
+            ticks: {
+                beginAtZero: true,
+                padding: 10,
+                callback: function (value) {
+                    if (value % 1 === 0) {
+                        return value;
+                    }
+                }
+            }
+        });
+
+        // xAxes
+        Chart.scaleService.updateScaleDefaults('category', {
+            gridLines: {
+                drawBorder: false,
+                drawOnChartArea: false,
+                drawTicks: false
+            },
+            ticks: {
+                padding: 20
+            },
+            maxBarThickness: 10
+        });
+
+        return options;
+
     }
 
+    // Parse global options
+    function parseOptions(parent, options) {
+        for (let item in options) {
+            if (typeof options[item] !== 'object') {
+                parent[item] = options[item];
+            } else {
+                parseOptions(parent[item], options[item]);
+            }
+        }
+    }
+
+    if (window.Chart) {
+        parseOptions(Chart, chartOptions());
+    }
+
+    return {
+        mode: mode,
+        fonts: fonts,
+        colors: colors,
+    };
+
+})();
+
+$(function () {
     let ExamVisitsChart = (function () {
         let chart;
         let chartTarget = $('#exam-visits-chart');

@@ -1,7 +1,25 @@
 ﻿@model GetExamDetailsQueryResponse
 @{
     ViewData["Title"] = Model.Title;
+
+    @inject MediatR.ISender Mediator
+
+    var questionsSelectListItems = await Mediator.Send(new GetQuestionsSelectListQuery(Model.Id));
+
+    var questionsSelectList = new SelectList(questionsSelectListItems.Items, "Value", "Text");
 }
+
+@section styles{
+    <link rel="stylesheet" href="~/lib/select2/css/select2.min.css" />
+    <link rel="stylesheet" href="~/lib/select2/css/select2.bootstrap4.min.css" />
+}
+
+@section scripts{
+    <script src="~/lib/chart/js/Chart.min.js"></script>
+    <script src="~/lib/select2/js/select2.min.js"></script>
+    <script src="~/lib/chart/js/Chart.extension.js"></script>
+}
+
 <div class="ptb-100 gray-light-bg">
     <div class="container">
         <div class="row">
@@ -9,16 +27,14 @@
                 <div class="single-blog-card card border-0 shadow-sm">
                     <img src="~/@Model.Image" class="card-img-top position-relative height-auto" alt="@Model.Title" />
                     <div class="card-body">
-                        <h3 class="h5 card-title">
-                            <a asp-controller="exams" asp-action="attempt" asp-route-id="@Model.Id">@Model.Title</a>
-                        </h3>
+                        <h1 class="h5 card-title">@Model.Title</h1>
                         @if (Model.LongDescription.HasValue())
                         {
-                            <p class="card-text">@Html.Raw(Model.LongDescription)</p>
+                            <p class="card-text text-justify">@Html.Raw(Model.LongDescription)</p>
                         }
                         else
                         {
-                            <p class="card-text">@Model.ShortDescription</p>
+                            <p class="card-text text-justify">@Model.ShortDescription</p>
                         }
                     </div>
                 </div>
@@ -44,6 +60,32 @@
                         </div>
                         <div class="text-center mt-auto">
                             <a asp-controller="exams" asp-action="attempt" asp-route-id="@Model.Id" class="btn outline-btn">شرکت در آزمون</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-lg-8 mb-4">
+                <h3 class="h5 card-title mb-4">نمودار‌ها</h3>
+                <select class="chart-question-select select2 form-control form-control-alternative w-100" asp-items="@questionsSelectList"></select>
+            </div>
+            <div class="col-12 col-lg-8 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="h5 card-title mb-4">نمودار جامعیت داده</h3>
+                        <!-- chart -->
+                        <div class="chart">
+                            <canvas id="exam-answers-chart" class="chart-canvas"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-lg-8 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="h5 card-title mb-4">نمودار صحت داده</h3>
+                        <!-- chart -->
+                        <div class="chart">
+                            <canvas id="exam-answers-accuracy-chart" class="chart-canvas"></canvas>
                         </div>
                     </div>
                 </div>

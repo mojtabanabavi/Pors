@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Pors.Application.Common.Models;
 using Pors.Application.Common.Interfaces;
 
-namespace Pors.Application.Identity.Queries
+namespace Pors.Application.Management.Identity.Queries
 {
     #region query
 

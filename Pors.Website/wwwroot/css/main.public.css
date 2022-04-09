@@ -405,3 +405,8 @@ table {
         box-shadow: 0 2px 4px -1px rgba(0, 0, 0, .15);
         background-image: linear-gradient(to bottom, #0073ec, #214eec);
     }
+
+.chart {
+    height: 350px;
+    position: relative;
+}

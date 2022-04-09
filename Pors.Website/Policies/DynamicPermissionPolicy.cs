@@ -2,9 +2,9 @@
 using MediatR;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
-using Pors.Application.Identity.Queries;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Controllers;
+using Pors.Application.Management.Identity.Queries;
 
 namespace Pors.Website.Policies
 {

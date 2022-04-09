@@ -5,6 +5,7 @@ using Pors.Website.Constants;
 using Microsoft.AspNetCore.Mvc;
 using Pors.Application.Common.Models;
 using Microsoft.AspNetCore.Authorization;
+using Pors.Application.Public.Reports.Queries;
 using Pors.Application.Management.Exams.Queries;
 using Pors.Application.Management.Exams.Commands;
 using Pors.Application.Management.Reports.Queries;

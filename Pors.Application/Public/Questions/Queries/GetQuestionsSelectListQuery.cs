@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Pors.Application.Common.Models;
 using Pors.Application.Common.Interfaces;
 
-namespace Pors.Application.Management.Questions.Queries
+namespace Pors.Application.Public.Questions.Queries
 {
     #region query
 
