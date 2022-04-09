@@ -410,3 +410,16 @@ table {
     height: 350px;
     position: relative;
 }
+
+.exam-form-wizard .custom-control-label {
+    width: 100%;
+    display: block;
+    height: auto !important;
+}
+
+    .exam-form-wizard .custom-control-label img.option-image {
+        display: block;
+        margin-top: 1.25rem;
+        margin-bottom: 1.25rem;
+        width: 12rem !important;
+    }

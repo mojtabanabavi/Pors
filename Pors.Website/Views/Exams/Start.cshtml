@@ -47,11 +47,12 @@
                                                         <input type="radio" name="answers[@i][optionId]" value="@option.Id" class="custom-control-input" id="option-@option.Id" required>
                                                         <label class="custom-control-label" for="option-@option.Id">
                                                             @option.Title
+                                                            @if (option.Image != null)
+                                                            {
+                                                                <img class="option-image" src="~/@option.Image" alt="@option.Title" />
+                                                            }
                                                         </label>
-                                                        @if (option.Image != null)
-                                                        {
-                                                            <img class="d-block my-2 w-100" src="~/@option.Image" alt="@option.Title" />
-                                                        }
+                                                        
                                                     </div>
                                                 }
                                             </fieldset>
@@ -63,6 +64,7 @@
                                     <div class="text-center mt-auto py-5">
                                         <div asp-validation-summary="ModelOnly" class="text-center mb-4"></div>
                                         <a asp-controller="home" asp-action="index" class="btn outline-btn mt-3">بازگشت به صفحه‌ی اصلی</a>
+                                        <a asp-controller="exams" asp-action="attempt" asp-route-id="@Model.Id" class="btn primary-solid-btn mt-3">آزمون مجدد</a>
                                     </div>
                                 }
                             </div>
