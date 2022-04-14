@@ -7,6 +7,8 @@ using Pors.Website.Filters;
 using Pors.Website.Services;
 using Pors.Website.Policies;
 using Pors.Website.Constants;
+using Pors.Website.Middlewares;
+using Microsoft.AspNetCore.Http;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -46,14 +48,24 @@ namespace Pors.Website
                 options.ValidatorOptions.LanguageManager.Culture = new CultureInfo("fa");
             });
 
-            services.AddAuthentication()
-                .AddCookie(AuthenticationSchemes.Management, options =>
-                {
-                    options.LoginPath = "/admin/identity/login";
-                    options.LogoutPath = "/admin/identity/logout";
-                    options.ExpireTimeSpan = TimeSpan.FromHours(1);
-                    options.AccessDeniedPath = "/admin/identity/accessDenied";
-                });
+            services.AddAuthentication(options =>
+            {
+                options.DefaultScheme = AuthenticationSchemes.Public;
+            })
+            .AddCookie(AuthenticationSchemes.Management, options =>
+            {
+                options.LoginPath = "/admin/identity/login";
+                options.LogoutPath = "/admin/identity/logout";
+                options.ExpireTimeSpan = TimeSpan.FromHours(1);
+                options.AccessDeniedPath = "/admin/identity/accessDenied";
+            })
+            .AddCookie(AuthenticationSchemes.Public, options =>
+            {
+                options.LoginPath = "/identity/login";
+                options.LogoutPath = "/identity/logout";
+                options.ExpireTimeSpan = TimeSpan.FromDays(30);
+                options.AccessDeniedPath = "/identity/accessDenied";
+            });
 
             services.AddAuthorization(options =>
             {
@@ -78,23 +90,29 @@ namespace Pors.Website
             }
             else
             {
-                app.UseWhen(context => context.Request.Path.StartsWithSegments("/admin"), app =>
+                // Custom middleware for managment area
+                app.UseWhen(context => IsInManagementArea(context), app =>
                 {
                     app.UseStatusCodePagesWithReExecute("/admin/error", "?statusCode={0}");
                 });
 
-                app.UseWhen(context => !context.Request.Path.StartsWithSegments("/admin"), app =>
+                // Custom middleware for public area
+                app.UseWhen(context => !IsInManagementArea(context), app =>
                 {
                     app.UseStatusCodePagesWithReExecute("/error", "?statusCode={0}");
                 });
             }
 
-            app.UseSession();
             app.UseStaticFiles();
             app.UseRouting();
-
+            app.UseSession();
             app.UseAuthentication();
             app.UseAuthorization();
+
+            app.UseWhen(context => !IsInManagementArea(context), app =>
+            {
+                app.UsecookieInitializer();
+            });
 
             app.UseEndpoints(endpoints =>
             {
@@ -108,6 +126,11 @@ namespace Pors.Website
                     pattern: "{controller=home}/{action=index}/{id?}"
                 );
             });
+        }
+
+        private bool IsInManagementArea(HttpContext context)
+        {
+            return context.Request.Path.StartsWithSegments("/admin");
         }
     }
 }

@@ -16,5 +16,10 @@ namespace Pors.Website.Extensions
 
             return modelState;
         }
+
+        public static IEnumerable<string> GetErrorMessages(this ModelStateDictionary modelState)
+        {
+            return modelState.SelectMany(x => x.Value.Errors.Select(x => x.ErrorMessage));
+        }
     }
 }

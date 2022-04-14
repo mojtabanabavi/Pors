@@ -561,6 +561,11 @@ a {
     font-family: 'IRANSans';
 }
 
+    .form-control.form-control-sm {
+        padding: 0.25rem 0.5rem;
+        height: calc(1.5em + 0.5rem + 2px);
+    }
+
     .form-control:focus {
         outline: none;
         box-shadow: none;
@@ -661,36 +666,6 @@ select.form-control.has-value {
 }
 /*header topbar*/
 
-.topbar-text ul li {
-    font-size: 84%;
-    line-height: 30px;
-    color: #757575;
-}
-
-    .topbar-text ul li a {
-        display: flex;
-        align-items: center;
-        color: #757575;
-    }
-
-        .topbar-text ul li a:hover {
-            color: #0073ec;
-        }
-
-.gradient-bg .topbar-text ul li,
-.gradient-bg .topbar-text ul li a {
-    color: #ffffff;
-    opacity: 0.8;
-}
-
-    .gradient-bg .topbar-text ul li a:hover {
-        opacity: 1;
-    }
-
-.topbar-text ul li span {
-    font-size: 84%;
-}
-
 /*main header section css*/
 .header-main {
     position: relative;
@@ -769,10 +744,10 @@ select.form-control.has-value {
 }
 
 @media (max-width: 767px) and (min-width: 320px) {
-    .main-sub-menu {
+/*    .main-sub-menu {
         height: 220px;
         overflow-y: scroll;
-    }
+    }*/
 }
 
 .sub-menu-nav-group {
@@ -908,7 +883,7 @@ select.form-control.has-value {
 .navbar-expand .main-navbar-nav .sub-menu-nav-group .sub-menu-nav-link {
     padding-left: 0;
 }
-
+/*
 .navbar-expand .main-navbar-nav .main-sub-menu.hs-sub-menu {
     padding-top: 1rem;
     padding-bottom: 1rem;
@@ -921,7 +896,7 @@ select.form-control.has-value {
     .navbar-expand .main-navbar-nav .main-sub-menu .hs-has-sub-menu .main-sub-menu {
         margin-top: -1.1875rem;
     }
-
+*/
 .navbar-expand
 .u-header__mega-menu-position-right-fix.hs-mega-menu.hs-position-right {
     right: 20%;
@@ -979,6 +954,13 @@ select.form-control.has-value {
     list-style: none;
 }
 /*menu responsive css*/
+.navbar-expand-md .main-navbar-nav .main-sub-menu {
+    border-top: 2px solid #0073ec;
+    border-bottom-right-radius: 0.25rem;
+    border-bottom-left-radius: 0.25rem;
+    -webkit-box-shadow: 0 12px 20px 0 rgba(23, 28, 33, 0.16);
+    box-shadow: 0 12px 20px 0 rgba(23, 28, 33, 0.16);
+}
 @media (min-width: 768px) {
     .navbar-expand-md .main-navbar-nav .custom-nav-link {
         padding-top: 1.5rem;
@@ -987,13 +969,7 @@ select.form-control.has-value {
         padding-left: 0.875rem;
     }
 
-    .navbar-expand-md .main-navbar-nav .main-sub-menu {
-        border-top: 2px solid #0073ec;
-        border-bottom-right-radius: 0.25rem;
-        border-bottom-left-radius: 0.25rem;
-        -webkit-box-shadow: 0 12px 20px 0 rgba(23, 28, 33, 0.16);
-        box-shadow: 0 12px 20px 0 rgba(23, 28, 33, 0.16);
-    }
+
 
     .navbar-expand-md
     .hs-has-sub-menu
@@ -1227,7 +1203,7 @@ a.video-play-icon {
         margin-left: auto;
     }
 
-    .navbar-expand-md .hs-mega-menu-opened .custom-nav-link-toggle::after,
+/*    .navbar-expand-md .hs-mega-menu-opened .custom-nav-link-toggle::after,
     .navbar-expand-md .hs-sub-menu-opened .custom-nav-link-toggle::after {
         -webkit-transform: rotate(-180deg);
         transform: rotate(-180deg);
@@ -1236,7 +1212,7 @@ a.video-play-icon {
     .navbar-expand-md .hs-sub-menu-opened > .sub-link-toggle::after {
         -webkit-transform: rotate(-90deg);
         transform: rotate(-90deg);
-    }
+    }*/
 
     .u-header--bg-transparent .main-navbar-nav {
         padding: 0.875rem 0;
@@ -1252,7 +1228,7 @@ a.video-play-icon {
         background-color: #fff;
     }
 
-    .navbar-expand-md .sub-menu-nav-group {
+/*    .navbar-expand-md .sub-menu-nav-group {
         padding-top: 0.5rem;
         padding-left: 1.5rem;
     }
@@ -1263,18 +1239,18 @@ a.video-play-icon {
 
     .navbar-expand-md .main-sub-menu {
         min-width: 100% !important;
-    }
+    }*/
 
-        .navbar-expand-md .main-sub-menu .hs-has-sub-menu {
+/*        .navbar-expand-md .main-sub-menu .hs-has-sub-menu {
             padding-left: 1.5rem;
             padding-top: 0;
             padding-bottom: 0;
-        }
+        }*/
 
-        .navbar-expand-md .main-sub-menu .main-sub-menu,
+/*        .navbar-expand-md .main-sub-menu .main-sub-menu,
         .main-sub-menu .submenu-item {
             padding-left: 1.5rem;
-        }
+        }*/
 }
 
 /*headerroom*/

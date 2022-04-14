@@ -33,6 +33,35 @@
     <!-- content -->
     <div class="main main-with-padding">
         @RenderBody()
+
+        <!-- login modal -->
+        <div class="modal fade" id="login-modal" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content bg-white">
+                    <form id="login-form" asp-controller="identity" asp-action="login" method="post">
+                        <div class="modal-header">
+                            <h5 class="modal-title">بازیابی حساب کاربری</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label class="pb-1">شناسه‌</label>
+                                <div class="input-group input-group-merge">
+                                    <input type="text" name="SessionId" class="form-control" placeholder="مثال: e1c1a181-8935-0655-fbf0-2c77ddba25d5" required>
+                                </div>
+                                <label id="session-id-validation-error" class="field-validation-error">‌</label>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn outline-btn" data-dismiss="modal">انصراف</button>
+                            <button type="submit" class="btn primary-solid-btn">بازیابی</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- footer -->

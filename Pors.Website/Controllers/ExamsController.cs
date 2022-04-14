@@ -50,7 +50,9 @@ namespace Pors.Website.Controllers
         [HttpGet]
         public async Task<IActionResult> Attempt(int id)
         {
-            var attemptId = await Mediator.Send(new CreateExamAttemptCommand(id));
+            var attempterId = HttpContext.Request.Cookies["AttempterId"].ToString();
+
+            var attemptId = await Mediator.Send(new CreateExamAttemptCommand(id, attempterId));
 
             return RedirectToAction(nameof(Start), new { AttemptId = attemptId });
         }

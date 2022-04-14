@@ -1,33 +1,36 @@
 ﻿@{
+    var attempterId = ViewContext.HttpContext.Request.Cookies["AttempterId"];
     var currentPersianDate = Dater.ToIranSolar(DateTime.Now, "dddd، dd MMMM yyyy");
+
+    if (attempterId == null)
+    {
+        foreach (var headers in ViewContext.HttpContext.Response.Headers.Values)
+        {
+            foreach (var header in headers)
+            {
+                if (header.StartsWith($"AttempterId="))
+                {
+                    var p1 = header.IndexOf('=');
+                    var p2 = header.IndexOf(';');
+                    attempterId = header.Substring(p1 + 1, p2 - p1 - 1);
+                }
+            }
+        }
+    }
 }
 
 <header id="header" class="header-main headroom">
-    <div id="header-top-bar" class="gray-light-bg">
+    <div id="header-top-bar" class="header-top-bar gray-light-bg">
         <div class="container">
-            <div class="row justify-content-between">
-                <div class="col-md-7 col-lg-7">
-                    <div class="topbar-text">
-                        <ul class="list-inline">
-                            <li class="list-inline-item">
-                                <span>امروز: @currentPersianDate</span>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-md-4 col-lg-4">
-                    <div class="topbar-text">
-                        <ul class="list-inline text-left">
-                            @*<li class="list-inline-item">
-                                    <a href="#"><span class="ti-user ml-2"></span> ورود</a>
-                                </li>
-                                <li class="list-inline-item">
-                                    <a href="#"><span class="ti-lock ml-2"></span> ثبت نام</a>
-                                </li>*@
-                        </ul>
-                    </div>
-                </div>
-            </div>
+            <ul class="top-bar-nav py-2">
+                <li class="d-none d-sm-flex">
+                    <span>امروز: @currentPersianDate</span>
+                </li>
+                <li>
+                    <span>شناسه‌ی شما:&nbsp;</span>
+                    <span class="cursor-pointer text-primary">@attempterId</span>
+                </li>
+            </ul>
         </div>
     </div>
     <div id="logoAndNav" class="main-header-menu-wrap white-bg border-bottom">
@@ -36,11 +39,46 @@
                 <a class="navbar-brand" asp-controller="home" asp-action="index">
                     <span>پُرس</span>
                 </a>
-                <button type="button" class="navbar-toggler btn" aria-expanded="false" aria-controls="navBar" data-toggle="collapse" data-target="#navBar">
-                    <span id="hamburgerTrigger">
-                        <span class="ti-menu"></span>
-                    </span>
-                </button>
+                <div class="d-flex">
+                    @if (!User.Identity.IsAuthenticated)
+                    {
+                        <a class="nav-link custom-nav-link cursor-pointer d-flex align-items-center d-md-none" data-toggle="modal" data-target="#login-modal">
+                            <span class="ti-user ml-2"></span>
+                            <span>بازیابی حساب</span>
+                        </a>
+                    }
+                    else
+                    {
+                        <ul class="main-navbar-nav mr-auto p-0 d-md-none">
+                            <li class="nav-item hs-has-sub-menu custom-nav-item">
+                                <a id="profile-submenu" class="nav-link custom-nav-link main-link-toggle d-flex align-items-center" href="javascript:void(0)">
+                                    <span class="ti-user ml-2"></span>
+                                    پروفایل
+                                </a>
+                                <ul id="profile-submenu" class="hs-sub-menu main-sub-menu animated">
+                                    <li class="nav-item submenu-item">
+                                        <a asp-controller="identity" asp-action="profile" class="nav-link py-3 sub-menu-nav-link align-items-center d-flex align-items-center">
+                                            <span class="ti-user ml-2"></span>
+                                            <span>مشاهده</span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item submenu-item">
+                                        <a asp-controller="identity" asp-action="logout" class="nav-link py-3 sub-menu-nav-link align-items-center d-flex align-items-center">
+                                            <span class="ti-lock ml-2"></span>
+                                            <span>خروج</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    }
+                    <button type="button" class="navbar-toggler btn pl-0" aria-expanded="false" aria-controls="navBar" data-toggle="collapse" data-target="#navBar">
+                        <span id="hamburgerTrigger">
+                            <span class="ti-menu"></span>
+                        </span>
+                    </button>
+                </div>
+
                 <div id="navBar" class="collapse navbar-collapse">
                     <ul class="navbar-nav main-navbar-nav">
                         <li class="nav-item custom-nav-item">
@@ -52,14 +90,40 @@
                         <li class="nav-item custom-nav-item">
                             <a asp-controller="faq" asp-action="index" class="nav-link custom-nav-link">‌سوالات متداول</a>
                         </li>
-                        @*<li class="nav-item hs-has-sub-menu custom-nav-item disabled">
-                                <a id="pagesMegaMenu" class="nav-link custom-nav-link main-link-toggle" href="javascript:void(0)">سایر صفحات</a>
-                                <ul id="pagesSubMenu" class="hs-sub-menu main-sub-menu animated" style="min-width: 230px; display: none">
+                    </ul>
+                    <ul class="navbar-nav main-navbar-nav mr-auto d-none d-lg-flex">
+                        @if (!User.Identity.IsAuthenticated)
+                        {
+                            <li id="login-btn" class="nav-item custom-nav-item">
+                                <a class="nav-link custom-nav-link align-items-center d-flex align-items-center pl-0 cursor-pointer" data-toggle="modal" data-target="#login-modal">
+                                    <span class="ti-user ml-2"></span>
+                                    <span>بازیابی حساب</span>
+                                </a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item hs-has-sub-menu custom-nav-item">
+                                <a id="profile-submenu" class="nav-link custom-nav-link main-link-toggle d-flex align-items-center" href="javascript:void(0)">
+                                    <span class="ti-user ml-2"></span>
+                                    پروفایل
+                                </a>
+                                <ul id="profile-submenu" class="hs-sub-menu main-sub-menu animated">
                                     <li class="nav-item submenu-item">
-                                        <a class="nav-link sub-menu-nav-link" href="about-us.html">درباره ما</a>
+                                        <a asp-controller="identity" asp-action="profile" class="nav-link py-3 sub-menu-nav-link align-items-center d-flex align-items-center">
+                                            <span class="ti-user ml-2"></span>
+                                            <span>مشاهده</span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item submenu-item">
+                                        <a asp-controller="identity" asp-action="logout" class="nav-link py-3 sub-menu-nav-link align-items-center d-flex align-items-center">
+                                            <span class="ti-lock ml-2"></span>
+                                            <span>خروج</span>
+                                        </a>
                                     </li>
                                 </ul>
-                            </li>*@
+                            </li>
+                        }
                     </ul>
                 </div>
             </nav>

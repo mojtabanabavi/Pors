@@ -15,6 +15,7 @@ namespace Pors.Website.Services
         }
 
         public string IpAddress => GetIpAddress();
+        public string SessionId => GetSessionId();
         public string DisplayName => GetClaimValue(ClaimTypes.Name);
         public string ProfilePicture => GetClaimValue("ProfilePicture");
         public string UserId => GetClaimValue(ClaimTypes.NameIdentifier);
@@ -27,6 +28,11 @@ namespace Pors.Website.Services
         private string GetIpAddress()
         {
             return _httpContextAccessor.HttpContext.Connection.RemoteIpAddress.ToString();
+        }
+
+        private string GetSessionId()
+        {
+            return _httpContextAccessor.HttpContext.Session?.Id;
         }
     }
 }

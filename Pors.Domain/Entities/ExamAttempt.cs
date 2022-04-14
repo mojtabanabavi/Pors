@@ -11,6 +11,7 @@ namespace Pors.Domain.Entities
         public string Id { get; set; }
         public int ExamId { get; set; }
         public string IpAddress { get; set; }
+        public string SessionId { get; set; }
         public DateTime CreatedAt { get; set; }
 
         public Exam Exam { get; set; }

@@ -12,10 +12,12 @@ namespace Pors.Application.Public.Exams.Commands
     public class CreateExamAttemptCommand : IRequest<string>
     {
         public int ExamId { get; set; }
+        public string AttempterId { get; set; }
 
-        public CreateExamAttemptCommand(int examId)
+        public CreateExamAttemptCommand(int examId, string attempterId)
         {
             ExamId = examId;
+            AttempterId = attempterId;
         }
     }
 
@@ -43,6 +45,7 @@ namespace Pors.Application.Public.Exams.Commands
             var entity = new ExamAttempt
             {
                 ExamId = request.ExamId,
+                SessionId = request.AttempterId,
                 IpAddress = _currentUser.IpAddress,
             };
 
