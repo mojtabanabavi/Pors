@@ -10,7 +10,7 @@ using Pors.Application.Management.Attempts.Queries;
 namespace Pors.Website.Areas.Admin.Controllers
 {
     [DisplayName("مدیریت شرکت‌کنندگان")]
-    public class AttemptController : BaseController
+    public class ParticipantController : BaseController
     {
         #region api
 

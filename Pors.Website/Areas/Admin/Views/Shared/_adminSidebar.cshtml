@@ -100,7 +100,7 @@
                     </div>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link @Html.IsActive("exam,attempt", "index,create")" href="#navbar-exams" data-toggle="collapse">
+                    <a class="nav-link @Html.IsActive("exam", "index,create")" href="#navbar-exams" data-toggle="collapse">
                         <i class="ni ni-paper-diploma text-primary"></i>
                         <span>آزمون‌ها</span>
                     </a>
@@ -108,9 +108,6 @@
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
                                 <a asp-controller="exam" asp-action="index" class="nav-link @Html.IsActive("exam", "index")">لیست آزمون‌ها</a>
-                            </li>
-                            <li class="nav-item">
-                                <a asp-controller="attempt" asp-action="index" asp-route-id="" class="nav-link @Html.IsActive("attempt", "index")">لیست شرکت‌کنندگان</a>
                             </li>
                             <li class="nav-item">
                                 <a asp-controller="exam" asp-action="create" class="nav-link @Html.IsActive("exam", "create")">ایجاد آزمون</a>
@@ -156,6 +153,19 @@
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
                                 <a asp-controller="answer" asp-action="index" class="nav-link @Html.IsActive("answer", "index")">لیست پاسخ‌ها</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link @Html.IsActive("participant", "index")" href="#navbar-participants" data-toggle="collapse">
+                        <i class="ni ni-trophy text-orange"></i>
+                        <span>شرکت‌کنندگان‌</span>
+                    </a>
+                    <div class="collapse" id="navbar-participants">
+                        <ul class="nav nav-sm flex-column">
+                            <li class="nav-item">
+                                <a asp-controller="participant" asp-action="index" asp-route-id="" class="nav-link @Html.IsActive("participant", "index")">لیست شرکت‌کنندگان</a>
                             </li>
                         </ul>
                     </div>

@@ -337,7 +337,7 @@ $(function () {
                           <div class="dropdown-menu">
                             <a class="dropdown-item" href="/admin/exam/report/${row.id}">مشاهده‌ی گزارش</a>
                             <a class="dropdown-item" href="/admin/question/index/${row.id}">لیست ‌سوالات</a>
-                            <a class="dropdown-item" href="/admin/attempt/index/${row.id}">لیست ‌شرکت‌کنندگان</a>
+                            <a class="dropdown-item" href="/admin/participant/index/${row.id}">لیست ‌شرکت‌کنندگان</a>
                             <a class="dropdown-item" href="/admin/exam/update/${row.id}">ویرایش</a>
                             <a class="dropdown-item" href="/admin/exam/delete/${row.id}" data-delete-btn>حذف</a>
                           </div>
@@ -677,7 +677,7 @@ $(function () {
     };
     let attemptsDataTableOptions = {
         'ajax': {
-            'url': '/admin/attempt/GetAttempts',
+            'url': '/admin/participant/GetAttempts',
             'type': 'post',
             'datatype': 'json',
             'data': function (params) {
