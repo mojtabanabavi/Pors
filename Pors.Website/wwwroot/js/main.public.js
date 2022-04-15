@@ -623,7 +623,11 @@ $(function () {
         let form = $(e.target);
         let url = form.attr('action');
         let data = form.serialize();
+        let submitButton = form.find('button[type="submit"]');
         let validationWrapper = $('#session-id-validation-error');
+
+        ShowSpinner(submitButton);
+        validationWrapper.html('');
 
         $.ajax({
             'url': url,
@@ -634,6 +638,8 @@ $(function () {
         }).fail(function (xhr, exception) {
             var errors = xhr.responseJSON;
             validationWrapper.html(errors[0]);
+        }).always(function () {
+            HideSpinner(submitButton);
         });
     });
 });

@@ -12,12 +12,12 @@ namespace Pors.Application.Public.Exams.Commands
     public class CreateExamAttemptCommand : IRequest<string>
     {
         public int ExamId { get; set; }
-        public string AttempterId { get; set; }
+        public string ParticipantId { get; set; }
 
-        public CreateExamAttemptCommand(int examId, string attempterId)
+        public CreateExamAttemptCommand(int examId, string participantId)
         {
             ExamId = examId;
-            AttempterId = attempterId;
+            ParticipantId = participantId;
         }
     }
 
@@ -45,8 +45,8 @@ namespace Pors.Application.Public.Exams.Commands
             var entity = new ExamAttempt
             {
                 ExamId = request.ExamId,
-                SessionId = request.AttempterId,
                 IpAddress = _currentUser.IpAddress,
+                ParticipantId = request.ParticipantId,
             };
 
             _dbContext.ExamAttempts.Add(entity);

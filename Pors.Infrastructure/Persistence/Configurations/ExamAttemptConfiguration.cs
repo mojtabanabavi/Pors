@@ -12,7 +12,7 @@ namespace Pors.Infrastructure.Persistence.Configurations
             builder.Property(x => x.Id)
                 .HasDefaultValueSql("newid()");
 
-            builder.Property(x => x.SessionId)
+            builder.Property(x => x.ParticipantId)
                 .HasMaxLength(36)
                 .IsRequired();
 

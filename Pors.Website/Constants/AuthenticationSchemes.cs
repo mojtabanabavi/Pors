@@ -2,7 +2,7 @@
 {
     public class AuthenticationSchemes
     {
-        public const string Public = "public";
-        public const string Management = "management";
+        public const string Public = "Public";
+        public const string Management = "Management";
     }
 }

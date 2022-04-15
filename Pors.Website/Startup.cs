@@ -7,7 +7,6 @@ using Pors.Website.Filters;
 using Pors.Website.Services;
 using Pors.Website.Policies;
 using Pors.Website.Constants;
-using Pors.Website.Middlewares;
 using Microsoft.AspNetCore.Http;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
@@ -108,11 +107,6 @@ namespace Pors.Website
             app.UseSession();
             app.UseAuthentication();
             app.UseAuthorization();
-
-            app.UseWhen(context => !IsInManagementArea(context), app =>
-            {
-                app.UsecookieInitializer();
-            });
 
             app.UseEndpoints(endpoints =>
             {

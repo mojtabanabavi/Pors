@@ -13,7 +13,7 @@ namespace Pors.Application.Public.Identity.Queries
 
     public class LoginUserQuery : IRequest<Result>
     {
-        public string SessionId { get; set; }
+        public string ParticipantId { get; set; }
     }
 
     #endregion;
@@ -28,7 +28,7 @@ namespace Pors.Application.Public.Identity.Queries
     {
         public LoginUserQueryValidator()
         {
-            RuleFor(x => x.SessionId)
+            RuleFor(x => x.ParticipantId)
                 .NotEmpty()
                 .MaximumLength(36)
                 .WithName("شناسه");
@@ -51,7 +51,7 @@ namespace Pors.Application.Public.Identity.Queries
         public async Task<Result> Handle(LoginUserQuery request, CancellationToken cancellationToken)
         {
             var entity = await _dbContext.ExamAttempts
-                .FirstOrDefaultAsync(x => x.SessionId == request.SessionId);
+                .FirstOrDefaultAsync(x => x.ParticipantId == request.ParticipantId);
 
             if (entity == null)
             {

@@ -1,22 +1,7 @@
 ﻿@{
-    var attempterId = ViewContext.HttpContext.Request.Cookies["AttempterId"];
     var currentPersianDate = Dater.ToIranSolar(DateTime.Now, "dddd، dd MMMM yyyy");
-
-    if (attempterId == null)
-    {
-        foreach (var headers in ViewContext.HttpContext.Response.Headers.Values)
-        {
-            foreach (var header in headers)
-            {
-                if (header.StartsWith($"AttempterId="))
-                {
-                    var p1 = header.IndexOf('=');
-                    var p2 = header.IndexOf(';');
-                    attempterId = header.Substring(p1 + 1, p2 - p1 - 1);
-                }
-            }
-        }
-    }
+    var participantId = ViewContext.HttpContext.Request.Cookies[ParticipantCookieKeys.ParticipantId] ??
+                        ViewContext.HttpContext.Response.Headers.GetCookieValue(ParticipantCookieKeys.ParticipantId);
 }
 
 <header id="header" class="header-main headroom">
@@ -28,7 +13,7 @@
                 </li>
                 <li>
                     <span>شناسه‌ی شما:&nbsp;</span>
-                    <span class="cursor-pointer text-primary">@attempterId</span>
+                    <span class="cursor-pointer text-primary">@participantId</span>
                 </li>
             </ul>
         </div>
@@ -44,31 +29,17 @@
                     {
                         <a class="nav-link custom-nav-link cursor-pointer d-flex align-items-center d-md-none" data-toggle="modal" data-target="#login-modal">
                             <span class="ti-user ml-2"></span>
-                            <span>بازیابی حساب</span>
+                            <span>ورود به حساب</span>
                         </a>
                     }
                     else
                     {
                         <ul class="main-navbar-nav mr-auto p-0 d-md-none">
-                            <li class="nav-item hs-has-sub-menu custom-nav-item">
-                                <a id="profile-submenu" class="nav-link custom-nav-link main-link-toggle d-flex align-items-center" href="javascript:void(0)">
-                                    <span class="ti-user ml-2"></span>
-                                    پروفایل
+                            <li class="nav-item custom-nav-item">
+                                <a asp-controller="identity" asp-action="logout" class="nav-link custom-nav-link py-3 align-items-center d-flex align-items-center pl-0">
+                                    <span class="ti-lock ml-2 text-danger"></span>
+                                    <span>خروج از حساب</span>
                                 </a>
-                                <ul id="profile-submenu" class="hs-sub-menu main-sub-menu animated">
-                                    <li class="nav-item submenu-item">
-                                        <a asp-controller="identity" asp-action="profile" class="nav-link py-3 sub-menu-nav-link align-items-center d-flex align-items-center">
-                                            <span class="ti-user ml-2"></span>
-                                            <span>مشاهده</span>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item submenu-item">
-                                        <a asp-controller="identity" asp-action="logout" class="nav-link py-3 sub-menu-nav-link align-items-center d-flex align-items-center">
-                                            <span class="ti-lock ml-2"></span>
-                                            <span>خروج</span>
-                                        </a>
-                                    </li>
-                                </ul>
                             </li>
                         </ul>
                     }
@@ -97,31 +68,17 @@
                             <li id="login-btn" class="nav-item custom-nav-item">
                                 <a class="nav-link custom-nav-link align-items-center d-flex align-items-center pl-0 cursor-pointer" data-toggle="modal" data-target="#login-modal">
                                     <span class="ti-user ml-2"></span>
-                                    <span>بازیابی حساب</span>
+                                    <span>ورود به حساب</span>
                                 </a>
                             </li>
                         }
                         else
                         {
-                            <li class="nav-item hs-has-sub-menu custom-nav-item">
-                                <a id="profile-submenu" class="nav-link custom-nav-link main-link-toggle d-flex align-items-center" href="javascript:void(0)">
-                                    <span class="ti-user ml-2"></span>
-                                    پروفایل
+                            <li class="nav-item custom-nav-item">
+                                <a asp-controller="identity" asp-action="logout" class="nav-link custom-nav-link py-3 align-items-center d-flex align-items-center pl-0">
+                                    <span class="ti-lock ml-2 text-danger"></span>
+                                    <span>خروج از حساب</span>
                                 </a>
-                                <ul id="profile-submenu" class="hs-sub-menu main-sub-menu animated">
-                                    <li class="nav-item submenu-item">
-                                        <a asp-controller="identity" asp-action="profile" class="nav-link py-3 sub-menu-nav-link align-items-center d-flex align-items-center">
-                                            <span class="ti-user ml-2"></span>
-                                            <span>مشاهده</span>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item submenu-item">
-                                        <a asp-controller="identity" asp-action="logout" class="nav-link py-3 sub-menu-nav-link align-items-center d-flex align-items-center">
-                                            <span class="ti-lock ml-2"></span>
-                                            <span>خروج</span>
-                                        </a>
-                                    </li>
-                                </ul>
                             </li>
                         }
                     </ul>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Pors.Website.Constants;
 using Pors.Website.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Pors.Application.Public.Exams.Queries;
@@ -50,9 +51,9 @@ namespace Pors.Website.Controllers
         [HttpGet]
         public async Task<IActionResult> Attempt(int id)
         {
-            var attempterId = HttpContext.Request.Cookies["AttempterId"].ToString();
+            var participantId = HttpContext.Request.Cookies[ParticipantCookieKeys.ParticipantId].ToString();
 
-            var attemptId = await Mediator.Send(new CreateExamAttemptCommand(id, attempterId));
+            var attemptId = await Mediator.Send(new CreateExamAttemptCommand(id, participantId));
 
             return RedirectToAction(nameof(Start), new { AttemptId = attemptId });
         }

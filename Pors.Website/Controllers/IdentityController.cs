@@ -26,7 +26,7 @@ namespace Pors.Website.Controllers
                 {
                     var userClaims = new List<Claim>
                     {
-                        new Claim("SessionId", request.SessionId),
+                        new Claim(ParticipantCookieKeys.ParticipantId, request.ParticipantId),
                     };
 
                     var claimsIdentity = new ClaimsIdentity(userClaims, AuthenticationSchemes.Public);
@@ -45,7 +45,7 @@ namespace Pors.Website.Controllers
                         Expires = DateTimeOffset.Now.AddDays(15),
                     };
 
-                    HttpContext.Response.Cookies.Append("AttempterId", request.SessionId, cookieOption);
+                    HttpContext.Response.Cookies.Append(ParticipantCookieKeys.ParticipantId, request.ParticipantId, cookieOption);
 
                     return Ok();
                 }
