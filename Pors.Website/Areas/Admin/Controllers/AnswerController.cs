@@ -15,11 +15,11 @@ namespace Pors.Website.Areas.Admin.Controllers
         #region api
 
         [HttpPost]
-        public async Task<IActionResult> GetAnswers(int questionId)
+        public async Task<IActionResult> GetAnswers(int questionId,string participantId)
         {
             var query = DataTable.FetchRequest();
 
-            var request = new GetAnswersQuery(query, questionId);
+            var request = new GetAnswersQuery(query, questionId, participantId);
 
             var result = await Mediator.Send(request);
 
@@ -39,9 +39,9 @@ namespace Pors.Website.Areas.Admin.Controllers
         [HttpGet]
         [DisplayName("لیست پاسخ‌ها")]
         [Authorize(Policy = PolicyNames.DynamicPermission)]
-        public IActionResult Index(int id)
+        public IActionResult Index()
         {
-            return View(id);
+            return View();
         }
 
         [HttpGet]

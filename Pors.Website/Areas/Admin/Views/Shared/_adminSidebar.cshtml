@@ -16,7 +16,7 @@
                 <a class="nav-link" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <div class="media align-items-center">
                         <span class="avatar avatar-sm rounded-circle">
-                            <img alt="Image placeholder" src="@CurrentUser.ProfilePicture">
+                            <img alt="Image placeholder" src="~/@CurrentUser.ProfilePicture">
                         </span>
                     </div>
                 </a>
@@ -116,6 +116,19 @@
                     </div>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link @Html.IsActive("participant", "index")" href="#navbar-participants" data-toggle="collapse">
+                        <i class="ni ni-trophy text-orange"></i>
+                        <span>شرکت‌کنندگان‌</span>
+                    </a>
+                    <div class="collapse" id="navbar-participants">
+                        <ul class="nav nav-sm flex-column">
+                            <li class="nav-item">
+                                <a asp-controller="participant" asp-action="index" asp-route-id="" class="nav-link @Html.IsActive("participant", "index")">لیست شرکت‌کنندگان</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link @Html.IsActive("question", "index,create")" href="#navbar-questions" data-toggle="collapse">
                         <i class="ni ni-sound-wave text-pink"></i>
                         <span>سوالات</span>
@@ -153,19 +166,6 @@
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
                                 <a asp-controller="answer" asp-action="index" class="nav-link @Html.IsActive("answer", "index")">لیست پاسخ‌ها</a>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link @Html.IsActive("participant", "index")" href="#navbar-participants" data-toggle="collapse">
-                        <i class="ni ni-trophy text-orange"></i>
-                        <span>شرکت‌کنندگان‌</span>
-                    </a>
-                    <div class="collapse" id="navbar-participants">
-                        <ul class="nav nav-sm flex-column">
-                            <li class="nav-item">
-                                <a asp-controller="participant" asp-action="index" asp-route-id="" class="nav-link @Html.IsActive("participant", "index")">لیست شرکت‌کنندگان</a>
                             </li>
                         </ul>
                     </div>

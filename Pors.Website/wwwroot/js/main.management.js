@@ -392,7 +392,7 @@ $(function () {
                           </button>
                           <div class="dropdown-menu">
                             <a class="dropdown-item" href="/admin/option/index/${row.id}">لیست گزینه‌ها</a>
-                            <a class="dropdown-item" href="/admin/answer/index/${row.id}">لیست ‌پاسخ‌ها</a>
+                            <a class="dropdown-item" href="/admin/answer/index?questionId=${row.id}">لیست ‌پاسخ‌ها</a>
                             <a class="dropdown-item" href="/admin/option/create/${row.id}">افزودن گزینه</a>
                             <a class="dropdown-item" href="/admin/question/update/${row.id}">ویرایش</a>
                             <a class="dropdown-item" href="/admin/question/delete/${row.id}" data-delete-btn>حذف</a>
@@ -602,6 +602,7 @@ $(function () {
             'datatype': 'json',
             'data': function (params) {
                 params.questionId = $('#question-id').val();
+                params.participantId = $('#participant-id').val();
             },
         },
         'columns': [
@@ -640,22 +641,6 @@ $(function () {
                 }
             },
             {
-                'name': 'hasDescription',
-                'autoWidth': true,
-                'orderable': false,
-                'searchable': false,
-                'render': function (data, type, row) {
-                    let content = '';
-
-                    if (row.hasDescription)
-                        content += '<span class="badge badge-primary">بله</span>';
-                    else
-                        content += '<span class="badge badge-danger">خیر</span>';
-
-                    return content;
-                }
-            },
-            {
                 'orderable': false,
                 'searchable': false,
                 'render': function (data, type, row) {
@@ -675,26 +660,27 @@ $(function () {
             }
         ]
     };
-    let attemptsDataTableOptions = {
+    let participantsDataTableOptions = {
         'ajax': {
-            'url': '/admin/participant/GetAttempts',
+            'url': '/admin/participant/GetParticipants',
             'type': 'post',
             'datatype': 'json',
             'data': function (params) {
                 params.examId = $('#exam-id').val();
             },
         },
+        'order': [[0, "desc"]],
         'columns': [
             {
-                'name': 'id',
-                'data': 'id',
+                'name': 'participantId',
+                'data': 'participantId',
                 'autoWidth': true,
             },
             {
-                'name': 'examId',
-                'data': 'examId',
+                'name': 'examTitle',
+                'data': 'examTitle',
                 'autoWidth': true,
-                'searchable': false,
+                'orderable': false,
             },
             {
                 'name': 'ipAddress',
@@ -707,6 +693,25 @@ $(function () {
                 'autoWidth': true,
                 'searchable': false,
             },
+            {
+                'autoWidth': true,
+                'orderable': false,
+                'searchable': false,
+                'render': function (data, type, row) {
+                    let content =
+                        `<div class="btn-group ">
+                          <button type="button" class="btn btn-sm btn-icon-only text-light dropdown-toggle" data-toggle="dropdown">
+                            <i class="fas fa-ellipsis-v"></i>
+                          </button>
+                          <div class="dropdown-menu">
+                            <a class="dropdown-item" href="/admin/answer?participantId=${row.participantId}">لیست پاسخ‌ها</a>
+                          </div>
+                      </div>
+                    </div>`;
+
+                    return content;
+                }
+            }
         ]
     };
     let faqsDataTableOptions = {
@@ -780,8 +785,8 @@ $(function () {
             options: answersDataTableOptions,
         },
         {
-            target: $('#attempts-datatable'),
-            options: attemptsDataTableOptions,
+            target: $('#participants-datatable'),
+            options: participantsDataTableOptions,
         },
         {
             target: $('#faqs-datatable'),

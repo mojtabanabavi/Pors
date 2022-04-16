@@ -5,7 +5,7 @@ using Pors.Website.Constants;
 using Microsoft.AspNetCore.Mvc;
 using Pors.Application.Common.Models;
 using Microsoft.AspNetCore.Authorization;
-using Pors.Application.Management.Attempts.Queries;
+using Pors.Application.Management.Participants.Queries;
 
 namespace Pors.Website.Areas.Admin.Controllers
 {
@@ -15,11 +15,11 @@ namespace Pors.Website.Areas.Admin.Controllers
         #region api
 
         [HttpPost]
-        public async Task<IActionResult> GetAttempts(int examId)
+        public async Task<IActionResult> GetParticipants(int examId)
         {
             var query = DataTable.FetchRequest();
 
-            var request = new GetAttemptsQuery(query, examId);
+            var request = new GetParticipantsQuery(query, examId);
 
             var result = await Mediator.Send(request);
 

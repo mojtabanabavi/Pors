@@ -22,10 +22,12 @@ namespace Pors.Application.Management.Answers.Queries
     public class GetAnswersQuery : DataTableQuery, IRequest<PagingResult<GetAnswersQueryResponse>>
     {
         public int QuestionId { get; set; }
+        public string ParticipantId { get; set; }
 
-        public GetAnswersQuery(DataTableQuery query, int questionId) : base(query)
+        public GetAnswersQuery(DataTableQuery query, int questionId, string participantId) : base(query)
         {
             QuestionId = questionId;
+            ParticipantId = participantId;
         }
     }
 
@@ -68,6 +70,11 @@ namespace Pors.Application.Management.Answers.Queries
             if (request.QuestionId != default(int))
             {
                 query = query.Where(x => x.Option.QuestionId == request.QuestionId);
+            }
+
+            if (request.ParticipantId.HasValue())
+            {
+                query = query.Where(x => x.Attempt.ParticipantId == request.ParticipantId);
             }
 
             if (request.SortColumn.HasValue() && request.SortDirection.HasValue())

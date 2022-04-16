@@ -15,20 +15,20 @@
 <div class="row">
     <div class="col">
         <div class="card shadow">
-            <div class="card-header bg-transparent d-flex justify-content-between">
+            <div class="card-header bg-transparent d-flex justify-content-between align-items-center">
                 <h3 class="mb-0">@ViewData["Title"]</h3>
-                <a asp-action="create" class="btn btn-sm btn-primary">ایجاد آزمون</a>
             </div>
             <div class="card-body">
+                <input type="hidden" id="exam-id" value="@Model" />
                 <div class="table-responsive">
-                    <input type="hidden" id="exam-id" value="@Model" />
-                    <table class="table align-items-center table-flush w-100" id="attempts-datatable">
+                    <table class="table align-items-center table-flush w-100" id="participants-datatable">
                         <thead class="thead-light">
                             <tr>
                                 <th>شناسه</th>
-                                <th>شناسه آزمون</th>
+                                <th>عنوان آزمون</th>
                                 <th>آدرس ip</th>
                                 <th>تاریخ ایجاد</th>
+                                <th>عملیات</th>
                             </tr>
                         </thead>
                     </table>

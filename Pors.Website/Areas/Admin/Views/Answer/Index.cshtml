@@ -1,6 +1,8 @@
-﻿@Model int
-@{
+﻿@{
     ViewData["Title"] = "لیست پاسخ‌ها";
+
+    var questionId = ViewContext.HttpContext.Request.Query["questionId"].ToString();
+    var participantId = ViewContext.HttpContext.Request.Query["participantId"].ToString();
 }
 
 @section styles{
@@ -16,13 +18,13 @@
 <div class="row">
     <div class="col">
         <div class="card shadow">
-            <div class="card-header bg-transparent d-flex justify-content-between">
+            <div class="card-header bg-transparent d-flex justify-content-between align-items-center">
                 <h3 class="mb-0">@ViewData["Title"]</h3>
-                <a asp-action="create" class="btn btn-sm btn-primary">ایجاد کاربر</a>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
-                    <input type="hidden" id="question-id" value="@Model" />
+                    <input type="hidden" id="question-id" value="@questionId" />
+                    <input type="hidden" id="participant-id" value="@participantId" />
                     <table class="table align-items-center table-flush w-100" id="answers-datatable">
                         <thead class="thead-light">
                             <tr>
@@ -30,7 +32,6 @@
                                 <th>شناسه‌ی درخواست</th>
                                 <th>شناسه‌ی سوال</th>
                                 <th>وضعیت درستی</th>
-                                <th>دارای توضیحات</th>
                                 <th>عملیات</th>
                             </tr>
                         </thead>
