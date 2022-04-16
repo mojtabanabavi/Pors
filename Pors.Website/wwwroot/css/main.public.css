@@ -477,3 +477,10 @@ table {
         top: 140%;
     }
 }
+
+.g-recaptcha {
+    display: flex;
+    align-items: center;
+    /*transform: scale(0.77);*/
+    justify-content: center;
+}

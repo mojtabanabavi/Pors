@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Pors.Application.Common.Models;
 using Pors.Application.Common.Interfaces;
+using Pors.Application.Common.Validators;
 
 namespace Pors.Application.Public.Identity.Queries
 {
@@ -14,6 +15,7 @@ namespace Pors.Application.Public.Identity.Queries
     public class LoginUserQuery : IRequest<Result>
     {
         public string ParticipantId { get; set; }
+        public string GoogleRecaptchaResponse { get; set; }
     }
 
     #endregion;
@@ -32,6 +34,9 @@ namespace Pors.Application.Public.Identity.Queries
                 .NotEmpty()
                 .MaximumLength(36)
                 .WithName("شناسه");
+
+            RuleFor(X => X.GoogleRecaptchaResponse)
+                .SetValidator(new GoogleRecaptchaValidator<LoginUserQuery, string>());
         }
     }
 

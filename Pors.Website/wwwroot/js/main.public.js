@@ -622,22 +622,30 @@ $(function () {
         e.preventDefault();
         let form = $(e.target);
         let url = form.attr('action');
-        let data = form.serialize();
+        let formData = form.serialize();
+        let validationWrapper = $('#login-error');
         let submitButton = form.find('button[type="submit"]');
-        let validationWrapper = $('#session-id-validation-error');
+        let recaptchaResponse = $('#g-recaptcha-response');
+        let participantId = $('input[name="ParticipantId"]');
 
         ShowSpinner(submitButton);
-        validationWrapper.html('');
+        validationWrapper.removeClass('d-none');
 
         $.ajax({
             'url': url,
             'type': 'post',
-            'data': data,
+            //'data': formData
+            'data': {
+                ParticipantId: participantId.val(),
+                GoogleRecaptchaResponse: recaptchaResponse.val(),
+            }
         }).done(function () {
             location.reload();
         }).fail(function (xhr, exception) {
-            var errors = xhr.responseJSON;
-            validationWrapper.html(errors[0]);
+            var response = xhr.responseJSON;
+            if (response && response.length) {
+                validationWrapper.html(response[0]);
+            }
         }).always(function () {
             HideSpinner(submitButton);
         });

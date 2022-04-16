@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using Pors.Infrastructure.Services;
+using Pors.Application.Common.Models;
 using Microsoft.Extensions.Configuration;
 using Pors.Application.Common.Interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -79,6 +80,7 @@ namespace Pors.Website
             services.AddScoped<IAuthorizationHandler, DynamicPermissionHandler>();
             services.AddScoped<IControllerDiscoveryService, ControllerDiscoveryService>();
             services.Configure<MailerSettings>(Configuration.GetSection("Notifications:Email"));
+            services.Configure<GoogleRecaptchaSettings>(Configuration.GetSection("Recaptcha:Google"));
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
