@@ -53,8 +53,10 @@ namespace Pors.Application.Public.Reports.Queries
                 {
                     Label = x.Key.Title,
                     WrongCount = x.Where(x => x.Status == AnswerStatus.Wrong).Count(),
-                    CorrectCount = x.Where(x => x.Status == AnswerStatus.Correct).Count(),
                     UnknownCount = x.Where(x => x.Status == AnswerStatus.Unknown).Count(),
+                    CorrectCount = x.Where(x => x.Status == AnswerStatus.Correct).Count(),
+                    SomewhatWrongCount = x.Where(x => x.Status == AnswerStatus.SomewhatWrong).Count(),
+                    SomewhatCorrectCount = x.Where(x => x.Status == AnswerStatus.SomewhatCorrect).Count(),
                 })
                 .ToListAsync();
 
@@ -70,9 +72,23 @@ namespace Pors.Application.Public.Reports.Queries
                 Data = Enumerable.Repeat(0, labels.Count).ToList(),
             };
 
+            var somewhatCorrectCountDataSet = new ChartJsDataDataset()
+            {
+                Label = "نسبتا صحیح",
+                Stack = "accuracy",
+                Data = Enumerable.Repeat(0, labels.Count).ToList(),
+            };
+
             var wrongCountDataSet = new ChartJsDataDataset()
             {
                 Label = "غلط",
+                Stack = "accuracy",
+                Data = Enumerable.Repeat(0, labels.Count).ToList(),
+            };
+
+            var somewhatWrongCountDataSet = new ChartJsDataDataset()
+            {
+                Label = "نسبتا غلط",
                 Stack = "accuracy",
                 Data = Enumerable.Repeat(0, labels.Count).ToList(),
             };
@@ -93,18 +109,22 @@ namespace Pors.Application.Public.Reports.Queries
                     wrongCountDataSet.Data[labelIndex] = data[i].WrongCount;
                     correctCountDataSet.Data[labelIndex] = data[i].CorrectCount;
                     unknownCountDataSet.Data[labelIndex] = data[i].UnknownCount;
+                    somewhatWrongCountDataSet.Data[labelIndex] = data[i].SomewhatWrongCount;
+                    somewhatCorrectCountDataSet.Data[labelIndex] = data[i].SomewhatCorrectCount;
                 }
             }
 
             var result = new GetAnswersAccuracyChartDataQueryResponse
             {
+                Labels = labels,
                 DataSets = new List<ChartJsDataDataset>
                 {
-                    correctCountDataSet,
+                    unknownCountDataSet,
                     wrongCountDataSet,
-                    unknownCountDataSet
+                    somewhatWrongCountDataSet,
+                    correctCountDataSet,
+                    somewhatCorrectCountDataSet,
                 },
-                Labels = labels,
             };
 
             return result;

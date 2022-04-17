@@ -183,14 +183,15 @@ $(function () {
     var ratingTarget = $('.barrating');
     if (ratingTarget.length) {
         ratingTarget.barrating('show', {
-            theme: 'bars-pill',
-            showValues: true,
-            hoverState: false,
+            theme: 'fontawesome-stars',
+            emptyValue: '0',
+            showValues: false,
+            hoverState: true,
             fastClicks: false,
-            allowEmpty: false,
+            allowEmpty: true,
             deselectable: true,
-            showSelectedRating: false,
-            emptyValue: '-- no rating selected --',
+            initialRating: true,
+            showSelectedRating: true,
             onSelect: function (value, text, event) {
 
                 var answerId = $(event.target)
@@ -545,7 +546,7 @@ $(function () {
                             data: chartData.datasets[0].data,
                             stack: chartData.datasets[0].stack,
                             label: chartData.datasets[0].label,
-                            backgroundColor: '#2dce89',
+                            backgroundColor: '#5e72e4',
                         },
                         {
                             fill: true,
@@ -559,8 +560,22 @@ $(function () {
                             data: chartData.datasets[2].data,
                             stack: chartData.datasets[2].stack,
                             label: chartData.datasets[2].label,
-                            backgroundColor: '#5e72e4',
+                            backgroundColor: '#f96784',
                         },
+                        {
+                            fill: true,
+                            data: chartData.datasets[3].data,
+                            stack: chartData.datasets[3].stack,
+                            label: chartData.datasets[3].label,
+                            backgroundColor: '#2dce89',
+                        },
+                        {
+                            fill: true,
+                            data: chartData.datasets[4].data,
+                            stack: chartData.datasets[4].stack,
+                            label: chartData.datasets[4].label,
+                            backgroundColor: '#70b598',
+                        }
                     ],
                 },
                 options: {
@@ -584,7 +599,7 @@ $(function () {
                         data: chartData.datasets[0].data,
                         stack: chartData.datasets[0].stack,
                         label: chartData.datasets[0].label,
-                        backgroundColor: '#2dce89',
+                        backgroundColor: '#5e72e4',
                     },
                     {
                         fill: true,
@@ -598,8 +613,22 @@ $(function () {
                         data: chartData.datasets[2].data,
                         stack: chartData.datasets[2].stack,
                         label: chartData.datasets[2].label,
-                        backgroundColor: '#5e72e4',
+                        backgroundColor: '#f96784',
                     },
+                    {
+                        fill: true,
+                        data: chartData.datasets[3].data,
+                        stack: chartData.datasets[3].stack,
+                        label: chartData.datasets[3].label,
+                        backgroundColor: '#2dce89',
+                    },
+                    {
+                        fill: true,
+                        data: chartData.datasets[4].data,
+                        stack: chartData.datasets[4].stack,
+                        label: chartData.datasets[4].label,
+                        backgroundColor: '#70b598',
+                    }
                 ],
             };
             chart.update();

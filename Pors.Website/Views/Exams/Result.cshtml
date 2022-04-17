@@ -4,7 +4,7 @@
 }
 
 @section styles{
-    <link rel="stylesheet" href="~/lib/barrating/css/bars-pill.fa.css" />
+    <link rel="stylesheet" href="~/lib/barrating/css/fontawesome-stars.css" />
     <link rel="stylesheet" href="~/lib/sweetalert2/css/sweetalert2.min.css" />
 }
 
@@ -36,10 +36,12 @@
                                         <div class="d-flex flex-wrap justify-content-center justify-content-md-between align-items-center mb-3">
                                             <h5 class="exam-question-title mb-3 mb-md-0">@answer.QuestionTitle</h5>
                                             <div class="rating d-flex align-items-center my-2 my-md-0">
+                                                <p class="mb-0">میزان درستی پاسخ:</p>
                                                 <select data-answer-id="@answer.Id" class="barrating">
-                                                    <option value="1" selected="@((int)answer.CommentStatus == 1)"> صحیح </option>
-                                                    <option value="0" selected="@((int)answer.CommentStatus == 0)"> نامشخص </option>
-                                                    <option value="2" selected="@((int)answer.CommentStatus == 2)"> غلط </option>
+                                                    <option value="1" selected="@((int)answer.CommentStatus == 1)"> غلط </option>
+                                                    <option value="2" selected="@((int)answer.CommentStatus == 2)"> نسبتا غلط </option>
+                                                    <option value="3" selected="@((int)answer.CommentStatus == 3)"> نسبتا صحيح </option>
+                                                    <option value="4" selected="@((int)answer.CommentStatus == 4)"> صحيح </option>
                                                 </select>
                                             </div>
                                         </div>

@@ -12,10 +12,16 @@ namespace Pors.Domain.Enums
         [Description("نامشخص")]
         Unknown = 0,
 
-        [Description("صحیح")]
-        Correct = 1,
-
         [Description("غلط")]
-        Wrong = 2,
+        Wrong = 1,
+
+        [Description("نسبتا غلط")]
+        SomewhatWrong = 2,
+
+        [Description("نسبتا صحيح")]
+        SomewhatCorrect = 3,
+
+        [Description("صحيح")]
+        Correct = 4,
     }
 }
