@@ -5,16 +5,17 @@ using Pors.Domain.Entities;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore;
 using Pors.Application.Common.Interfaces;
 
 namespace Pors.Infrastructure.Persistence
 {
     public class SqlDbContextSeed : ISqlDbContextSeed
     {
-        private readonly ISqlDbContext _dbContext;
+        private readonly SqlDbContext _dbContext;
         private readonly ILogger<SqlDbContextSeed> _logger;
 
-        public SqlDbContextSeed(ISqlDbContext dbContext, ILogger<SqlDbContextSeed> logger)
+        public SqlDbContextSeed(SqlDbContext dbContext, ILogger<SqlDbContextSeed> logger)
         {
             _logger = logger;
             _dbContext = dbContext;
@@ -24,6 +25,9 @@ namespace Pors.Infrastructure.Persistence
         {
             try
             {
+                // Create database and apply migrations
+                await _dbContext.Database.MigrateAsync();
+
                 await SeedDefaultUserAsync();
             }
             catch (Exception e)
