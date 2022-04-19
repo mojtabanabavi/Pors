@@ -20,10 +20,6 @@ namespace Pors.Application.Public.Identity.Queries
 
     #endregion;
 
-    #region response
-
-    #endregion;
-
     #region validator
 
     public class LoginUserQueryValidator : AbstractValidator<LoginUserQuery>

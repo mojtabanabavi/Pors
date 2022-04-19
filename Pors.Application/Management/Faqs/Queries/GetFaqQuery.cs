@@ -40,10 +40,6 @@ namespace Pors.Application.Management.Faqs.Queries
 
     #endregion;
 
-    #region validator
-
-    #endregion;
-
     #region handler
 
     public class GetFaqQueryHandler : IRequestHandler<GetFaqQuery, GetFaqQueryResponse>

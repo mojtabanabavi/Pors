@@ -17,10 +17,6 @@ namespace Pors.Application.Management.Roles.Commands
 
     #endregion;
 
-    #region validator
-
-    #endregion;
-
     #region handler
 
     public class DeleteRoleCommandHandler : IRequestHandler<DeleteRoleCommand>

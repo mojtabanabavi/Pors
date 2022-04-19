@@ -18,10 +18,6 @@ namespace Pors.Application.Management.Options.Commands
 
     #endregion;
 
-    #region validator
-
-    #endregion;
-
     #region handler
 
     public class DeleteOptionCommandHandler : IRequestHandler<DeleteOptionCommand>

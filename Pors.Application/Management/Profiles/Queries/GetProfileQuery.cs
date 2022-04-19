@@ -61,10 +61,6 @@ namespace Pors.Application.Management.Profiles.Queries
 
     #endregion;
 
-    #region validator
-
-    #endregion;
-
     #region handler
 
     public class GetProfileQueryHandler : IRequestHandler<GetProfileQuery, GetProfileQueryResponse>

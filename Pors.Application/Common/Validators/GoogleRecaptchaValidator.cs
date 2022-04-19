@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Net;
-using System.Dynamic;
 using System.Net.Http;
-using Loby.Extensions;
 using System.Text.Json;
 using FluentValidation;
 using System.Threading.Tasks;
@@ -10,48 +8,50 @@ using FluentValidation.Validators;
 using Microsoft.Extensions.Options;
 using Pors.Application.Common.Models;
 using Microsoft.Extensions.DependencyInjection;
-using System.Collections.Generic;
 
 namespace Pors.Application.Common.Validators
 {
     public class GoogleRecaptchaValidator<T, TProperty> : PropertyValidator<T, TProperty>
     {
-        public override string Name => "GoogleRecaptchaValidator";
         private GoogleRecaptchaSettings _recaptchaSettings;
+        public override string Name => "GoogleRecaptchaValidator";
+
         private const string URL_TEMPLATE = "https://www.google.com/recaptcha/api/siteverify?secret={0}&response={1}";
-        private const string DEFAULT_ERROR_MESSAGE = "لطفا از کپچا برای اعتبارسنجی استفاده کنید";
-        private const string VALIDATION_ERROR_MESSAGE = "اعتبارسنجی کپچای شما معتبر نیست؛ لطفا دوباره امتحان کنید";
+        private const string USE_CAPTCHA_ERROR_MESSAGE = "لطفا از کپچا برای اعتبارسنجی استفاده کنید";
+        private const string CAPTCHA_VALIDATION_ERROR_MESSAGE = "اعتبارسنجی کپچای شما معتبر نیست؛ لطفا دوباره امتحان کنید";
 
         public override bool IsValid(ValidationContext<T> context, TProperty value)
         {
             _recaptchaSettings = context
                 .GetServiceProvider()
-                .GetService<IOptions<GoogleRecaptchaSettings>>().Value;
+                .GetService<IOptions<GoogleRecaptchaSettings>>()?.Value;
 
-            var googleRecaptchaResponse = value as string;
-
-            if (!googleRecaptchaResponse.HasValue())
-            {
-                context.AddFailure(DEFAULT_ERROR_MESSAGE);
-
-                return false;
-            }
-
-            if (ValidateRecaptcha(googleRecaptchaResponse).Result)
+            // Ignore captcha validation
+            if (_recaptchaSettings == null)
             {
                 return true;
             }
 
-            context.AddFailure(VALIDATION_ERROR_MESSAGE);
+            if (value == null)
+            {
+                context.AddFailure(USE_CAPTCHA_ERROR_MESSAGE);
+            }
+
+            if (ValidateRecaptcha(value).Result)
+            {
+                return true;
+            }
+
+            context.AddFailure(CAPTCHA_VALIDATION_ERROR_MESSAGE);
 
             return false;
         }
 
-        private async Task<bool> ValidateRecaptcha(string googleRecaptchaResponse)
+        private async Task<bool> ValidateRecaptcha(TProperty googleResponse)
         {
             var httpClient = new HttpClient();
 
-            var apiUrl = string.Format(URL_TEMPLATE, _recaptchaSettings.SecretKey, googleRecaptchaResponse);
+            var apiUrl = string.Format(URL_TEMPLATE, _recaptchaSettings.SecretKey, googleResponse);
 
             var apiResponse = await httpClient.GetAsync(apiUrl);
 
@@ -60,16 +60,18 @@ namespace Pors.Application.Common.Validators
                 return false;
             }
 
-            var apijsonResponse = await apiResponse.Content.ReadAsStringAsync();
+            var apijsonResponse = await apiResponse.Content
+                .ReadAsStringAsync();
 
-            dynamic apiData = JsonSerializer.Deserialize<ExpandoObject>(apijsonResponse);
+            var validationResult = JsonSerializer
+                .Deserialize<GoogleRecaptchaResponse>(apijsonResponse);
 
-            if (apiData.success.ToString().ToLower() != "true")
+            if (validationResult.Success)
             {
-                return false;
+                return true;
             }
 
-            return true;
+            return false;
         }
     }
 }

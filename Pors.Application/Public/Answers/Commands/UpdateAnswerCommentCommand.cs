@@ -1,7 +1,6 @@
 ﻿using System;
 using MediatR;
 using System.Threading;
-using FluentValidation;
 using Pors.Domain.Enums;
 using Pors.Domain.Entities;
 using System.Threading.Tasks;
@@ -17,10 +16,6 @@ namespace Pors.Application.Public.Answers.Commands
         public int Id { get; set; }
         public AnswerStatus Status { get; set; }
     }
-
-    #endregion;
-
-    #region validator
 
     #endregion;
 

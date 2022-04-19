@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace Pors.Application.Common.Enums
 {
-    public enum SortTypes
+    public enum ExamSortTypes
     {
         Newest = 1,
         Popularity = 2,

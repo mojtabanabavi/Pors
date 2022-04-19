@@ -39,10 +39,6 @@ namespace Pors.Application.Management.Questions.Queries
 
     #endregion;
 
-    #region validator
-
-    #endregion;
-
     #region handler
 
     public class GetQuestionQueryHandler : IRequestHandler<GetQuestionQuery, GetQuestionQueryResponse>

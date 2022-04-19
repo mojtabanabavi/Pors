@@ -46,10 +46,6 @@ namespace Pors.Application.Management.Permissions.Queries
 
     #endregion;
 
-    #region validator
-
-    #endregion;
-
     #region handler
 
     public class GetRolePermissionsQueryHandler : IRequestHandler<GetRolePermissionsQuery, GetRolePermissionsQueryResponse>

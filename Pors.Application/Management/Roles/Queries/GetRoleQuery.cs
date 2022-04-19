@@ -39,10 +39,6 @@ namespace Pors.Application.Management.Roles.Queries
 
     #endregion;
 
-    #region validator
-
-    #endregion;
-
     #region handler
 
     public class GetRoleQueryHandler : IRequestHandler<GetRoleQuery, GetRoleQueryResponse>

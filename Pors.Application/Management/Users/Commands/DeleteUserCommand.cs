@@ -17,10 +17,6 @@ namespace Pors.Application.Management.Users.Commands
 
     #endregion;
 
-    #region validation
-
-    #endregion;
-
     #region handler
 
     public class DeleteUserCommandHandler : IRequestHandler<DeleteUserCommand>

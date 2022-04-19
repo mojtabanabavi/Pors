@@ -22,10 +22,6 @@ namespace Pors.Application.Management.Permissions.Commands
 
     #endregion;
 
-    #region validator
-
-    #endregion;
-
     #region handler
 
     public class UpdatePermissionsCommandHandler : IRequestHandler<UpdatePermissionsCommand>

@@ -9,13 +9,13 @@ namespace Pors.Application.Common.Models
     public class SelectListItem
     {
         public string Text { get; set; }
-        public string Value { get; set; }
+        public object Value { get; set; }
 
         public SelectListItem()
         {
         }
 
-        public SelectListItem(string text, string value)
+        public SelectListItem(string text, object value)
         {
             Text = text;
             Value = value;

@@ -22,7 +22,7 @@ namespace Pors.Application.Public.Exams.Queries
     public class GetExamsQuery : PagingRequest, IRequest<PagingResult<GetExamsQueryResponse>>
     {
         public string Title { get; set; }
-        public SortTypes SortType { get; set; }
+        public ExamSortTypes SortType { get; set; }
 
         public GetExamsQuery() : this(1, 6)
         {
@@ -34,7 +34,7 @@ namespace Pors.Application.Public.Exams.Queries
             PageSize = pageSize;
         }
 
-        public GetExamsQuery(SortTypes sortType, int page = 1, int pageSize = 6) : this(page, pageSize)
+        public GetExamsQuery(ExamSortTypes sortType, int page = 1, int pageSize = 6) : this(page, pageSize)
         {
             SortType = sortType;
         }
@@ -61,10 +61,6 @@ namespace Pors.Application.Public.Exams.Queries
                 .ForMember(x => x.Status, option => option.MapFrom(y => y.Status.GetDescription()));
         }
     }
-
-    #endregion;
-
-    #region validator
 
     #endregion;
 
@@ -95,11 +91,11 @@ namespace Pors.Application.Public.Exams.Queries
                 query = query.Where(x => x.Title.Contains(request.Title));
             }
 
-            if (request.SortType == SortTypes.Newest)
+            if (request.SortType == ExamSortTypes.Newest)
             {
                 query = query.OrderByDescending(x => x.CreatedAt);
             }
-            else if (request.SortType == SortTypes.MostVisited)
+            else if (request.SortType == ExamSortTypes.MostVisited)
             {
                 query = query.OrderByDescending(x => x.Attempts.Count);
             }

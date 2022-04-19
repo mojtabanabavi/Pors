@@ -45,10 +45,6 @@ namespace Pors.Application.Management.Answers.Queries
 
     #endregion;
 
-    #region validator
-
-    #endregion;
-
     #region handler
 
     public class GetAnswersQueryHandler : IRequestHandler<GetAnswersQuery, PagingResult<GetAnswersQueryResponse>>

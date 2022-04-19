@@ -32,10 +32,6 @@ namespace Pors.Application.Management.Roles.Queries
 
     #endregion;
 
-    #region validator
-
-    #endregion;
-
     #region handler
 
     public class GetRolesSelectListQueryHandler : IRequestHandler<GetRolesSelectListQuery, GetRolesSelectListQueryResponse>

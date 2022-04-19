@@ -3,7 +3,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 
 namespace Pors.Application.Common.Models
 {
@@ -13,7 +12,6 @@ namespace Pors.Application.Common.Models
         public bool IsSecured { get; set; }
         public string DisplayName { get; set; }
         public string ControllerId { get; set; }
-        public List<ActionInfo> Actions { get; set; }
         public List<Attribute> Attributes { get; set; }
         public string Id => $"{ControllerId}:{Name}".ToLower();
     }

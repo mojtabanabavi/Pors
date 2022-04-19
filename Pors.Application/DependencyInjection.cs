@@ -1,8 +1,6 @@
 ﻿using System;
 using MediatR;
-using AutoMapper;
 using Loby.Tools;
-using Loby.Extensions;
 using FluentValidation;
 using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;

@@ -58,10 +58,6 @@ namespace Pors.Application.Public.Exams.Queries
 
     #endregion;
 
-    #region validator
-
-    #endregion;
-
     #region handler
 
     public class GetExamForAttemptQueryHandler : IRequestHandler<GetExamForAttemptQuery, GetExamForAttemptQueryResponse>

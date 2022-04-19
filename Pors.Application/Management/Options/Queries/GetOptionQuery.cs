@@ -41,10 +41,6 @@ namespace Pors.Application.Management.Options.Queries
 
     #endregion;
 
-    #region validator
-
-    #endregion;
-
     #region handler
 
     public class GetOptionQueryHandler : IRequestHandler<GetOptionQuery, GetOptionQueryResponse>

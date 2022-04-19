@@ -58,10 +58,6 @@ namespace Pors.Application.Management.Users.Queries
 
     #endregion;
 
-    #region validator
-
-    #endregion;
-
     #region handler
 
     public class GetUserQueryHandler : IRequestHandler<GetUserQuery, GetUserQueryResponse>

@@ -38,10 +38,6 @@ namespace Pors.Application.Public.Reports.Queries
 
     #endregion;
 
-    #region validator
-
-    #endregion;
-
     #region handler
 
     public class GetAnswersChartDataQueryHandler : IRequestHandler<GetAnswersChartDataQuery, GetAnswersChartDataQueryResponse>

@@ -44,10 +44,6 @@ namespace Pors.Application.Public.Exams.Queries
 
     #endregion;
 
-    #region validator
-
-    #endregion;
-
     #region handler
 
     public class GetExamDetailsQueryHandler : IRequestHandler<GetExamDetailsQuery, GetExamDetailsQueryResponse>

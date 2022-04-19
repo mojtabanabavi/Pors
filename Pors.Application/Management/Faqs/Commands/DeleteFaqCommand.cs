@@ -17,10 +17,6 @@ namespace Pors.Application.Management.Faqs.Commands
 
     #endregion;
 
-    #region validator
-
-    #endregion;
-
     #region handler
 
     public class DeleteFaqCommandHandler : IRequestHandler<DeleteFaqCommand>

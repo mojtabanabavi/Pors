@@ -4,8 +4,8 @@
     @inject MediatR.ISender MediatR
 
     //var faqs = await MediatR.Send(new GetFaqsQuery(1, 8));
-    var newestExams = await MediatR.Send(new GetExamsQuery(SortTypes.Newest, 1, 8));
-    var mostVisitedExams = await MediatR.Send(new GetExamsQuery(SortTypes.MostVisited, 1, 8));
+    var newestExams = await MediatR.Send(new GetExamsQuery(ExamSortTypes.Newest, 1, 8));
+    var mostVisitedExams = await MediatR.Send(new GetExamsQuery(ExamSortTypes.MostVisited, 1, 8));
 }
 
 @section styles{

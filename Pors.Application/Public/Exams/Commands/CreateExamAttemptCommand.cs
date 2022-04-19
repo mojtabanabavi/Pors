@@ -23,10 +23,6 @@ namespace Pors.Application.Public.Exams.Commands
 
     #endregion;
 
-    #region validator
-
-    #endregion;
-
     #region handler
 
     public class CreateExamAttemptCommandCommandHandler : IRequestHandler<CreateExamAttemptCommand, string>

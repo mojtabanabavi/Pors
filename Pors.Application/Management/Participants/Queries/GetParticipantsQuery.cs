@@ -48,10 +48,6 @@ namespace Pors.Application.Management.Participants.Queries
 
     #endregion;
 
-    #region validator
-
-    #endregion;
-
     #region handler
 
     public class GetParticipantsQueryHandler : IRequestHandler<GetParticipantsQuery, PagingResult<GetParticipantsQueryResponse>>

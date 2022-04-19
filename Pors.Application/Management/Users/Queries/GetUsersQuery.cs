@@ -41,10 +41,6 @@ namespace Pors.Application.Management.Users.Queries
 
     #endregion;
 
-    #region validator
-
-    #endregion;
-
     #region handler
 
     public class GetUsersQueryHandler : IRequestHandler<GetUsersQuery, PagingResult<GetUsersQueryResponse>>

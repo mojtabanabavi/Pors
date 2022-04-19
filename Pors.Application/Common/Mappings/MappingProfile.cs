@@ -2,7 +2,6 @@
 using AutoMapper;
 using System.Linq;
 using System.Reflection;
-using System.Collections.Generic;
 
 namespace Pors.Application.Common.Mappings
 {
@@ -19,7 +18,8 @@ namespace Pors.Application.Common.Mappings
         {
             var types = assembly
                 .GetExportedTypes()
-                .Where(x => x.GetInterfaces().Any(x => x.IsGenericType && x.GetGenericTypeDefinition() == typeof(IMapFrom<>)))
+                .Where(x => x.GetInterfaces()
+                    .Any(x => x.IsGenericType && x.GetGenericTypeDefinition() == typeof(IMapFrom<>)))
                 .ToList();
 
             foreach (var type in types)

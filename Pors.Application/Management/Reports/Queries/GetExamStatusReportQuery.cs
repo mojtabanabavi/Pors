@@ -34,10 +34,6 @@ namespace Pors.Application.Management.Reports.Queries
 
     #endregion;
 
-    #region validator
-
-    #endregion;
-
     #region handler
 
     public class GetExamStatusReportQueryHandler : IRequestHandler<GetExamStatusReportQuery, GetExamStatusReportQueryResponse>

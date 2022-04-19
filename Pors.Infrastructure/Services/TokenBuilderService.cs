@@ -38,7 +38,8 @@ namespace Pors.Infrastructure.Services
 
         private async Task<bool> IsTokenExistAsync(int userId, string token)
         {
-            return await _dbContext.UserTokens.AnyAsync(x => x.UserId == userId && x.Value == token);
+            return await _dbContext.UserTokens
+                .AnyAsync(x => x.UserId == userId && x.Value == token);
         }
     }
 }
