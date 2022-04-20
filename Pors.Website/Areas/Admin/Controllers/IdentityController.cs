@@ -22,6 +22,72 @@ namespace Pors.Website.Areas.Admin.Controllers
             return View();
         }
 
+        [HttpGet]
+        public IActionResult ExternalLogin(string provider, string returnUrl)
+        {
+            var redirectUrl = Url.Action(nameof(ExternalLoginCallback), "Identity", new { ReturnUrl = returnUrl });
+
+            var authenticationProperties = new AuthenticationProperties { RedirectUri = redirectUrl };
+
+            authenticationProperties.Items["LoginProvider"] = provider;
+
+            return new ChallengeResult(provider, authenticationProperties);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ExternalLoginCallback(string returnUrl, string remoteError)
+        {
+            var userEmail = User.FindFirstValue(ClaimTypes.Email);
+            var googleUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (ModelState.IsValid)
+            {
+                var result = await Mediator.Send(new ExternalLoginQuery(userEmail));
+
+                if (result.IsSucceeded)
+                {
+                    var response = result.Data;
+
+                    var userClaims = new List<Claim>
+                    {
+                        new Claim(ClaimTypes.Name,response.DisplayName),
+                        new Claim(ClaimTypes.NameIdentifier,response.User.Id.ToString()),
+                    };
+
+                    if (response.User.ProfilePicture != null)
+                    {
+                        userClaims.Add(new Claim("ProfilePicture", response.User.ProfilePicture));
+                    }
+
+                    var claimsIdentity = new ClaimsIdentity(userClaims, AuthenticationSchemes.Management);
+                    var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
+                    var authenticationProperties = new AuthenticationProperties
+                    {
+                        IsPersistent = true,
+                    };
+
+                    await HttpContext.SignInAsync(AuthenticationSchemes.Management, claimsPrincipal, authenticationProperties);
+
+                    if (returnUrl.HasValue() && Url.IsLocalUrl(returnUrl))
+                    {
+                        return Redirect(returnUrl);
+                    }
+                    else
+                    {
+                        return RedirectToAction("index", "dashboard");
+                    }
+                }
+                else
+                {
+                    ModelState.AddErrors(result.Errors);
+
+                    await HttpContext.SignOutAsync(AuthenticationSchemes.Management);
+                }
+            }
+
+            return View(nameof(Login));
+        }
+
         [HttpPost]
         public async Task<IActionResult> Login(LoginUserQuery request, string returnUrl = "")
         {

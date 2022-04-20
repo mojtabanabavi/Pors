@@ -65,6 +65,15 @@ namespace Pors.Website
                 options.LogoutPath = "/identity/logout";
                 options.ExpireTimeSpan = TimeSpan.FromDays(30);
                 options.AccessDeniedPath = "/identity/accessDenied";
+            }).AddGoogle(options =>
+            {
+                 options.SignInScheme = AuthenticationSchemes.Management;
+                 options.ClientId = Configuration.GetSection("OAuth:Google:ClientId")?.Value;
+                 options.ClientSecret = Configuration.GetSection("OAuth:Google:ClientSecret")?.Value;
+                 options.CorrelationCookie = new CookieBuilder()
+                 {
+                     SameSite = SameSiteMode.Lax,
+                 };
             });
 
             services.AddAuthorization(options =>

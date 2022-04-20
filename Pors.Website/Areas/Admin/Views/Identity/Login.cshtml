@@ -10,6 +10,19 @@
     <div class="row justify-content-center">
         <div class="col-lg-5 col-md-7">
             <div class="card bg-secondary shadow border-0">
+                <div class="card-header bg-transparent pb-5">
+                    <div class="text-muted text-center mt-2 mb-3"><small>ورود به حساب توسط:</small></div>
+                    <div class="btn-wrapper text-center">
+                        <a href="#" class="btn btn-neutral btn-icon disabled">
+                            <span class="btn-inner--icon"><img src="~/img/defaults/github-icon.svg"></span>
+                            <span class="btn-inner--text">Github</span>
+                        </a>
+                        <a asp-action="ExternalLogin" asp-route-provider="Google" class="btn btn-neutral btn-icon">
+                            <span class="btn-inner--icon"><img src="~/img/defaults/google-icon.svg"></span>
+                            <span class="btn-inner--text">Google</span>
+                        </a>
+                    </div>
+                </div>
                 <div class="card-body p-5">
                     <div asp-validation-summary="ModelOnly" class="text-center mb-4"></div>
                     <form asp-action="login" asp-route-returnurl="@returnUrl" method="post">
