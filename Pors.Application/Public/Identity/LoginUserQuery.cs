@@ -32,7 +32,8 @@ namespace Pors.Application.Public.Identity.Queries
                 .WithName("شناسه");
 
             RuleFor(X => X.GoogleRecaptchaResponse)
-                .SetValidator(new GoogleRecaptchaValidator<LoginUserQuery, string>());
+                .ValidGoogleRecaptcha()
+                .WithName("کپچا");
         }
     }
 

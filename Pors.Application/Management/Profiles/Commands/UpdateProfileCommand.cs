@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Pors.Application.Common.Interfaces;
 using Pors.Application.Common.Exceptions;
+using Pors.Application.Common.Validators;
 
 namespace Pors.Application.Management.Profiles.Commands
 {
@@ -39,42 +40,29 @@ namespace Pors.Application.Management.Profiles.Commands
             _dbContext = dbContext;
 
             RuleFor(x => x.FirstName)
-                .NotEmpty()
                 .MaximumLength(25)
-                .When(x => x.FirstName.HasValue())
                 .WithName("نام");
 
             RuleFor(x => x.LastName)
-                .NotEmpty()
                 .MaximumLength(25)
-                .When(x => x.LastName.HasValue())
                 .WithName("نام خانوادگی");
 
             RuleFor(x => x.PhoneNumber)
-                .NotEmpty()
                 .MaximumLength(11)
-                .Matches(@"^0?9\d{9}$").WithMessage("'{PropertyName}' معتبر نمی‌باشد.")
+                .ValidPhoneNumber()
                 .Must(UniquePhoneNumber).WithMessage("'{PropertyName}' تکراری است.")
-                .When(x => x.PhoneNumber.HasValue())
                 .WithName("موبایل");
 
             RuleFor(x => x.Email)
                 .NotEmpty()
                 .MaximumLength(320)
-                .Must(ValidEmail).WithMessage("'{PropertyName}' معتبر نمی‌باشد.")
+                .ValidEmailAddress()
                 .Must(UniqueEmail).WithMessage("'{PropertyName}' تکراری است.")
                 .WithName("ایمیل");
 
             RuleFor(x => x.Password)
-                .NotEmpty()
                 .Length(8, 50)
-                .When(x => x.Password.HasValue())
                 .WithName("رمزعبور جدید");
-        }
-
-        private bool ValidEmail(string email)
-        {
-            return Validator.IsValidEmail(email);
         }
 
         private bool UniqueEmail(UpdateProfileCommand command, string email)

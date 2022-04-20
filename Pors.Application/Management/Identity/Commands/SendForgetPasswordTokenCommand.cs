@@ -1,6 +1,5 @@
 ﻿using System;
 using MediatR;
-using Loby.Tools;
 using System.Linq;
 using FluentValidation;
 using System.Threading;
@@ -8,8 +7,8 @@ using Pors.Domain.Enums;
 using Pors.Domain.Entities;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Pors.Application.Common.Models;
 using Pors.Application.Common.Interfaces;
+using Pors.Application.Common.Validators;
 
 namespace Pors.Application.Management.Identity.Commands
 {
@@ -35,14 +34,9 @@ namespace Pors.Application.Management.Identity.Commands
             RuleFor(x => x.Email)
                 .NotEmpty()
                 .MaximumLength(320)
-                .Must(ValidEmail).WithMessage("'{PropertyName}' معتبر نمی‌باشد.")
+                .ValidEmailAddress()
                 .Must(ExistEmail).WithMessage("'{PropertyName}' یافت نشد.")
                 .WithName("ایمیل");
-        }
-
-        private bool ValidEmail(string email)
-        {
-            return Validator.IsValidEmail(email);
         }
 
         private bool ExistEmail(string email)

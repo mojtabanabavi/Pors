@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Pors.Application.Common.Models;
 using Pors.Application.Common.Interfaces;
+using Pors.Application.Common.Validators;
 
 namespace Pors.Application.Management.Identity.Queries
 {
@@ -64,7 +65,7 @@ namespace Pors.Application.Management.Identity.Queries
             RuleFor(x => x.Email)
                 .NotEmpty()
                 .MaximumLength(320)
-                .Must(ValidEmail).WithMessage("'{PropertyName}' معتبر نمی‌باشد.")
+                .ValidEmailAddress()
                 .Must(ExistEmail).WithMessage("'{PropertyName}' یافت نشد.")
                 .WithName("ایمیل");
 
@@ -72,11 +73,6 @@ namespace Pors.Application.Management.Identity.Queries
                 .NotEmpty()
                 .Length(8, 50)
                 .WithName("رمزعبور");
-        }
-
-        private bool ValidEmail(string email)
-        {
-            return Validator.IsValidEmail(email);
         }
 
         private bool ExistEmail(string email)

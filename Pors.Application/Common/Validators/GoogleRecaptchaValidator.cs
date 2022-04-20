@@ -11,16 +11,13 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Pors.Application.Common.Validators
 {
-    public class GoogleRecaptchaValidator<T, TProperty> : PropertyValidator<T, TProperty>
+    public class GoogleRecaptchaValidator<T> : PropertyValidator<T, string>
     {
         private GoogleRecaptchaSettings _recaptchaSettings;
         public override string Name => "GoogleRecaptchaValidator";
+        private const string USE_CAPTCHA_ERROR_MESSAGE = "لطفا از کپچا استفاده کنید.";
 
-        private const string URL_TEMPLATE = "https://www.google.com/recaptcha/api/siteverify?secret={0}&response={1}";
-        private const string USE_CAPTCHA_ERROR_MESSAGE = "لطفا از کپچا برای اعتبارسنجی استفاده کنید";
-        private const string CAPTCHA_VALIDATION_ERROR_MESSAGE = "اعتبارسنجی کپچای شما معتبر نیست؛ لطفا دوباره امتحان کنید";
-
-        public override bool IsValid(ValidationContext<T> context, TProperty value)
+        public override bool IsValid(ValidationContext<T> context, string value)
         {
             _recaptchaSettings = context
                 .GetServiceProvider()
@@ -37,31 +34,31 @@ namespace Pors.Application.Common.Validators
                 context.AddFailure(USE_CAPTCHA_ERROR_MESSAGE);
             }
 
-            if (ValidateRecaptcha(value).Result)
+            if (ValidateCaptcha(value).Result)
             {
                 return true;
             }
 
-            context.AddFailure(CAPTCHA_VALIDATION_ERROR_MESSAGE);
-
             return false;
         }
 
-        private async Task<bool> ValidateRecaptcha(TProperty googleResponse)
+        protected override string GetDefaultMessageTemplate(string errorCode)
         {
-            var httpClient = new HttpClient();
+            return "اعتبارسنجی '{PropertyName}' شما معتبر نیست؛ لطفا دوباره تلاش کنید.";
+        }
 
-            var apiUrl = string.Format(URL_TEMPLATE, _recaptchaSettings.SecretKey, googleResponse);
+        private async Task<bool> ValidateCaptcha(string googleResponse)
+        {
+            var apiUrl = $"https://www.google.com/recaptcha/api/siteverify?secret={_recaptchaSettings.SecretKey}&response={googleResponse}";
 
-            var apiResponse = await httpClient.GetAsync(apiUrl);
+            var apiResponse = await new HttpClient().GetAsync(apiUrl);
 
             if (apiResponse.StatusCode != HttpStatusCode.OK)
             {
                 return false;
             }
 
-            var apijsonResponse = await apiResponse.Content
-                .ReadAsStringAsync();
+            var apijsonResponse = await apiResponse.Content.ReadAsStringAsync();
 
             var validationResult = JsonSerializer
                 .Deserialize<GoogleRecaptchaResponse>(apijsonResponse);
@@ -72,6 +69,16 @@ namespace Pors.Application.Common.Validators
             }
 
             return false;
+        }
+    }
+
+    public static class GoogleRecaptchaValidatorExtensions
+    {
+        public static IRuleBuilderOptions<T, string> ValidGoogleRecaptcha<T>(this IRuleBuilder<T, string> ruleBuilder)
+        {
+            var validator = (PropertyValidator<T, string>)new GoogleRecaptchaValidator<T>();
+
+            return ruleBuilder.SetValidator(validator);
         }
     }
 }

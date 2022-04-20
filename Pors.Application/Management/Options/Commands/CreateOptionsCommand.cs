@@ -45,6 +45,7 @@ namespace Pors.Application.Management.Options.Commands
         public CreateOptionsCommandValidator()
         {
             RuleFor(x => x.Items)
+                .NotNull()
                 .NotEmpty()
                 .WithName("گزینه‌ها");
 

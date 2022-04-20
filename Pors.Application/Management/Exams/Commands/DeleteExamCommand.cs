@@ -18,10 +18,6 @@ namespace Pors.Application.Management.Exams.Commands
 
     #endregion;
 
-    #region validator
-
-    #endregion;
-
     #region handler
 
     public class DeleteExamCommandHandler : IRequestHandler<DeleteExamCommand>
