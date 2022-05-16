@@ -1,4 +1,19 @@
 ﻿
+// Mark Required Inputs with '*' //
+// -----------------------------
+
+$(function () {
+    $('input[data-val-required]:not([type=checkbox])').each(function () {
+        var isRequired = $(this).attr('data-val-required');
+        if (isRequired) {
+            var label = $('label[for="' + $(this).attr('id') + '"]');
+            if (label) {
+                label.append('<span class="required-indicator"> *</span>');
+            }
+        }
+    });
+});
+
 // Navbar //
 // -----------------------------
 

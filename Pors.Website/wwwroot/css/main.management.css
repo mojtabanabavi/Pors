@@ -18,6 +18,11 @@
     padding-top: 3.5rem;
 }
 
+.required-indicator {
+    color: red;
+    font-weight: bold;
+}
+
 .field-validation-error {
     display: block;
     font-size: 0.75rem;
